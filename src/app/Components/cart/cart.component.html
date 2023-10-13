@@ -1,0 +1,94 @@
+<div class="container">
+  <div class="wrapper wrapper-content animated fadeInRight">
+    <ng-container *ngIf="foods.length > 0; else emptyCart">
+      <div class="row">
+        <div class="col-sm-12 col-md-12 col-lg-8">
+          <div class="ibox">
+            <div class="ibox-title">
+              <h6 class="pull-right">({{ foods.length }}) items</h6>
+            </div>
+            <div class="ibox-content">
+              <div class="table-responsive">
+                <div class="row header-row mb-5">
+                  <div class="col-sm-3">Product Image</div>
+                  <div class="col-sm-3">Product Name</div>
+                  <div class="col-sm-3">Quantity</div>
+                  <div class="col-sm-3">Price</div>
+                </div>
+                <div class="row mb-4" *ngFor="let food of foods">
+                  <div class="col-sm-3">
+                    <div class="cart-product-imitation">
+                      <img class="card-img-top" [src]="'../../../assets/' + food.imageURL" alt="{{food.name}}">
+                    </div>
+                  </div>
+                  <div class="col-sm-3 desc">
+                    <h3>
+                      <h6 class="text-navy text-center">{{ food.name }}</h6>
+                    </h3>
+                    <div class="m-t-sm trash">
+                      <button class="btn btn-white" (click)="removeFromCart(food)">
+                        <i class="fa fa-trash" style="color: orangered "></i>
+                      </button>
+                    </div>
+                  </div>
+                  <div class="col-sm-3">
+                    <div class="d-flex quantity" style="width: 150px;">
+                      <button class="btn btn-link" (click)="decreaseQuantity(food)">
+                        <i class="fas fa-minus text-white"></i>
+                      </button>
+                      <input type="number" [(ngModel)]="food.quantity" (ngModelChange)="updateFoodInLocalStorage(food)" class="form-control text-center">
+                      <button class="btn btn-link" (click)="increaseQuantity(food)">
+                        <i class="fas fa-plus text-white"></i>
+                      </button>
+                    </div>
+                  </div>
+                  <div class="col-sm-3">
+                    <h4 class="text-navy text-center">{{ calculateProductPrice(food) | currency }}</h4>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="ibox-content">
+              <button class="btn btn-outline-warning" (click)="continue()"><i class="fa fa-arrow-left"></i> Continue shopping</button>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-6 col-md-12 col-lg-4">
+          <div class="ibox">
+            <div class="ibox-title">
+              <h6>Cart Summary</h6>
+            </div>
+            <div class="ibox-content">
+              <div class="summary">
+                <h3>Summary</h3>
+                <hr>
+                <div class="summary-item"><span class="text">Subtotal</span><span class="price">{{calculateTotalPrice() | currency}}</span></div>
+                <div class="summary-item"><span class="text">Discount</span><span class="price">$0</span></div>
+                <div class="summary-item"><span class="text">Delivery</span><span class="price">{{5 |currency}}</span></div>
+                <div class="summary-item" style="font-weight:bold">
+                  <span class="text font-weight-bold">Total</span>
+                  <span class="price">{{calculateTotalPrice() + 5| currency}}</span>
+                </div>
+                <button type="button" class="btn btn-outline-warning btn-lg btn-block w-100" (click)="checkout()">Checkout</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</div>
+<ng-template #emptyCart>
+  <div class="container">
+    <div class="wrapper wrapper-content animated fadeInRight" style="padding: 40px;">
+      <div class="row">
+        <div class="col-12 text-center">
+          <h3>Your cart is empty</h3>
+        </div>
+        <div class="ibox-content">
+        <button class="btn btn-white" (click)="continue()"><i class="fa fa-arrow-left"></i> Go shopping</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>

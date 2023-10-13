@@ -1,0 +1,115 @@
+<!-- Credit card form -->
+<section class="container">
+  <div class="row">
+    <div class="col-7">
+      <div class="card mb-4 bg-transparent border-0">
+        <div class="card-header py-3">
+          <h5 class="mb-0 text-warning">Biling details</h5>
+        </div>
+        <div class="card-body bg-transparent">
+          <form class="bg-transparent">
+            <!-- 2 column grid layout with text inputs for the first and last names -->
+            <div class="row mb-4">
+              <div class="col">
+                <div class="form-outline">
+                  <label class="form-label text-white" for="form6Example1">First name</label>
+                  <input type="text" id="form6Example1 " class="form-control bg-transparent text-white" />
+                </div>
+              </div>
+              <div class="col">
+                <div class="form-outline">
+                  <label class="form-label text-white" for="form6Example2">Last name</label>
+                  <input type="text" id="form6Example2" class="form-control bg-transparent text-white" />
+                </div>
+              </div>
+            </div>
+
+            <!-- Text input -->
+            <div class="form-outline mb-4">
+              <label class="form-label text-white" for="form6Example4">Address</label>
+              <input type="text" id="form6Example4" class="form-control bg-transparent text-white" />
+            </div>
+            <!-- Email input -->
+            <div class="form-outline mb-4">
+              <label class="form-label text-white" for="form6Example5">Email</label>
+              <input type="email" id="form6Example5" class="form-control bg-transparent text-white" />
+            </div>
+            <!-- Number input -->
+            <div class="form-outline mb-4">
+              <label class="form-label text-white" for="form6Example6">Phone</label>
+              <input type="number" id="form6Example6" class="form-control bg-transparent text-white" />
+            </div>
+            <hr class="my-4" />
+            <div class="form-check">
+              <label class="form-check-label text-white" for="checkoutForm1">
+                <input class="form-check-input bg-transparent text-white" type="checkbox" value="" id="checkoutForm1" />
+                Shipping address is the same as my billing address
+              </label>
+            </div>
+            <div class="form-check mb-4">
+              <label class="form-check-label text-white" for="checkoutForm2">
+                <input class="form-check-input bg-transparent text-white" type="checkbox" value="" id="checkoutForm2" checked />
+                Save this information for next time
+              </label>
+            </div>
+            <hr class="my-4" />
+            <h5 class="mb-4 text-warning">Payment</h5>
+            <div class="form-check">
+              <input class="form-check-input bg-transparent" type="radio" name="flexRadioDefault" id="checkoutForm3"
+                checked />
+              <label class="form-check-label text-white" for="checkoutForm3">
+                Credit card
+              </label>
+            </div>
+
+            <div class="form-check">
+              <input class="form-check-input bg-transparent" type="radio" name="flexRadioDefault" id="checkoutForm4" />
+              <label class="form-check-label text-white" for="checkoutForm4">
+                Debit card
+              </label>
+            </div>
+
+            <div class="form-check mb-4">
+              <input class="form-check-input bg-transparent" type="radio" name="flexRadioDefault" id="checkoutForm5" />
+              <label class="form-check-label text-white" for="checkoutForm5">
+                Paypal
+              </label>
+            </div>
+
+            <div class="row mb-4">
+              <div class="col">
+                <div class="form-outline">
+                  <label class="form-label text-white" for="formCardNumber">Credit card number</label>
+                  <input type="text" id="formCardNumber" class="form-control bg-transparent text-white" />
+                </div>
+              </div>
+            </div>
+
+            <div class="row mb-4">
+              <div class="col-3">
+                <div class="form-outline">
+                  <label class="form-label text-white" for="formExpiration">Expiration</label>
+                  <input type="text" id="formExpiration" class="form-control bg-transparent text-white" />
+                </div>
+              </div>
+              <div class="col-3">
+                <div class="form-outline">
+                  <label class="form-label text-white" for="formCVV">CVV</label>
+                  <input type="text" id="formCVV" class="form-control bg-transparent text-white" />
+                </div>
+              </div>
+            </div>
+
+            <div class="total" *ngFor="let item of cartItems">
+              <h4>Your Total Amount is : {{ (item.price * item.quantity) + 5 | currency }} </h4>
+            </div>
+            <button class="btn btn-outline-warning btn-lg btn-block" type="submit" (click)="track()">
+              Purchase now!
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- Credit card form -->

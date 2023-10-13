@@ -1,0 +1,60 @@
+/* Add any additional custom styles here */
+/* section {
+  height: 50vh;
+} */
+/* Remove the default link styles for Bootstrap icons */
+a[href] {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* Styling for the back arrow icon */
+.fa-arrow-left {
+  font-size: 24px;
+  cursor: pointer;
+  margin-right: 10px;
+}
+
+/* Styling for the star rating */
+.star {
+  font-size: 18px;
+  color: orange; /* Set the color for the stars */
+}
+
+/* Styling for the favorite heart icon */
+.red-heart {
+  font-size: 20px;
+  cursor: pointer;
+  color: orangered;
+}
+
+/* Styling for the card */
+
+
+/* Styling for the food image */
+.card .bg-image img {
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+/* Styling for the Add to Cart button */
+.btn-cart {
+  font-weight: bold;
+  font-size: 16px;
+  padding: 10px 20px;
+}
+
+/* Styling for the Item already in cart message */
+.item-in-cart {
+  color: red;
+}
+
+/* Optional: Add any additional custom styles for other elements as needed */
+.food-details{
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}

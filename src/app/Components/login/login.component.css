@@ -1,0 +1,14 @@
+.login{
+  margin: auto;
+}
+a{
+  color: darkgoldenrod;
+}
+.form-check-input:checked {
+  background-color: darkgoldenrod;
+  outline: none;
+  border: none;
+}
+i{
+  color: darkgoldenrod;
+}

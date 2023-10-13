@@ -1,0 +1,109 @@
+/* styles.css */
+
+/* Footer styling */
+#footer {
+  background-color: #211e1e;
+  color: #fff;
+  padding: 40px 0;
+}
+
+#footer h4 {
+  color: #fff;
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+#footer p {
+  font-size: 14px;
+  line-height: 24px;
+  color: #fff;
+}
+
+#footer .footer-info .social-links a {
+  display: inline-block;
+  background-color: #444;
+  color: #fff;
+  text-align: center;
+  line-height: 1;
+  padding: 8px 12px;
+  border-radius: 50%;
+  margin-right: 5px;
+  transition: all 0.3s;
+}
+
+#footer .footer-info .social-links a:hover {
+  background-color: #555;
+}
+
+#footer .footer-links li {
+  list-style: none;
+  padding: 8px 0;
+}
+
+#footer .footer-links a {
+  color: #fff;
+  transition: 0.3s;
+}
+
+#footer .footer-links a:hover {
+  color: #d3af71;
+}
+
+#footer .footer-newsletter input[type="email"],
+#footer .footer-newsletter input[type="submit"] {
+  border-radius: 0;
+}
+
+#footer .footer-newsletter input[type="email"] {
+  padding: 10px;
+  width: 60%;
+}
+
+/* Custom CSS for button color and size */
+.btn-warning {
+  background-color: #d3af71;
+  border-color: #f0ad4e;
+}
+
+.btn-warning:hover {
+  background-color:#1ab394;
+  border-color: #1ab394;
+  color: white;
+}
+
+.btn-warning:focus,
+.btn-warning.focus {
+  background-color: #4e729b;
+  border-color: #4e729b;
+  box-shadow: 0 0 0 0.2rem rgba(240, 173, 78, 0.5);
+}
+
+.btn-warning:not(:disabled):not(.disabled).active,
+.btn-warning:not(:disabled):not(.disabled):active {
+  background-color: #d58512;
+  border-color: #d58512;
+}
+
+/* Copyright and credits section */
+#footer .container {
+  text-align: center;
+}
+
+#footer .copyright {
+  margin: 10px 0;
+  color: #fff;
+  font-size: 14px;
+}
+
+#footer .credits a {
+  color: #d3af71;
+  text-decoration: none;
+}
+
+#footer .credits a:hover {
+  color: #1ab394
+}
+.input{
+  border-radius: 5px;
+}

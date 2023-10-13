@@ -1,0 +1,132 @@
+h3 {
+    font-size: 16px;
+}
+.text-navy {
+    color: darkorange;
+}
+.pull-right,.ibox-title h6 {
+    color: #1ab394;
+}
+.trash{
+  text-align: center;
+}
+
+.quantity{
+  margin: auto;
+}
+.row-table{
+  margin-top: 10px;
+}
+.cart-product-imitation {
+  margin: auto;
+  height: 80px;
+  width: 80px;
+}
+.product-imitation.xl {
+  padding: 120px 0;
+}
+.product-desc {
+  padding: 20px;
+  position: relative;
+}
+
+.table-responsive {
+  overflow: hidden; /* Hide the scroll bar */
+}
+
+.row.header-row {
+  border: 1px solid darkgoldenrod;
+  text-align: center;
+  font-weight: bolder;
+  color: darkgoldenrod;
+}
+
+
+
+/* Optional: Remove padding and margin from cells */
+.row > div {
+  padding: 0;
+  margin: 0;
+}
+
+/* Optional: Remove padding and margin from the table cells in the header row */
+.row.header-row > div {
+  padding: 0;
+  margin: 0;
+}
+
+  .table.shoping-cart-table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+
+  .table.shoping-cart-table th {
+    text-align: center;
+    padding: 10px;
+  }
+
+
+
+.ibox {
+  clear: both;
+  margin-bottom: 25px;
+  margin-top: 0;
+  padding: 0;
+}
+
+.ibox.collapsed .ibox-content {
+  display: none;
+}
+.ibox:after,
+.ibox:before {
+  display: table;
+}
+.ibox-title {
+  -moz-border-bottom-colors: none;
+  -moz-border-left-colors: none;
+  -moz-border-right-colors: none;
+  -moz-border-top-colors: none;
+  border-image: none;
+  border-style: solid solid none;
+  border-width: 3px 0 0;
+  color: inherit;
+  margin-bottom: 0;
+  padding: 14px 15px 7px;
+  min-height: 48px;
+}
+
+.ibox-content {
+  color: inherit;
+  padding: 15px 20px 20px 20px;
+  border-image: none;
+  border-width: 1px 0;
+}
+.summary{
+  color: darkgoldenrod;
+  border:2px solid #1ab394;
+  padding: 30px;
+}
+.summary h3{
+	text-align: center;
+	font-size: 1.3em;
+	font-weight: 600;
+	padding-top: 20px;
+	padding-bottom: 20px;
+}
+.summary .summary-item:not(:last-of-type){
+	padding-bottom: 10px;
+	padding-top: 10px;
+	border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+.summary .text{
+	font-size: 1em;
+	font-weight: 600;
+}
+.summary .price{
+	font-size: 1em;
+	float: right;
+}
+.summary button{
+	margin-top: 20px;
+}
+
