@@ -21,11 +21,16 @@ export class HomeComponent {
   foods: FoodCorner[] = [];
   selectedCategory: string = "";
   filteredFoods: FoodCorner[] = [];
-  isItemInCart!:boolean; // Add the isItemInCart property here
+  isItemInCart!: boolean;
+  showAllProducts: boolean = false;
 
   constructor(private router: Router, private foodService: FoodService,
       private cartStatus: CartStatusService
-) { }
+  ) { }
+  
+toggleShowAllProducts() {
+    this.showAllProducts = !this.showAllProducts;
+  }
   ngOnInit(): void {
     this.foodService.getAll().subscribe((foods: FoodCorner[]) => {
       this.foods = foods;

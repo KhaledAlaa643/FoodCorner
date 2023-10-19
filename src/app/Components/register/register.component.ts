@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Location } from '@angular/common';
 import { User } from 'src/app/Model/User';
 import { Router } from '@angular/router';
+import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-register',
@@ -9,26 +10,42 @@ import { Router } from '@angular/router';
   styleUrls: ['./register.component.css']
 })
 export class RegisterComponent {
-    user: User = {} as User
+  user: User = {} as User
+  hide = true;
+  hidePw = true
+  public registrationForm: FormGroup;
 
-  constructor (    private location: Location,private router:Router
-  ) { }
+  constructor(private location: Location, private fb: FormBuilder) {
+    this.registrationForm = this.fb.group({
+      name: ['', [Validators.required]],
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(8),
+        Validators.pattern
+          (/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#])[A-Za-z\d@$!%*?&#]{8,}$/)],
+    ],
+      passwordConfirm: [null, [Validators.required]],
+    }
+      , { validator: this.passwordMatchValidator }
+    )}
 
-    onSubmit(form: any) {
-    if (form.valid) {
-      // Form is valid, you can submit the data or perform further actions here
-      console.log('Form submitted!');
-      console.log(form.value); // Access form values using form.value object
+
+
+passwordMatchValidator(control: AbstractControl): ValidationErrors | null  {
+  const password = control.get('password')?.value;
+  const passwordConfirm = control.get('passwordConfirm')?.value;
+    if ((password === passwordConfirm) && (password !== null && passwordConfirm !== null)) {
+      control.get('passwordConfirm')!.setErrors(null);
+      return null;
     } else {
-      // Form is invalid, display validation errors
-      console.log('Invalid form!');
-      // You can also display validation errors by accessing form controls like form.controls['fullName'].errors
+          control.get('passwordConfirm')!.setErrors({ passwordsNotMatching: true });
+          return { passwordsNotMatching: true };
     }
   }
+
+
+
 back(): void {
     this.location.back();
   }
-  Register() {
-      this.router.navigate(['/login']);
-}
+
 }

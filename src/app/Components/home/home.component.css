@@ -3,9 +3,7 @@
   width: 50%;
   overflow: hidden;
 }
-.filled-star {
-  color: orange; /* Set the color for the filled stars */
-}
+
 .items{
 text-align: center;
 display: flex;
@@ -23,14 +21,15 @@ flex-wrap: wrap;
   display: flex;
   align-items: center;
 }
+.star i {
+  margin-right: 5px;
+}
 .card-img-top {
   width: 400px; /* Adjust the width to your desired size */
   margin: 10px;/* Adjust the height to your desired size */
 }
 
-.star i {
-  margin-right: 5px;
-}
+
 .card-text{
   text-align: left ;
 }
@@ -108,7 +107,6 @@ font-weight: 600;
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
-  color: white;
   position: relative;
   height: 300px;
 }
@@ -148,7 +146,7 @@ font-weight: 600;
   -webkit-transition: all 0.1 0.5s;
   transition: all 0.1 0.5s;
   border-radius: 100%;
-  border: 5px solid #ffbe33;
+  border: 5px solid #ff333d;
   overflow: hidden;
 }
 
@@ -177,17 +175,12 @@ font-weight: 600;
 .offer_section .box .detail-box a {
   display: inline-block;
   padding: 10px 30px;
-  background-color: #ffbe33;
-  color: #ffffff;
   border-radius: 45px;
   -webkit-transition: all 0.3s;
   transition: all 0.3s;
   border: none;
 }
 
-.offer_section .box .detail-box a:hover {
-  background-color: #e69c00;
-}
 
 .offer_section .box .detail-box a svg {
   width: 20px;
@@ -201,7 +194,9 @@ font-weight: 600;
           transform: scale(1.1);
 }
 
-
+.hidden {
+  display: none;
+}
 
 .food_section{
   padding: 10px;
@@ -413,8 +408,6 @@ font-weight: 600;
 .about_section .detail-box a {
   display: inline-block;
   padding: 10px 45px;
-  background-color: #ffbe33;
-  color: #ffffff;
   border-radius: 45px;
   -webkit-transition: all 0.3s;
   transition: all 0.3s;
@@ -423,9 +416,6 @@ font-weight: 600;
   text-align: center;
 }
 
-.about_section .detail-box a:hover {
-  background-color: #e69c00;
-}
 /* Adjustments for smaller devices */
 @media (max-width: 767px) {
   .about_section {

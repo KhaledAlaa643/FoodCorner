@@ -1,72 +1,88 @@
-<section>
-  <div class="container-fluid h-custom">
-    <div class="row d-flex justify-content-center align-items-center h-100">
-      <div class="col-md-9 col-lg-6 col-xl-5">
-        <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.webp"
-          class="img-fluid" alt="Sample image">
-      </div>
-      <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
-        <form class="form theme-form bg-transparent" [formGroup]="jobForm">
-          <div class="d-flex flex-row align-items-center justify-content-center justify-content-lg-start">
-            <p class="lead fw-normal mb-0 me-3">Sign in with</p>
-            <button type="button" class="btn btn-link btn-floating mx-1">
-              <i class="fab fa-facebook-f"></i>
-            </button>
+<mat-dialog>
+  <section class="container-fluid">
+      <div class="row">
+        <div class="offset-xl-1 mt-3">
+          <h2 class="text-white">Sign up</h2>
+          <mat-dialog-actions>
+          <button mat-button (click)="closeDialog()">Exit</button>
+          </mat-dialog-actions>
+          <form class="form theme-form mt-5" [formGroup]="jobForm">
 
-            <button type="button" class="btn btn-link btn-floating mx-1">
-              <i class="fab fa-twitter"></i>
-            </button>
+              <!-- Email input -->
+              <mat-icon class="fas fa-envelope fa-lg me-3 fa-fw text-warning" matPrefix></mat-icon>
+              <mat-label class="text-warning">Email</mat-label>
+              <div class="email ">
+                <mat-form-field class="email-input ">
+                    <input matInput
+                    class="text-white mb-1 mt-1"
+                          formControlName="email"
+                          type="email"
+                          id="form3Example4a">
+                </mat-form-field>
+              </div>
 
-            <button type="button" class="btn btn-link btn-floating mx-1">
-              <i class="fab fa-linkedin-in"></i>
-            </button>
-          </div>
-          <div class="divider d-flex align-items-center my-4">
-            <p class="text-center fw-bold mx-3 mb-0">Or</p>
-          </div>
-
-          <!-- Email input -->
-                <div class="row">
-                  <div class="col">
-                    <!-- <mat-form-field>
-                      <mat-label>Email</mat-label>
-                      <input matInput formControlName="email" type="email" required>
-                      <mat-error *ngIf="jobForm.get('email').hasError('email')">
-                        Please enter a valid email address.
-                      </mat-error>
-                    </mat-form-field> -->
-                  </div>
+              <!-- Password input -->
+              <div class="">
+                  <mat-icon class="fas fa-lock fa-lg me-3 fa-fw text-warning" matPrefix></mat-icon>
+                  <mat-label class="text-warning">Password</mat-label>
+                <div class="pw">
+                  <mat-form-field class="password-input flex-fill">
+                      <input matInput
+                      class="text-white mt-1"
+                      [type]="hide ? 'password' : 'text'"
+                      formControlName="password"
+                      >
+                      <button class="eye" mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+                          <i class="fas fa-eye{{ hide ? '-slash' : '' }} text-warning"></i>
+                      </button>
+                    </mat-form-field>
                 </div>
-          <!-- Password input -->
-                <div class="d-flex flex-row align-items-center mb-4">
-                  <div class="form-outline flex-fill mb-0">
-                    <i class="fas fa-lock fa-lg me-3 fa-fw"></i>
-                    <label class="form-label" for="form3Example4c">Password</label>
-                    <input type="password" id="form3Example4c"
-                      name="password" #password="ngModel"[(ngModel)]="user.password"
-                      class="form-control bg-transparent text-white" required minlength="8" />
-                  </div>
-                </div>
-          <div class="d-flex justify-content-between align-items-center">
-            <!-- Checkbox -->
-            <div class="form-check mb-0">
-              <label class="form-check-label" for="form2Example3">
-              <input class="form-check-input me-2" type="checkbox" value="" id="form2Example3" />
-                Remember me
-              </label>
+              </div>
+              <!-- Checkbox -->
+            <div class="d-flex justify-content-between align-items-center">
+              <div class="form-check text-warning">
+                <label class="form-check-label" for="form2Example3">
+                <input class="form-check-input me-2" type="checkbox" value="" id="form2Example3" />
+                  Remember me
+                </label>
+              </div>
             </div>
-            <a class="text-body">Forgot password?</a>
-          </div>
 
-          <div class="text-center text-lg-start pt-2 d-flex justify-content-between">
-            <button type="button" class="btn btn-outline-warning btn-lg"
-              style="padding-left: 2.5rem; padding-right: 2.5rem;"[disabled]="jobForm.invalid" (click)="login()">Login</button>
-            <p class="small fw-bold mt-2 pt-1 mb-0">Don't have an account? <a routerLink="/register"
-                class="link-warning">Register</a></p>
-          </div>
+            <div class="text-center text-lg-start pt-2 mb-5">
+              <button
+              class="btn btn-outline-warning w-100 mb-2"
+              style="padding-left: 2.5rem; padding-right: 2.5rem;"
+              [disabled]="jobForm.invalid"
+              routerLink="/home"
+              >
+              Login
+            </button>
 
-        </form>
+            <a class="text-warning " routerLink="/register" >Forgot password?</a>
+              <h6 class="text-white fw-bold pt-1 mt-3 ">
+                Don't have an account?
+                <a routerLink="/register" class="link-warning">
+                  Register
+                </a>
+              </h6>
+            </div>
+              <h6 class="text-white d-flex justify-content-center align-items-center ">or</h6>
+          </form>
+          <div class="d-flex flex-row align-items-center justify-content-center justify-content-lg-start mb-3">
+            <h6 class=" me-3 text-white">  Login with </h6>
+              <span class="circle-icon">
+                <i class="fab fa-facebook-f text-white"></i>
+              </span>
+
+              <span class="circle-icon mx-3 ">
+                <i class="fab fa-twitter text-white "></i>
+              </span>
+
+              <span class="circle-icon">
+                  <i class="fa-brands fa-linkedin-in text-white"></i>
+              </span>
+          </div>
+        </div>
       </div>
-    </div>
-  </div>
-</section>
+  </section>
+</mat-dialog>

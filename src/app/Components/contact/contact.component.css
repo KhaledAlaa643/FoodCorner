@@ -1,6 +1,33 @@
 /*--------------------------------------------------------------
 # Contact
 --------------------------------------------------------------*/
+section {
+  position: relative;
+}
+
+section::before {
+  content: "";
+  background-image: url("../../../assets/Images/burger-signup.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  opacity: 0.8;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  z-index: -1;
+}
+.contacts > .text-success{
+  margin: auto;
+  text-align: center;
+}
+/* Content styling (set content opacity to 1) */
+section .container {
+  padding: 20px;
+}
+
+
 .contact .info {
   width: 100%;
 }
@@ -125,14 +152,13 @@
 }
 
 
-
+.info-img{
+  display: flex;
+justify-content: center;}
 i{
   color: white;
 }
 
-.info h4{
-  color: #1ab394;
-}
     /* 1- title */
     .title{
       margin-top: 45px;

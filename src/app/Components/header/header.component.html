@@ -1,3 +1,6 @@
+<button class="btn btn-outline-warning">
+<i class="fa fa-user text-white" (click)="openLoginDialog()" aria-hidden="true"></i>
+</button>
 <div class="hero_area" style="background-color: #0c0c0c;">
   <header class="header_section">
     <div class="container">
@@ -13,26 +16,20 @@
         <div class="collapse navbar-collapse justify-content-center" id="navbarSupportedContent">
           <ul class="navbar-nav mx-auto">
             <li class="nav-item">
-              <a class="nav-link" routerLink="/home">Home</a>
+              <a class="nav-link" routerLink="/home" routerLinkActive="active-link" [ngClass]="{'text-warning': isActive('/home'), 'text-white': !isActive('/home')}">Home</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" routerLink="/book">Book Table</a>
+              <a class="nav-link" routerLink="/book" routerLinkActive="active-link" [ngClass]="{'text-warning': isActive('/book'), 'text-white': !isActive('/book')}">Book Table</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" routerLink="/contact">Contact us</a>
+              <a class="nav-link" routerLink="/contact" routerLinkActive="active-link" [ngClass]="{'text-warning': isActive('/contact'), 'text-white': !isActive('/contact')}">Contact us</a>
             </li>
           </ul>
           <div class="user_option d-flex">
-            <a class="user_link" routerLink="/login">
-              <i class="fa fa-user" aria-hidden="true"></i>
-            </a>
+
             <a class="cart_link" routerLink="/cart">
-              <i class="fa-solid fa-cart-shopping " [style.color]="cartItems.length > 0 ? 'orange' : 'white'"></i>            </a>
-            <form class="form-inline">
-              <button class="btn my-2 my-sm-0 nav_search-btn" type="submit">
-                <i class="fa fa-search" aria-hidden="true"></i>
-              </button>
-            </form>
+            <i class="fa-solid fa-cart-shopping " [style.color]="cartItems.length > 0 ? 'orange' : 'white'"></i>
+            </a>
           </div>
         </div>
       </nav>

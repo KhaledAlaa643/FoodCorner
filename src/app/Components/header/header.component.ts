@@ -1,15 +1,18 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable, Subscription, map, of } from 'rxjs';
+import { Subscription} from 'rxjs';
 import { FoodCorner } from 'src/app/Model/FoodCorner';
 import { CartService } from 'src/app/Service/cart.service';
-import { NgClass } from '@angular/common';
 import { AuthService } from 'src/app/Service/auth.service';
 import { CartStatusService } from 'src/app/Service/cart-status.service';
+import { Router } from '@angular/router';
+import { LoginComponent } from '../login/login.component';
+import {MatDialog, MatDialogRef, MatDialogModule, MatDialogConfig} from '@angular/material/dialog';
+import { DialogService } from 'src/app/Service/dialog.service';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
-  styleUrls: ['./header.component.css']
+  styleUrls: ['./header.component.css'],
 })
 export class HeaderComponent implements OnInit {
   cartItems: FoodCorner[] = [];
@@ -18,9 +21,12 @@ export class HeaderComponent implements OnInit {
 
   constructor(private cartService: CartService,
     private authService: AuthService,
-      private cartStatus: CartStatusService
-) { }
-
+    private cartStatus: CartStatusService,
+    private router: Router,
+    private dialogService: DialogService) { }
+isActive(route: string): boolean {
+  return this.router.isActive(route, true);
+}
   ngOnInit(): void {
     this.cartItemsSubscription = this.cartService.cartItems$.subscribe((cartItems) => {
         this.cartItems = cartItems;
@@ -36,7 +42,8 @@ export class HeaderComponent implements OnInit {
     this.cartItemsSubscription.unsubscribe();
   }
 
-    get isLoggedIn(): boolean {
+
+  get isLoggedIn(): boolean {
     return this.authService.isLoggedIn;
   }
 
@@ -47,6 +54,11 @@ export class HeaderComponent implements OnInit {
   logout(): void {
     this.authService.logout();
   }
+    openLoginDialog() {
+    this.dialogService.openLoginDialog();
+  }
+
+
 }
 
 

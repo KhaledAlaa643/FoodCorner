@@ -1,5 +1,20 @@
-.login{
-  margin: auto;
+section{
+  width: fit-content;
+}
+/* white circle in icons */
+.circle-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px; /* Adjust the size of the circle as needed */
+  height: 30px; /* Adjust the size of the circle as needed */
+  background-color: rgb(121, 121, 116);
+  border-radius: 50%;
+  cursor: pointer;
+}
+.eye{
+  background-color: transparent;
+  border: none;
 }
 a{
   color: darkgoldenrod;
@@ -12,3 +27,12 @@ a{
 i{
   color: darkgoldenrod;
 }
+
+.email-input {
+  margin-bottom: 20px; /* Adjust the spacing as needed */
+}
+
+.password-input {
+  margin-bottom: 20px; /* Adjust the spacing as needed */
+}
+

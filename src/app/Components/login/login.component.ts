@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { User } from 'src/app/Model/User';
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -10,27 +11,30 @@ import { User } from 'src/app/Model/User';
 export class LoginComponent {
   user: User = {} as User
   public jobForm: FormGroup;
-  constructor(private route: ActivatedRoute, private router: Router, private fb: FormBuilder) {
+  hide = true;
+  private isOverlayVisible = true;
+  constructor(private fb: FormBuilder,private dialog: MatDialog,
+  public dialogRef: MatDialogRef<LoginComponent>) {
     this.jobForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
-      password: ['', Validators.required],
+      password: ['', [Validators.required, Validators.minLength(8)]],
     });
-
   }
-
-
-      onSubmit(form: any) {
-    if (form.valid) {
-      // Form is valid, you can submit the data or perform further actions here
-      console.log('Form submitted!');
-      console.log(form.value); // Access form values using form.value object
-    } else {
-      // Form is invalid, display validation errors
-      console.log('Invalid form!');
-      // You can also display validation errors by accessing form controls like form.controls['fullName'].errors
-    }
+  goBack() {
+    this.dialogRef.close('cancel');
   }
-  login() {
-    this.router.navigate(['/home']);
+closeDialog(): void {
+  this.dialogRef.close();
+  this.toggleOverlayContainer();
+}
+toggleOverlayContainer(): void {
+  // Find the overlay container element by its class
+  const overlayContainer = document.querySelector('.cdk-overlay-container') as HTMLElement;
+
+  // Toggle the display property
+  if (overlayContainer) {
+    this.isOverlayVisible = !this.isOverlayVisible;
+    overlayContainer.style.display = this.isOverlayVisible ? 'flex' : 'none';
+  }
 }
 }

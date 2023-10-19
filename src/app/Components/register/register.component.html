@@ -1,95 +1,102 @@
-<section class="container">
-  <div class="row d-flex justify-content-center align-items-center h-100">
-    <div class="col-lg-12 col-xl-11">
-      <div class="card text-black" style="border-radius: 25px;">
-        <div class="card-body p-md-5">
+<section class="container-fluid pt-4 mb-5">
+  <div class="row h-custom d-flex justify-content-center align-items-center h-100">
+    <div class="col-lg-12 col-xl-12 mb-5">
+      <div class="row justify-content-between mb-5 text-warning" style="border-radius: 25px">
+        <!-- sign up -->
+        <h1 class="fw-bold mb-5 text-center">
           <i class="fa fa-arrow-left" aria-hidden="true" (click)="back()"></i>
-          <div class="row justify-content-center">
-            <div class="col-md-10 col-lg-6 col-xl-5 order-2 order-lg-1">
-              <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Sign up</p>
-              <form class="mx-1 mx-md-4" #myForm="ngForm" autocomplete="off" (ngSubmit)="onSubmit(myForm)">
-                <div class="d-flex flex-row align-items-center mb-4">
-                  <div class="form-outline flex-fill mb-0">
-                    <i class="fas fa-user fa-lg me-3 fa-fw"></i>
-                    <label class="form-label" for="form3Example1c">Full Name</label>
-                    <input type="text" id="form3Example1c" pattern="^[A-Za-z\s]{2,}$" #fullName="ngModel" [(ngModel)]="user.fullName" name="fullName" class="form-control" required />
+          Sign up
+        </h1>
+        <form class="form theme-form" [formGroup]="registrationForm">
+            <div class="form ">
+                <!-- name -->
+                <div class="nam col-12">
+                  <mat-icon class="fas me-3 fa-user fa-lg fa-fw text-warning mb-3" matPrefix></mat-icon>
+                  <mat-label class="text-warning mb-3">Full Name</mat-label>
+                  <div class="name ">
+                    <mat-form-field class="user-input mb-3">
+                      <input matInput formControlName="name" class="text-white mt-1"/>
+                      <mat-error *ngIf="registrationForm.get('name')!.hasError('required')">
+                        Name is required
+                      </mat-error>
+                    </mat-form-field>
                   </div>
                 </div>
-                <div [hidden]="fullName.valid || fullName.pristine" class="text-danger">
-                  <p [hidden]="!fullName.errors?.['required']">Full Name Required</p>
-                  <p [hidden]="!fullName.errors?.['pattern']">Invalid Name</p>
-                </div>
-                <div class="d-flex flex-row align-items-center mb-4">
-                  <div class="form-outline flex-fill mb-0">
-                    <i class="fas fa-envelope fa-lg me-3 fa-fw"></i>
-                    <label class="form-label" for="form3Example3c">Email</label>
-                    <input type="email" id="form3Example3c" #email="ngModel" [(ngModel)]="user.email" name="email" class="form-control" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" required />
+
+                <!-- Email input -->
+                <div class="mail col-12">
+                  <mat-icon class="fas  fa-envelope fa-lg me-3 fa-fw text-warning mb-3 " matPrefix></mat-icon>
+                  <mat-label class="text-warning mb-3">E-mail</mat-label>
+                  <div class="email ">
+                    <mat-form-field class="email-input mb-3">
+                      <input matInput class="text-white mt-1" formControlName="email" type="email"/>
+                      <mat-error *ngIf="registrationForm.get('email')!.hasError('required')">
+                        Email is required
+                      </mat-error>
+                      <mat-error *ngIf="registrationForm.get('email')!.hasError('email')">
+                        Please enter a valid email
+                      </mat-error>
+                    </mat-form-field>
                   </div>
                 </div>
-                <div [hidden]="email.valid || email.pristine" class="text-danger">
-                  <p [hidden]="!email.errors?.['required']">Email is Required</p>
-                  <p [hidden]="!email.errors?.['pattern']">Invalid Email</p>
-                </div>
-                <div class="d-flex flex-row align-items-center mb-4">
-                  <div class="form-outline flex-fill mb-0">
-                    <i class="fas fa-lock fa-lg me-3 fa-fw"></i>
-                    <label class="form-label" for="form3Example4c">Password</label>
-                    <input type="password" id="form3Example4c" #password="ngModel" [(ngModel)]="user.password"
-                      pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$" name="password"
-                      class="form-control" required minlength="8" />
+
+              <!-- Password  -->
+              <div class="passwords d-flex col-12">
+                <div class="pw">
+                  <mat-icon class="fas me-3 fa-lock fa-lg fa-fw text-warning mb-3" matPrefix></mat-icon>
+                  <mat-label class="text-warning mb-3">Password</mat-label>
+                  <div class="password mt-1">
+                    <mat-form-field class="password-input flex-fill">
+                      <input matInput class="text-white" type="password" formControlName="password" [type]="hide ? 'password' : 'text'"/>
+                      <button class="eye" mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+                          <i class="fas fa-eye{{ hide ? '-slash' : '' }} text-warning"></i>
+                      </button>
+                      <mat-error *ngIf="registrationForm.get('password')!.hasError('required')">
+                        &#9830; Password is required
+                      </mat-error>
+                    </mat-form-field>
                   </div>
                 </div>
-                <div [hidden]="password.valid || password.pristine" class="text-danger">
-                  <p [hidden]="!password.errors?.['required']">Password is required.</p>
-                    <div *ngIf="user.password?.match('(?=.*[a-z])') || user.password < 8">
-                      <p class="text-danger ps-1" style="font-size: 14px;">
-                      At least 8 characters long
-                      </p>
-                      <p class="text-danger ps-1" style="font-size: 14px;">
-                      At least one lowercase letter
-                      </p>
-                      <p class="text-danger ps-1" style="font-size: 14px;">
-                      At least one uppercase letter
-                      </p>
-                      <p class="text-danger ps-1" style="font-size: 14px;">
-                      At least one number
-                      </p>
-                      <p class="text-danger ps-1" style="font-size: 14px;">
-                      At least one special character (@$!%*?&)
-                      </p>
-                    </div>
-                </div>
-                <div class="d-flex flex-row align-items-center mb-4">
-                  <div class="form-outline flex-fill mb-0">
-                  <i class="fas fa-key fa-lg me-3 fa-fw"></i>
-                    <label class="form-label" for="form3Example4cd">Repeat your password</label>
-                    <input type="password" #repeatPassword="ngModel" [(ngModel)]="user.repeatPassword" id="form3Example4cd" name="repeatPassword" class="form-control" required/>
-                  </div>
-                </div>
-                <div [hidden]="repeatPassword.valid || repeatPassword.pristine" class="text-danger">
-                <p class="text-danger ps-1" style="font-size: 14px;"
-                  [hidden]="!repeatPassword.errors?.['required']"> Password Is Required</p>
-              </div>
-              <div *ngIf="repeatPassword.value!=password.value">
-                <p class="text-danger ps-1" style="font-size: 14px;">Password Not Matched</p>
               </div>
 
-                <div class="form-check d-flex justify-content-center mb-5">
-                  <label class="form-check-label" for="form2Example3">
-                    <input class="form-check-input me-2" type="checkbox" value="" id="form2Example3c" required />
-                    I agree to all statements in <a href="#!">Terms of service</a>
-                  </label>
+              <!-- Confirm password -->
+              <div class="con-pw mt-3 col-12">
+                <mat-icon class="mt-2 fas me-3 fa-lock fa-lg  fa-fw text-warning mb-3" matPrefix></mat-icon>
+                <mat-label class="text-warning mb-3">Confirm Password</mat-label>
+                <div class="passwordConfirm ">
+                  <mat-form-field>
+                    <input type="password" matInput formControlName="passwordConfirm" class="text-white" [disabled]="registrationForm.get('password')!.valid"
+                    [type]="hidePw ? 'password' : 'text'"/>
+                    <button class="eye" mat-icon-button matSuffix (click)="hidePw = !hidePw" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hidePw">
+                        <i class="fas fa-eye{{ hidePw ? '-slash' : '' }} text-warning"></i>
+                    </button>
+                    <mat-error *ngIf="registrationForm.get('passwordConfirm')?.touched &&registrationForm.get('passwordConfirm')?.hasError('required')">
+                      Password Confirmation is required
+                    </mat-error>
+                  </mat-form-field>
+                  <mat-error *ngIf="registrationForm.get('passwordConfirm')?.dirty &&registrationForm.hasError('passwordsNotMatching')">
+                    Passwords are not matching!
+                  </mat-error>
+                  <button
+                      class="btn btn-outline-warning sign-btn mt-4 mb-3"
+                      [disabled]="registrationForm.invalid"
+                      routerLink="/home">
+                      Sign up
+                  </button>
                 </div>
-                <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
-                  <button type="submit" [disabled]="myForm.invalid || repeatPassword.value !== password.value" class="btn btn-danger btn-lg" (click)="Register()" >Register</button>
-                </div>
-              </form>
+                <mat-error *ngIf="registrationForm.get('password')!.hasError('minlength')">
+                  &#9830; Password must be at least 8 characters long.
+                </mat-error>
+                <mat-error *ngIf="registrationForm.get('password')!.hasError('pattern')">
+                  <br /> &#9830; Password must contain at least:
+                  <br /> &#9755; one uppercase letter (A-Z)
+                  <br /> &#9755; one lowercase letter (a-z)
+                  <br /> &#9755; one digit letter (0-9)
+                  <br /> &#9755; one special character (!@#$%^&*).
+                </mat-error>
+              </div>
             </div>
-            <div class="col-md-10 col-lg-6 col-xl-7 d-flex align-items-center order-1 order-lg-2">
-              <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-registration/draw1.webp" class="img-fluid" alt="Sample image">
-            </div>
-          </div>
-        </div>
+          </form>
       </div>
     </div>
   </div>

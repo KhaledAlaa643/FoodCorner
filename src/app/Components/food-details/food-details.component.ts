@@ -131,25 +131,17 @@ ngOnDestroy(): void {
     this.sub.unsubscribe();
   }
 
-getStarsArray(stars: number): any{
-  const fullStars = Math.floor(stars); // Number of full stars
-  const hasHalfStar = stars % 1 !== 0; // Check if there is a half star
+  getStarsArray(stars: number): any{
+    const fullStars = Math.floor(stars); // Number of full stars
+    const hasHalfStar = stars % 1 !== 0; // Check if there is a half star
 
-  if (stars < 0) {
-    stars = 0; // Ensure stars value is not negative
-  } else if (stars > 5) {
-    stars = 5; // Ensure stars value is not greater than 5
+    if (hasHalfStar) {
+      // Add half star if present
+      return Array(fullStars).fill(0).concat(0.5);
+    } else {
+      // Only full stars
+      return Array(fullStars).fill(0);
+    }
   }
-
-  if (hasHalfStar) {
-    // Add half star if present
-    return Array(fullStars).fill(0).concat(0.5);
-  } else {
-    // Only full stars
-    return Array(fullStars).fill(0);
-  }
-}
-
-
 }
 
