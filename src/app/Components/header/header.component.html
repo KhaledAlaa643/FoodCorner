@@ -164,7 +164,7 @@
             Contact us
             </a>
         </li>
-        <li class="nav-item " >
+        <li class="nav-item" [ngClass]="{'full-width': isMobile}">
           <a class="nav-link text-white" routerLink="/cart"[ngClass]="{
               'text-warning': isActive('/cart'),
               'text-white': !isActive('/cart')
