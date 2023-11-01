@@ -35,10 +35,14 @@
 #footer .footer-info .social-links a:hover {
   background-color: #555;
 }
+.footer-info,h4{
+  text-align:left
+}
 
 #footer .footer-links li {
   list-style: none;
   padding: 8px 0;
+  text-align:left
 }
 
 #footer .footer-links a {

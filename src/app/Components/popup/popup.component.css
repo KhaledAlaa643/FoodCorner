@@ -1,0 +1,41 @@
+section{
+  width: fit-content;
+}
+/* white circle in icons */
+.circle-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  background-color:#1ab394;
+  border-radius: 50%;
+  cursor: pointer;
+}
+.link{
+  cursor: pointer;
+}
+.eye{
+  background-color: transparent;
+  border: none;
+}
+a{
+  color: darkgoldenrod;
+}
+.form-check-input:checked {
+  background-color: darkgoldenrod;
+  outline: none;
+  border: none;
+}
+i{
+  color: darkgoldenrod;
+}
+
+.email-input {
+  margin-bottom: 20px; /* Adjust the spacing as needed */
+}
+
+.password-input {
+  margin-bottom: 20px; /* Adjust the spacing as needed */
+}
+

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { Location } from '@angular/common';
 import { User } from 'src/app/Model/User';
 import { Router } from '@angular/router';
@@ -14,6 +14,7 @@ export class RegisterComponent {
   hide = true;
   hidePw = true
   public registrationForm: FormGroup;
+  @Output() showLoginSection = new EventEmitter<void>();
 
   constructor(private location: Location, private fb: FormBuilder) {
     this.registrationForm = this.fb.group({
@@ -42,7 +43,9 @@ passwordMatchValidator(control: AbstractControl): ValidationErrors | null  {
     }
   }
 
-
+  openLoginSection() {
+    this.showLoginSection.emit();
+  }
 
 back(): void {
     this.location.back();

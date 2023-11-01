@@ -1,21 +1,44 @@
 @font-face {
-  font-family: 'Roboto';
+  font-family: "Roboto";
   font-weight: 500;
   font-style: italic;
-  src: url('/assets/fonts/roboto-medium-italic.ttf') format('truetype');
+  src: url("/assets/fonts/roboto-medium-italic.ttf") format("truetype");
 }
 nav {
-  font-family: 'Roboto', sans-serif;
+  font-family: "Roboto", sans-serif;
+}
+.full-width {
+  width: 100%;
 }
 
 
+a{
+  cursor: pointer;
+}
 
+.sign-out button, hr{
+  color:#ffc107 !important
+}
+.sign-out button:hover{
+  color:black !important
+}
+.dropdown-item:hover{
+  color:black !important
+}
+.hide-hero {
+  height: 0;
+  overflow: hidden;
+  display: none;
+}
+.nav-item{
+    margin-inline-start: 10px;
+    /* width: 19vw; */
+  }
 
 .container-fluid {
   padding-left: 0;
   padding-right: 0;
 }
-
 
 .navbar {
   width: 100%;
@@ -32,41 +55,17 @@ nav {
 
 .dropdown-menu {
   min-width: 100%;
-  text-align: center;
+  text-align: left;
 }
 
 /*header section*/
 .hero_area {
-/* app-header.component.css */
-  position: fixed;
-  top: 0;
-  left: 0;
-  height: 90px; /* Adjust the height according to your header's design */
-  width: 100%;
-  background-color: #0c0c0c;
-  z-index: 999; /* A high value to make sure the header is above other elements */
-  /* Add any other styles specific to your header */
-
-
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
+width: 100%;
 }
 
-.bg-box {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+.dropdown-menu{
+  border:  none !important;
 }
-
-
-
 .sub_page .hero_area {
   min-height: auto;
 }
@@ -83,11 +82,14 @@ nav {
   width: 100%;
   height: 100%;
   -o-object-fit: cover;
-    object-fit: cover;
+  object-fit: cover;
   -o-object-position: right top;
-    object-position: right top;
+  object-position: right top;
 }
 
+li.nav-item.breadcrumb-item{
+  display: flex;
+}
 .header_section {
   padding: 15px 0;
 }
@@ -98,7 +100,7 @@ nav {
 }
 
 .navbar-brand {
-  font-family: 'Dancing Script', cursive;
+  font-family: "Dancing Script", cursive;
 }
 
 .navbar-brand span {
@@ -123,8 +125,13 @@ nav {
   transition: all 0.3s;
 }
 
-.custom_nav-container .navbar-nav .nav-item:hover .nav-link, .custom_nav-container .navbar-nav .nav-item.active .nav-link {
+.custom_nav-container .navbar-nav .nav-item:hover .nav-link,
+.custom_nav-container .navbar-nav .nav-item.active .nav-link {
   color: #d3af71;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 2px;
 }
 
 .custom_nav-container .nav_search-btn {
@@ -144,13 +151,12 @@ nav {
   display: -ms-flexbox;
   -webkit-box-align: center;
   -ms-flex-align: center;
-
+  cursor: pointer;
 }
 
 .user_option a {
   margin: 0 10px;
 }
-
 
 .user_option .user_link:hover {
   color: #d3af71;
@@ -161,12 +167,12 @@ nav {
   display: -ms-flexbox;
   display: flex;
   -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
   -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-          text-decoration: none;
+  -ms-flex-align: center;
+  align-items: center;
+  text-decoration: none;
 }
 
 .user_option .cart_link svg {
@@ -219,7 +225,8 @@ nav {
   transition: all 0.3s;
 }
 
-.custom_nav-container .navbar-toggler span::before, .custom_nav-container .navbar-toggler span::after {
+.custom_nav-container .navbar-toggler span::before,
+.custom_nav-container .navbar-toggler span::after {
   content: "";
   position: absolute;
   left: 0;
@@ -238,19 +245,19 @@ nav {
 
 .custom_nav-container .navbar-toggler[aria-expanded="true"] {
   -webkit-transform: rotate(360deg);
-          transform: rotate(360deg);
+  transform: rotate(360deg);
 }
 
 .custom_nav-container .navbar-toggler[aria-expanded="true"] span {
   -webkit-transform: rotate(45deg);
-          transform: rotate(45deg);
+  transform: rotate(45deg);
 }
 
-.custom_nav-container .navbar-toggler[aria-expanded="true"] span::before, .custom_nav-container .navbar-toggler[aria-expanded="true"] span::after {
+.custom_nav-container .navbar-toggler[aria-expanded="true"] span::before,
+.custom_nav-container .navbar-toggler[aria-expanded="true"] span::after {
   -webkit-transform: rotate(90deg);
-          transform: rotate(90deg);
+  transform: rotate(90deg);
   top: 0;
 }
 
 /*end header section*/
-

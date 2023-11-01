@@ -31,12 +31,14 @@ export class CartComponent implements OnInit {
     this.cartItemsService.cartItems$.subscribe((cartItems) => {
       this.foods = cartItems;
       this.calculateTotalPrice();
+      console.log(this.foods.length);
     });
 
     // Calculate and update the total cart items
-    this.cartService.getTotalCartItems().subscribe((totalItems) => {
-    this.totalCartItems = totalItems;
-    });
+    // this.cartService.getTotalCartItems().subscribe((totalItems) => {
+    //   this.totalCartItems = totalItems;
+    //   console.log(this.totalCartItems);
+    // });
   }
 
 removeFromCart(food: FoodCorner): void {
@@ -108,7 +110,6 @@ continue(): void {
 
   checkout(): void {
     this.cartService.sendCartItems(this.foods); // Send the cart items to the CheckoutDataService
-
     this.router.navigate(['/checkout']);
   }
 }

@@ -90,7 +90,12 @@ section .container {
   padding: 15px;
   font-weight: 600;
 }
-
+.name,h4{
+  color: #1ab394 !important;
+}
+.photo{
+  border: 6px solid #1ab394;
+}
 .contact .php-email-form .sent-message {
   display: none;
   color: #fff;

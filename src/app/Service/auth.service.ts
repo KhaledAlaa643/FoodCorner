@@ -1,31 +1,30 @@
 import { Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  private isLoggedInValue = false;
-  private user = { firstName: '' }; // Store user information here
-
-login(email: string, password: string): boolean {
-    // Add your login logic here and set isLoggedInValue and user info upon successful login
-    // For simplicity, let's assume successful login and store the user's first name
-    this.isLoggedInValue = true;
-    this.user.firstName = 'Khaled'; // Replace 'Khaled' with the actual first name from the server
-    return this.isLoggedInValue;
+  private isLoggedInValue: BehaviorSubject<boolean>;
+constructor( ) {
+  this.isLoggedInValue = new BehaviorSubject<boolean> (false)
+}
+  login(email: string, password: string) {
+    let userToken = "tokenTest"
+    localStorage.setItem("token", userToken);
+    this.isLoggedInValue.next(true)
   }
 
   logout(): void {
-    // Add your logout logic here
-    this.isLoggedInValue = false;
-    this.user.firstName = '';
+    localStorage.removeItem("token")
+    this.isLoggedInValue.next(false)
   }
 
   get isLoggedIn(): boolean {
-    return this.isLoggedIn;
+    return (localStorage.getItem("token")) ? true : false
   }
-
-  get userFirstName(): string {
-    return this.user.firstName;
-  }}
+  userStatus() {
+    return this.isLoggedInValue.asObservable()
+  }
+}

@@ -13,17 +13,35 @@ export class CartService {
   private cartItemsSubject = new BehaviorSubject<FoodCorner[]>([]);
   public cartItems$ = this.cartItemsSubject.asObservable();
   private cartKey = 'cartItems';
-
-  constructor(private http: HttpClient,
-              private cartEventService: CartEventService) {
+  private cartItems: FoodCorner[] = [];
+  cartStateSubject = new BehaviorSubject<boolean>(false);
+  private hasItemsSubject = new BehaviorSubject<boolean>(false);
+  hasItems$ = this.hasItemsSubject.asObservable();
+  constructor(
+    private http: HttpClient,
+    private cartEventService: CartEventService) {
     this.initCartItemsFromLocalStorage();
+    const savedState = localStorage.getItem('cartState');
+    if (savedState) {
+      this.cartStateSubject.next(savedState === 'orange');
+    }
   }
+  updateCartState(hasItems: boolean) {
+    this.hasItemsSubject.next(hasItems);
+  }
+
+  checkCartState() {
+    const isEmpty = this.cartItems.length === 0;
+    this.cartStateSubject.next(isEmpty);
+    localStorage.setItem('cartState', isEmpty ? 'white' : 'orange');
+
+  }
+
 
 sendCartItems(cartItems: FoodCorner[]): void {
-    this.cartItemsSubject.next(cartItems);
-  }
+  this.cartItemsSubject.next(cartItems);
+}
 
-  // Update the local storage with the updated cart items
   private updateCartLocalStorage(cartItems: FoodCorner[]): void {
     localStorage.setItem(this.cartKey, JSON.stringify(cartItems));
   }
@@ -32,11 +50,9 @@ sendCartItems(cartItems: FoodCorner[]): void {
     const currentItems = this.cartItemsSubject.getValue();
     const updatedItems = currentItems.filter(item => item.id !== food.id);
     this.cartItemsSubject.next(updatedItems);
-
-    // Update local storage with the updated cart items
     this.updateCartLocalStorage(updatedItems);
     this.cartEventService.emitCartUpdated();
-
+    this.checkCartState();
   }
 
 
@@ -54,11 +70,11 @@ loadCartItemsFromLocalStorage(): void {
   }
 
 addToCart(food: FoodCorner): any {
-    // this.cartItemsSubject.next([...this.cartItemsSubject.value, food]);
-    // this.cartEventService.emitCartUpdated();
     const currentCartItems = this.cartItemsSubject.getValue();
     const updatedCartItems = [...currentCartItems, food];
     this.cartItemsSubject.next(updatedCartItems);
+    this.checkCartState();
+
 }
 
 
@@ -78,7 +94,6 @@ getCartItems(): Observable<FoodCorner[]> {
   }
 
 setCartItems(cartItems: FoodCorner[]): Observable<FoodCorner[]> {
-    // return this.http.put<FoodCorner[]>(this.apiUrl, cartItems);
       return this.cartItems$;
 
   }

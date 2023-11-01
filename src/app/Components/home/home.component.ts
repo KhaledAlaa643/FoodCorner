@@ -1,10 +1,12 @@
 import { HttpClient } from '@angular/common/http';
-import { Component } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { FoodCorner } from 'src/app/Model/FoodCorner';
 import { FoodService } from 'src/app/Service/food.service';
 import { trigger, state, style, animate, transition } from '@angular/animations';
 import { CartStatusService } from 'src/app/Service/cart-status.service';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
   selector: 'app-home',
@@ -17,34 +19,42 @@ import { CartStatusService } from 'src/app/Service/cart-status.service';
     ]),
   ],
 })
-export class HomeComponent {
+export class HomeComponent implements OnInit{
   foods: FoodCorner[] = [];
   selectedCategory: string = "";
   filteredFoods: FoodCorner[] = [];
   isItemInCart!: boolean;
   showAllProducts: boolean = false;
+  currentPage: number = 1;
+  itemsPerPage: number = 6;
+
+  dataSource = new MatTableDataSource<FoodCorner>([]); // Initialize as an empty array
+
+  @ViewChild(MatPaginator) paginator: MatPaginator | undefined;
 
   constructor(private router: Router, private foodService: FoodService,
       private cartStatus: CartStatusService
   ) { }
-  
-toggleShowAllProducts() {
-    this.showAllProducts = !this.showAllProducts;
-  }
+
+
   ngOnInit(): void {
+    
     this.foodService.getAll().subscribe((foods: FoodCorner[]) => {
+      console.log('Received data:', foods);
       this.foods = foods;
       this.filteredFoods = this.foods;
+      this.dataSource.data = this.foods;
+      if (this.paginator) {
+        this.dataSource.paginator = this.paginator;
+      }
     });
-      this.isItemInCart = this.cartStatus.getCartStatus(); // Get the cart status from the CartStatusService
-
+  this.isItemInCart = this.cartStatus.getCartStatus();
   }
-    // Function to filter foods based on the selected category
   filterFoodsByCategory(category: string | any) {
-    this.selectedCategory = category; // Update the selected category
+    this.selectedCategory = category; 
 
     if (category === '*' || category === '') {
-      this.filteredFoods = this.foods; // Show all foods if 'All' is selected or category is empty
+      this.filteredFoods = this.foods; 
     } else {
       this.filteredFoods = this.foods.filter(food => food.tag === category);
     }
@@ -82,4 +92,21 @@ onCategoryChange(category: string): void {
 
 
 }
+// toggleShowAllProducts() {
+//     this.showAllProducts = !this.showAllProducts;
+//   }
+// getPaginatedFoods() {
+//     const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+//     return this.foods.slice(startIndex, startIndex + this.itemsPerPage);
+//   }
+// prevPage() {
+//   if (this.currentPage > 1) {
+//     this.currentPage--;
+//   }
+// }
 
+// nextPage() {
+//   if (this.currentPage * this.itemsPerPage < this.foods.length) {
+//     this.currentPage++;
+//   }
+// }

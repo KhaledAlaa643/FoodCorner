@@ -1,13 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component,  HostListener,  OnInit, ViewChild } from '@angular/core';
 import { Subscription} from 'rxjs';
 import { FoodCorner } from 'src/app/Model/FoodCorner';
 import { CartService } from 'src/app/Service/cart.service';
 import { AuthService } from 'src/app/Service/auth.service';
 import { CartStatusService } from 'src/app/Service/cart-status.service';
 import { Router } from '@angular/router';
-import { LoginComponent } from '../login/login.component';
-import {MatDialog, MatDialogRef, MatDialogModule, MatDialogConfig} from '@angular/material/dialog';
-import { DialogService } from 'src/app/Service/dialog.service';
+import { PopupComponent } from '../popup/popup.component';
+import { CartItemsService } from 'src/app/Service/cart-items.service';
+import { FoodDetailsComponent } from '../food-details/food-details.component';
 
 @Component({
   selector: 'app-header',
@@ -17,49 +17,58 @@ import { DialogService } from 'src/app/Service/dialog.service';
 export class HeaderComponent implements OnInit {
   cartItems: FoodCorner[] = [];
   cartItemsSubscription!: Subscription;
-  cartColor: string = 'white';
-
+  colorCart!:any;
+  userStatus: boolean = false
+  isMobile = false;
+  @ViewChild('popupComp') popupComponent!:PopupComponent
   constructor(private cartService: CartService,
     private authService: AuthService,
-    private cartStatus: CartStatusService,
+    private CartItemsService: CartItemsService,
     private router: Router,
-    private dialogService: DialogService) { }
+  ) {
+    const savedValue = localStorage.getItem('isItemInCart');
+      if (savedValue !== null) {
+      this.colorCart = savedValue === 'true' ? 'orange' : 'white';
+      }
+  }
 isActive(route: string): boolean {
   return this.router.isActive(route, true);
 }
   ngOnInit(): void {
     this.cartItemsSubscription = this.cartService.cartItems$.subscribe((cartItems) => {
-        this.cartItems = cartItems;
-        this.updateCartStatus();
+      this.cartItems = cartItems;
     });
-  }
-  updateCartStatus() {
-    // Update the cart color based on the cart items length
-    const color = this.cartItems.length > 0 ? 'orange' : 'white';
-    this.cartStatus.updateCartColor(color);
-  }
-  ngOnDestroy(): void {
-    this.cartItemsSubscription.unsubscribe();
+    FoodDetailsComponent.isItemInCart$.subscribe((isItemInCart) => {
+      this.colorCart = isItemInCart ? 'orange' : 'white';
+      localStorage.setItem('isItemInCart', isItemInCart ? 'true' : 'false');
+    });
+
+    // subscribe in login & logout
+    this.authService.userStatus().subscribe(status => {
+      this.userStatus = status
+    })
+    this.checkScreenWidth();
+
   }
 
 
-  get isLoggedIn(): boolean {
-    return this.authService.isLoggedIn;
+ngOnDestroy(): void {
+  this.cartItemsSubscription.unsubscribe();
   }
 
-  get userFirstName(): string {
-    return this.authService.userFirstName;
-  }
-
-  logout(): void {
+logout(): void {
     this.authService.logout();
   }
-    openLoginDialog() {
-    this.dialogService.openLoginDialog();
+
+openPopup() {
+  this.popupComponent?.open_modal();
+}
+  @HostListener('window:resize', ['$event'])
+  onResize(event: any) {
+    this.checkScreenWidth();
   }
 
-
+  checkScreenWidth() {
+    this.isMobile = window.innerWidth <= 993; // Adjust the breakpoint as needed
+  }
 }
-
-
-

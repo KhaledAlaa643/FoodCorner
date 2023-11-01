@@ -1,13 +1,8 @@
-<section class="container-fluid pt-4 mb-5">
+<section class="container-fluid pt-4 mb-3">
   <div class="row h-custom d-flex justify-content-center align-items-center h-100">
-    <div class="col-lg-12 col-xl-12 mb-5">
-      <div class="row justify-content-between mb-5 text-warning" style="border-radius: 25px">
-        <!-- sign up -->
-        <h1 class="fw-bold mb-5 text-center">
-          <i class="fa fa-arrow-left" aria-hidden="true" (click)="back()"></i>
-          Sign up
-        </h1>
-        <form class="form theme-form" [formGroup]="registrationForm">
+    <div class="col-lg-12 col-xl-12 mb-3">
+      <div class="row justify-content-between mb-3 text-warning" style="border-radius: 25px">
+        <form class="form theme-form register-form" [formGroup]="registrationForm">
             <div class="form ">
                 <!-- name -->
                 <div class="nam col-12">
@@ -67,22 +62,20 @@
                   <mat-form-field>
                     <input type="password" matInput formControlName="passwordConfirm" class="text-white" [disabled]="registrationForm.get('password')!.valid"
                     [type]="hidePw ? 'password' : 'text'"/>
-                    <button class="eye" mat-icon-button matSuffix (click)="hidePw = !hidePw" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hidePw">
+                    <button class="eye" mat-icon-button matSuffix (click)="hidePw = !hidePw" [attr.aria-label]="'Hide password'">
                         <i class="fas fa-eye{{ hidePw ? '-slash' : '' }} text-warning"></i>
                     </button>
-                    <mat-error *ngIf="registrationForm.get('passwordConfirm')?.touched &&registrationForm.get('passwordConfirm')?.hasError('required')">
-                      Password Confirmation is required
-                    </mat-error>
                   </mat-form-field>
                   <mat-error *ngIf="registrationForm.get('passwordConfirm')?.dirty &&registrationForm.hasError('passwordsNotMatching')">
                     Passwords are not matching!
                   </mat-error>
                   <button
-                      class="btn btn-outline-warning sign-btn mt-4 mb-3"
+                      class="btn btn-outline-warning sign-btn mt-3 mb-3 w-100 d-flex justify-content-center"
                       [disabled]="registrationForm.invalid"
                       routerLink="/home">
                       Sign up
                   </button>
+                  <h6  class="text-white mb-2">Already have an account ? <a (click)="openLoginSection()" class="text-success">Login</a></h6>
                 </div>
                 <mat-error *ngIf="registrationForm.get('password')!.hasError('minlength')">
                   &#9830; Password must be at least 8 characters long.

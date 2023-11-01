@@ -15,7 +15,10 @@
       {
         "ignore": [
           "min-height: auto",
-          "width: fit-content"
+          "width: fit-content",
+          "min-width: fit-content",
+          "min-height: fit-content",
+          "max-height: fit-content"
         ]
       }
     ],
@@ -25,6 +28,24 @@
         "label": "off"
       }
     ],
-    "button-type": "off"
+    "button-type": "off",
+    "axe/parsing": [
+      "default",
+      {
+        "duplicate-id-active": "off"
+      }
+    ],
+    "axe/structure": [
+      "default",
+      {
+        "list": "off"
+      }
+    ],
+    "axe/text-alternatives": [
+      "default",
+      {
+        "image-alt": "off"
+      }
+    ]
   }
 }

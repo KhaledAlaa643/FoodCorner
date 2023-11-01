@@ -10,7 +10,14 @@ export class CartItemsService {
   public cartItemsSubject = new BehaviorSubject<FoodCorner[]>([]);
   public cartItems$ = this.cartItemsSubject.asObservable();
 
-  constructor() {    this.loadCartItemsFromLocalStorage();
+    private itemAddedToCartSubject = new BehaviorSubject<boolean>(false);
+
+  itemAddedToCart$: Observable<boolean> = this.itemAddedToCartSubject.asObservable();
+
+  constructor() {
+    this.loadCartItemsFromLocalStorage();
+    this.itemAddedToCartSubject.next(true)
+
 }
 
   updateCartItems(cartItems: FoodCorner[]): void {
@@ -34,7 +41,9 @@ export class CartItemsService {
   private saveCartItemsToLocalStorage(cartItems: FoodCorner[]): void {
     localStorage.setItem('cartItems', JSON.stringify(cartItems));
   }
+
   addToCart(item: FoodCorner): void {
+    this.itemAddedToCartSubject.next(true);
     const currentCartItems = this.cartItemsSubject.getValue();
     const existingItem = currentCartItems.find((food) => food.id === item.id);
 
@@ -56,7 +65,7 @@ export class CartItemsService {
     // Set the updated cart items in local storage
     localStorage.setItem('cartItems', JSON.stringify(cartItems));
 
-    
+
   }
 
 

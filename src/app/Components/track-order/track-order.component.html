@@ -1,63 +1,92 @@
-<section class="vh-100" style="background-color: #4e729b;">
-  <div class="container py-5 h-100">
-    <div class="row d-flex justify-content-center align-items-center h-100">
-      <div class="col-12">
-        <div class="card card-stepper text-black" style="border-radius: 16px;">
+<section style="background-color: #1e1f1f;">
+  <div class="container py-5 h-100 ">
+    <ng-container *ngIf="!hasOrder; else order" >
+      <div class="row d-flex justify-content-center align-items-center h-100"style="margin: auto;">
+        <div class="col-12">
+          <div class="card card-stepper text-black" style="border-radius: 5px;">
 
-          <div class="card-body p-5">
+            <div class="card-body p-5">
 
-            <div class="d-flex justify-content-between align-items-center mb-5">
-              <div>
-                <h5 class="mb-0">INVOICE <span class="text-primary font-weight-bold">#Y34XDHR</span></h5>
+              <div class="d-flex justify-content-between align-items-center mb-5">
+                <div>
+                  <h5 class="mb-0">INVOICE <span class="text-success fw-bold">#Y34XDHR</span></h5>
+                </div>
+                <div class="text-center">
+                  <table class="table table-responsive ">
+                    <thead>
+                      <tr>
+                        <th>Expected Arrival</th>
+                        <th>USPS</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>01/01/24</td>
+                        <td>2340945672</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
               </div>
-              <div class="text-end">
-                <p class="mb-0">Expected Arrival <span>01/12/19</span></p>
-                <p class="mb-0">USPS <span class="font-weight-bold">234094567242423422898</span></p>
+
+              <ul id="progressbar-2" class="d-flex justify-content-between mx-0 mt-0 mb-5 px-0 pt-0 pb-2">
+                <li class="step0 active text-center" id="step1"></li>
+                <li class="step0 active text-center" id="step2"></li>
+                <li class="step0 active text-center" id="step3"></li>
+                <li class="step0 text-muted text-end" id="step4"></li>
+              </ul>
+
+              <div class="d-flex justify-content-between text-center">
+                <div class="d-lg-flex align-items-center">
+                  <i class="fas fa-clipboard-list fa-3x me-lg-4 mb-lg-0"></i>
+                  <div>
+                    <p class="fw-bold mb-1">Order</p>
+                    <p class="fw-bold mb-0">Processed</p>
+                  </div>
+                </div>
+                <div class="d-lg-flex align-items-center">
+                  <i class="fas fa-box-open fa-3x me-lg-4 mb-lg-0"></i>
+                  <div>
+                    <p class="fw-bold mb-1">Order</p>
+                    <p class="fw-bold mb-0">Shipped</p>
+                  </div>
+                </div>
+                <div class="d-lg-flex align-items-center">
+                  <i class="fas fa-shipping-fast fa-3x me-lg-4 mb-lg-0"></i>
+                  <div>
+                    <p class="fw-bold mb-1">Order</p>
+                    <p class="fw-bold mb-0">En Route</p>
+                  </div>
+                </div>
+                <div class="d-lg-flex align-items-center">
+                  <i class="fas fa-home fa-3x me-lg-4 mb-lg-0"></i>
+                  <div>
+                    <p class="fw-bold mb-1">Order</p>
+                    <p class="fw-bold mb-0">Arrived</p>
+                  </div>
+                </div>
               </div>
             </div>
-
-            <ul id="progressbar-2" class="d-flex justify-content-between mx-0 mt-0 mb-5 px-0 pt-0 pb-2">
-              <li class="step0 active text-center" id="step1"></li>
-              <li class="step0 active text-center" id="step2"></li>
-              <li class="step0 active text-center" id="step3"></li>
-              <li class="step0 text-muted text-end" id="step4"></li>
-            </ul>
-
-            <div class="d-flex justify-content-between">
-              <div class="d-lg-flex align-items-center">
-                <i class="fas fa-clipboard-list fa-3x me-lg-4 mb-3 mb-lg-0"></i>
-                <div>
-                  <p class="fw-bold mb-1">Order</p>
-                  <p class="fw-bold mb-0">Processed</p>
-                </div>
-              </div>
-              <div class="d-lg-flex align-items-center">
-                <i class="fas fa-box-open fa-3x me-lg-4 mb-3 mb-lg-0"></i>
-                <div>
-                  <p class="fw-bold mb-1">Order</p>
-                  <p class="fw-bold mb-0">Shipped</p>
-                </div>
-              </div>
-              <div class="d-lg-flex align-items-center">
-                <i class="fas fa-shipping-fast fa-3x me-lg-4 mb-3 mb-lg-0"></i>
-                <div>
-                  <p class="fw-bold mb-1">Order</p>
-                  <p class="fw-bold mb-0">En Route</p>
-                </div>
-              </div>
-              <div class="d-lg-flex align-items-center">
-                <i class="fas fa-home fa-3x me-lg-4 mb-3 mb-lg-0"></i>
-                <div>
-                  <p class="fw-bold mb-1">Order</p>
-                  <p class="fw-bold mb-0">Arrived</p>
-                </div>
-              </div>
-            </div>
-
           </div>
-
+        </div>
+        <div (click)="cancel()" class="mt-5 btn btn-outline-danger text-center d-flex justify-content-center w-50">
+          Cancel Order
         </div>
       </div>
+    </ng-container>
+    <div class="no-order-container d-flex mb-5">
+      <ng-template #order>
+        <div class="data">
+          <h1 class="text-center text-warning">No Orders</h1>
+          <p class="text-center text-white">You haven't placed any orders yet.</p>
+          <button routerLink="/home"
+          class="text-center btn btn-outline-warning d-flex" type="button" style="margin: auto;">
+            Make Your Order Now!
+          </button>
+        </div>
+        <img src="../../../assets/Images/no-order.jpg" width="65%" class="mb-5 ">
+      </ng-template>
     </div>
+
   </div>
 </section>
