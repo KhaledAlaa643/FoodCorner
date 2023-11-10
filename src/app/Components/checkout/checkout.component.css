@@ -1,5 +1,10 @@
 .card {
   background: none !important;
+  border: none !important;
+}
+.card-header{
+  border: none !important;
+
 }
 
 .card-body {
@@ -7,4 +12,20 @@
 }
 .total{
   color: #1ab394;
+}
+input[type="text"],input[type="email"],input[type="number"] {
+  width: auto;
+  background-color: #3b3b3b !important;
+  border: none !important;
+  outline: none !important;
+}
+input[type="text"]:focus,input[type="email"]:focus,input[type="number"]:focus {
+  width: auto;
+  background-color: #3b3b3b !important;
+  border: none !important;
+  outline: none !important;
+}
+::placeholder {
+  color: rgb(135, 133, 133);
+  opacity: 1; /* Firefox */
 }

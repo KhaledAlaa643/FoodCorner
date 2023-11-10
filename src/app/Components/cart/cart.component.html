@@ -1,84 +1,91 @@
 <div class="container">
   <div class="wrapper wrapper-content animated fadeInRight">
-<ng-container *ngIf="foods.length > 0; else emptyCart">
-  <div class="row">
-    <div class="col-sm-12 col-md-12 col-lg-8">
-      <div class="ibox">
-        <div class="ibox-title">
-          <h6 class="pull-right">({{ foods.length }}) items</h6>
-        </div>
-        <div class="ibox-content">
-          <div class="table-responsive">
-            <table class="table table-striped text-center mt-3">
-              <thead>
-                <tr>
-                  <th scope="col">Product Image</th>
-                  <th scope="col">Product Name</th>
-                  <th scope="col">Quantity</th>
-                  <th scope="col">Price</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr *ngFor="let food of foods ">
-                  <td>
-                    <img class="card-img-top" id="img" [src]="'../../../assets/' + food.imageURL" alt="{{food.name}}">
-                  </td>
-                  <td>
-                    <h3 class="text-navy text-center">{{ food.name }}</h3>
-                    <div class="m-t-sm trash">
+    <ng-container *ngIf="foods.length > 0; else emptyCart">
+      <div class="row">
+        <!-- cart -->
+        <div class="col-sm-12 col-md-12 col-lg-8 mt-5">
+          <div class="ibox mt-5">
+            <!-- length cart -->
+            <div class="ibox-title mt-5">
+              <h3 class="pull-right">({{ foods.length }}) items</h3>
+              <hr>
+            </div>
+            <!-- cart details -->
+            <div class="ibox-content">
+              <div class="row ">
+                <div class=" text-center text-warning foods " >
+                  <h3 class="fw-bold">Product Image</h3>
+                  <div class=" text-center mb-3 mt-3" *ngFor="let food of foods  | paginate: { itemsPerPage: 3, currentPage: currentPage };">
+                    <img class="card-img-top" [src]="'../../../assets/' + food.imageURL" alt="{{food.name}}">
+                  </div>
+                </div>
+                <div class=" text-center text-warning  foods">
+                  <h3 class="fw-bold">Product Name</h3>
+                  <div class=" text-center mb-3 mt-3" *ngFor="let food of foods  | paginate: { itemsPerPage: 3, currentPage: currentPage };">
+                    <h3 class="text-navy text-warning">{{ food.name }}</h3>
+                    <div class="trash">
                       <button class="btn btn-white" (click)="removeFromCart(food)">
                         <i class="fa fa-trash" style="color: orangered;"></i>
                       </button>
                     </div>
-                  </td>
-                  <td>
-                    <div class="d-flex quantity" style="width: 150px;">
-                      <button class="btn btn-link" (click)="decreaseQuantity(food)">
-                        <i class="fas fa-minus text-dark"></i>
+                  </div>
+                </div>
+                <div class=" text-center text-warning foods">
+                  <h3 class="fw-bold">Quantity</h3>
+                  <div class=" text-center mb-3 mt-3"  *ngFor="let food of foods  | paginate: { itemsPerPage: 3, currentPage: currentPage };">
+                    <div class="d-flex quantity justify-content-center align-items-center" >
+                      <button class="btn btn-link mx-2" (click)="decreaseQuantity(food)">
+                        <i class="fas fa-minus text-white"></i>
                       </button>
-                      <input type="number" [(ngModel)]="food.quantity" (ngModelChange)="updateFoodInLocalStorage(food)" class="form-control text-center">
-                      <button class="btn btn-link" (click)="increaseQuantity(food)">
-                        <i class="fas fa-plus text-dark"></i>
+                      <input type="text" [(ngModel)]="food.quantity" #quantityInput (input)="onInput($event)" (ngModelChange)="updateFoodInLocalStorage(food)" class="text-center qty text-warning">
+                      <button class="btn btn-link mx-2" (click)="increaseQuantity(food)">
+                        <i class="fas fa-plus text-white"></i>
                       </button>
                     </div>
-                  </td>
-                  <td>
-                    <h4 class="text-navy text-center">{{ calculateProductPrice(food) | currency }}</h4>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-        <div class="ibox-content">
-          <button class="btn btn-outline-warning" (click)="continue()"><i class="fa fa-arrow-left"></i> Continue shopping</button>
-        </div>
-      </div>
-    </div>
-    <div class="col-sm-6 col-md-12 col-lg-4">
-      <div class="ibox">
-        <div class="ibox-title">
-          <h6>Cart Summary</h6>
-        </div>
-        <div class="ibox-content">
-          <div class="summary">
-            <h3>Summary</h3>
-            <hr>
-            <div class="summary-item"><span class="text">Subtotal</span><span class="price">{{ calculateTotalPrice() | currency }}</span></div>
-            <div class="summary-item"><span class="text">Discount</span><span class="price">$0</span></div>
-            <div class="summary-item"><span class="text">Delivery</span><span class="price">{{ 5 | currency }}</span></div>
-            <div class="summary-item" style="font-weight: bold">
-              <span class="text font-weight-bold">Total</span>
-              <span class="price">{{ calculateTotalPrice() + 5 | currency }}</span>
-            </div>
-            <button type="button" class="btn btn-outline-warning btn-lg btn-block w-100" (click)="checkout()">Checkout</button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</ng-container>
+                  </div>
+                </div> 
+                <div class=" text-center text-warning foods fw-bold">
+                  <h3 class="fw-bold">Price</h3>
+                  <div class=" text-center mb-3 mt-3"  *ngFor="let food of foods  | paginate: { itemsPerPage: 3, currentPage: currentPage };">
+                    <h4 class="text-navy text-warning">{{ calculateProductPrice(food) | currency }}</h4>
+                  </div>
+                </div>
+                <pagination-controls (pageChange)="currentPage = $event"[class.custom-pagination-controls]="true"></pagination-controls>
 
+              </div>
+            </div>
+            <!-- button continue -->
+            <div class="ibox-content">
+              <button class="btn btn-outline-warning" (click)="continue()"><i class="fa fa-arrow-left"></i> Continue shopping</button>
+            </div>
+          </div>
+        </div>
+        <!-- summary -->
+        <div class="col-sm-6 col-md-12 col-lg-4 mt-5">
+          <div class="ibox mt-5">
+            <div class="ibox-title mt-5">
+              <h3 class="pull-right">Cart Summary</h3>
+              <hr>
+            </div>
+            <div class="ibox-content">
+              <div class="summary">
+                <h3>Summary</h3>
+                <!-- <hr> -->
+                <div class="summary-item"><span class="text-warning">Subtotal</span><span class="price">{{ calculateTotalPrice() | currency }}</span></div>
+                <div class="summary-item"><span class="text-warning">Discount</span><span class="price">$0</span></div>
+                <div class="summary-item"><span class="text-warning">Delivery</span><span class="price">{{ 5 | currency }}</span></div>
+                <hr>
+                <div class="summary-item" style="font-weight: bold">
+                  <span class="text fw-bold text-warning">Total</span>
+                  <span class="price text-warning">{{ totalCartItems + 5 | currency }}</span>
+                </div>
+                <button type="button" class="btn btn-outline-warning btn-lg btn-block w-30" (click)="checkout()">Checkout</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-container>
   </div>
 </div>
 <ng-template #emptyCart>

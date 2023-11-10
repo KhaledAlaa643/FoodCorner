@@ -62,11 +62,19 @@ private initCartItemsFromLocalStorage(): void {
     this.cartItemsSubject.next(cartItemsFromLocalStorage);
   }
 
-
+  id(id:any) {
+  
+  const currentCartItems = this.cartItemsSubject.getValue();
+  return currentCartItems.some((item: { id: any }) => item.id === id);
+    
+  
+}
 loadCartItemsFromLocalStorage(): void {
-    const cartItems = JSON.parse(localStorage.getItem('cartItems') || '[]');
-  // Load cart items from local storage on service initialization
-  this.cartItemsSubject.next(cartItems);
+  const cartItems = JSON.parse(localStorage.getItem('cartItems') || '[]');
+  // this.cartItemsSubject.next(cartItems);
+  const filteredCartItems = cartItems.filter((item: any) => item && item.id); // Filter out undefined or items without an ID
+  this.cartItemsSubject.next(filteredCartItems);
+  
   }
 
 addToCart(food: FoodCorner): any {

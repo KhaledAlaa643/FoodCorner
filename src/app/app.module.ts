@@ -14,7 +14,6 @@ import { CheckoutComponent } from './Components/checkout/checkout.component';
 import { RegisterComponent } from './Components/register/register.component';
 import { ContactComponent } from './Components/contact/contact.component';
 import { BookComponent } from './Components/book/book.component';
-import { TrackOrderComponent } from './Components/track-order/track-order.component'; 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
@@ -24,6 +23,8 @@ import { NotFoundComponent } from './Components/not-found/not-found.component';
 import { PopupComponent } from './Components/popup/popup.component';
 import { CartComponent } from './Components/cart/cart.component';
 import { NgxPaginationModule } from 'ngx-pagination';
+// import { SettingComponent } from './Components/setting/setting.component';
+// import { ProfileComponent } from './Components/profile/profile.component';
 
 @NgModule({
   declarations: [
@@ -38,7 +39,9 @@ import { NgxPaginationModule } from 'ngx-pagination';
     ContactComponent,
     BookComponent,
     PopupComponent,
-    RegisterComponent
+    RegisterComponent,
+    // SettingComponent,
+    // ProfileComponent
 
   ],
   imports: [

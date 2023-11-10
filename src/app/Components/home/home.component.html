@@ -1,19 +1,17 @@
   <div class="hero">
     <div class="bg-box">
-      <!-- slider section -->
+      <!-- first section -->
       <div class="container ">
         <div class="row">
-          <div class="col-6">
-            <div class="detail-box text-light">
-              <h1> Fast Food Restaurant </h1>
-              <p>
-                Doloremque, itaque aperiam facilis rerum, commodi, temporibus sapiente ad mollitia laborum quam quisquam esse error unde. Tempora ex doloremque, labore, sunt repellat dolore, iste magni quos nihil ducimus libero ipsam.
-              </p>
-              <div class="btn-box">
-                <button class="btn btn-danger" >
-                  Order Now
-                </button>
-              </div>
+          <div class="detail-box text-light">
+            <h2>Fast Food Restaurant</h2>
+            <p class="col-6">
+              Doloremque, itaque aperiam facilis rerum, commodi, temporibus sapiente ad mollitia laborum quam quisquam esse error unde. Tempora ex doloremque, labore, sunt repellat dolore, iste magni quos nihil ducimus libero ipsam.
+            </p>
+            <div class="btn-box">
+              <button class="btn btn-danger" >
+                Order Now
+              </button>
             </div>
           </div>
         </div>
@@ -26,7 +24,7 @@
   <div class="offer_container">
     <div class="container ">
       <div class="row">
-        <div class="col-md-6  ">
+        <div class="col-md-12 col-lg-6  ">
           <div class="box ">
             <div class="img-box">
               <img src="../../../assets/Images/o1.jpg" alt="">
@@ -38,14 +36,14 @@
               <h6>
                 <span>20%</span> Off
               </h6>
-              <a routerLink="/cart" class="btn btn-danger fw-bold text-light">
-                Order Now
+              <button routerLink="/cart" class="btn btn-danger fw-bold text-light">
                 <i class="fa-solid fa-cart-shopping"></i>
-              </a>
+                Order Now
+              </button>
             </div>
           </div>
         </div>
-        <div class="col-md-6  ">
+        <div class="col-md-12 col-lg-6  ">
           <div class="box ">
             <div class="img-box">
               <img src="../../../assets/Images/o2.jpg" alt="">
@@ -57,10 +55,10 @@
               <h6>
                 <span>15%</span> Off
               </h6>
-              <a routerLink="/cart" class="btn btn-danger fw-bold text-light">
-                Order Now
+              <button routerLink="/cart" class="btn btn-danger w-100 fw-bold text-light">
                 <i class="fa-solid fa-cart-shopping"></i>
-              </a>
+                Order Now
+              </button>
             </div>
           </div>
         </div>
@@ -117,24 +115,25 @@
     <div class="heading_container heading_center">
       <h2> Our Menu </h2>
     </div>
-    <ul class="filters_menu">
-      <li [class.active]="selectedCategory === '*'" (click)="filterFoodsByCategory('*')" selected >All</li>
-      <li [class.active]="selectedCategory === 'burger'" (click)="filterFoodsByCategory('burger')">Burger</li>
-      <li [class.active]="selectedCategory === 'pizza'" (click)="filterFoodsByCategory('pizza')">Pizza</li>
-      <li [class.active]="selectedCategory === 'pasta'" (click)="filterFoodsByCategory('pasta')">Pasta</li>
-      <li [class.active]="selectedCategory === 'fries'" (click)="filterFoodsByCategory('fries')">Fries</li>
-    </ul>
+<ul class="filters_menu">
+  <li [class.active]="selectedCategory === '*'" (click)="filterFoodsByCategory('*') ">All</li>
+  <li [class.active]="selectedCategory === 'burger'" (click)="filterFoodsByCategory('burger')">Burger</li>
+  <li [class.active]="selectedCategory === 'pizza'" (click)="filterFoodsByCategory('pizza')">Pizza</li>
+  <li [class.active]="selectedCategory === 'pasta'" (click)="filterFoodsByCategory('pasta')">Pasta</li>
+  <li [class.active]="selectedCategory === 'fries'" (click)="filterFoodsByCategory('fries')">Fries</li>
+</ul>
+
     <div class="filters-content" [@fadeInOut]>
       <div class="row grid">
-        <div class="col-sm-6 col-lg-4 all pizza" *ngFor="let food of filteredFoods | paginate: { itemsPerPage: 10, currentPage: currentPage }; let i = index">
+        <div class="col-sm-12 col-lg-4 col-md-6 all pizza" *ngFor="let food of filteredFoods; let i = index">
           <div class="box" [ngClass]="{'hidden': !showAllProducts && i >= 6}">
             <div class="img-box col">
                 <img (click)="openFoodDetails(food)"[src]="'../../../assets/'+food.imageURL" alt="{{food.name}}">
             </div>
             <div class="detail-box">
               <div class=" mt-3 d-flex justify-content-between">
-                <h5 (click)="openFoodDetails(food)" >{{food.name}}</h5>
-                <h5><i class="fa fa-heart red-heart favorite"   [ngClass]="{'fas': food.favorite, 'far': !food.favorite}"(click)="toggleLike(food)"></i></h5>
+                <h4 (click)="openFoodDetails(food)" >{{food.name}}</h4>
+                <h4><i class="fa fa-heart red-heart favorite"   [ngClass]="{'fas': food.favorite, 'far': !food.favorite}"(click)="toggleLike(food)"></i></h4>
               </div>
               <div class="star">
                 <ng-container *ngFor="let star of getStarsArray(food.stars)">
@@ -143,58 +142,69 @@
               </div>
               <div class="des-origin mt-3">
                 <span class="card-text">{{food.description}}</span>
-                <span style="color:gray;">{{food.origins}}</span>
               </div>
-              <div class="time">
-                <i class="fa-solid fa-clock"> </i>
-                <span > {{food.cookTime}} | Minutes</span>
+              <div class="origin">
+                <span style="color:gray;">{{food.origin}}</span>
               </div>
-              <div class="options">
-                <h6>
-                  {{food.price | currency}}
-                </h6>
-                <a routerLink="/cart" style="background-color: #d3af71;">
-                  <i class="fa-solid fa-cart-shopping" style="color: #072b4e;"></i>
-                </a>
+              <div class="d-flex justify-content-between align-items-center">
+                <div class="cookTime">
+                  <i class="fa-solid fa-clock"> </i>
+                  <span > {{food.cookTime}} | Minutes</span>
+                </div>
+                <div class="price">
+                  <span class="h5">
+                    {{food.price | currency}}
+                  </span>
+                </div>
               </div>
+              <button class="btn btn-warning w-100" 
+                  (click)="addToCart(food)"
+                  [disabled]="isInCartItem(food)"
+                  > 
+                  <span [hidden]="isInCartItem(food)">
+                    <i class="fa-solid fa-cart-plus" style="color: #072b4e;">
+                    </i> 
+                    Add to Cart
+                  </span>
+                  <span [hidden]="!isInCartItem(food)">
+                    &#x2713; Added to Cart  
+                  </span>
+              </button>
+              <button class="btn btn-outline-light" type="button" (click)="openFoodDetails(food)">More Details</button>
             </div>
           </div>
         </div>
       </div>
     </div>
-<!-- <button class="btn btn-outline-warning mb-5 mt-5 view" (click)="toggleShowAllProducts()">
+<button class="btn btn-outline-warning mb-5 mt-5 view" (click)="toggleShowAllProducts()">
   {{ showAllProducts ? 'Show Less' : 'View More' }}
-</button> -->
-<pagination-controls (pageChange)="currentPage = $event"[class.custom-pagination-controls]="true"></pagination-controls>
-
+</button>
   </div>
 </section>
 <!-- end food section -->
 
 <!-- about section -->
-<section class="about_section layout_padding  mb-5">
+<section class="about_section layout_padding-bottom">
   <div class="container">
     <div class="row">
-      <div class="col-6">
+      <div class="about-box d-flex justify-content-center align-items-center">
         <div class="img-box">
           <img src="../../../assets/Images/about-img.png" alt="">
         </div>
-      </div>
-      <div class="col-6">
-        <div class="detail-box">
-          <h2 class="heading_container">
-            We Are Feane
-          </h2>
-          <p>
-            There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in
-            some form, by injected humour, or randomised words which don't look even slightly believable. If you are going
-            to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of
-            text.
-          </p>
-          <button class="btn btn-outline-warning">
-            Read More
-          </button>
-        </div>
+        <div class="mb-5">
+            <h1 class="heading_container heading_center text-center mt-3">
+              We Are Feane
+            </h1>
+            <p>
+              There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in
+              some form, by injected humour, or randomised words which don't look even slightly believable. If you are going
+              to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of
+              text.
+            </p>
+            <button class="btn btn-outline-warning mb-5">
+              Read More
+            </button>
+          </div>
       </div>
     </div>
   </div>
@@ -205,8 +215,8 @@
 <section id="why-us" class="why-us mb-5">
   <div class="container">
 
-    <div class="section-title text-center">
-      <h2>Why choose Our Restaurants</h2>
+    <div class="section-title mt-3 d-flex justify-content-center">
+      <h1 class="heading_center ">Why choose Our Restaurants</h1>
     </div>
 
     <div class="row">

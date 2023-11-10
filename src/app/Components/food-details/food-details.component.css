@@ -52,6 +52,8 @@ a[href] {
 /* Optional: Add any additional custom styles for other elements as needed */
 .food-details{
   display: flex;
-  justify-content: space-around;
   align-items: center;
+}
+#addCartBtn{
+  width: 37vw;
 }

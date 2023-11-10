@@ -10,45 +10,28 @@ h3 {
 .trash{
   text-align: center;
 }
-
+.foods{
+    display: grid;
+    width: 25%;
+    justify-content: space-evenly;
+}
+.qty{
+    width: 30px;
+    background: transparent;
+    color: orange;
+    margin: auto;
+    outline: navajowhite;
+    border: navajowhite;
+    font-size: 20px;
+        position: absolute;
+}
 .quantity{
   margin: auto;
-}
-.row-table{
-  margin-top: 10px;
-}
-.table-responsive {
-  overflow: hidden; 
-}
-.table.shoping-cart-table {
-  border-collapse: collapse;
-  width: 100%;
-}
-
-.table.shoping-cart-table th {
-  text-align: center;
-  padding: 10px;
 }
 
 #img
 {
   width: 45% !important;
-}
-td{
-  width: 20%;
-}
-
-.table-responsive table thead {
-  background-color: transparent;
-}
-
-.table-responsive table tbody tr {
-  background-color: transparent;
-}
-
-.table-responsive table tbody tr td {
-  padding: 8px;
-  border: 1px solid #ddd;
 }
 
 
@@ -109,7 +92,6 @@ td{
   -moz-border-right-colors: none;
   -moz-border-top-colors: none;
   border-image: none;
-  border-style: solid solid none;
   border-width: 3px 0 0;
   color: inherit;
   margin-bottom: 0;
@@ -123,10 +105,15 @@ td{
   border-image: none;
   border-width: 1px 0;
 }
+.ibox-content h3{
+  color:#1ab394 ;
+  /* font-weight: 600; */
+}
 .summary{
   color: darkgoldenrod;
   border:2px solid #1ab394;
   padding: 30px;
+  border-radius: 10px;
 }
 .summary h3{
 	text-align: center;
@@ -138,7 +125,6 @@ td{
 .summary .summary-item:not(:last-of-type){
 	padding-bottom: 10px;
 	padding-top: 10px;
-	border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 }
 .summary .text{
 	font-size: 1em;

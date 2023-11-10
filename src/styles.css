@@ -4,10 +4,13 @@
 .fa-star{
   color: orange;
 }
-body{
+html{
   scroll-behavior: smooth;
 }
+*{
+  scroll-behavior: smooth;
 
+}
 #modalID > div > div > div{
   background-color: rgba(21, 21, 21, 0.9);
   border: 2px solid #1ab394;
@@ -25,15 +28,35 @@ display: none;
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
-body > app-root > div > div > app-home > section.food_section.layout_padding-bottom.mt-5.ng-tns-c52414166-2 > div > pagination-controls > pagination-template > nav > ul
+
+body > app-root > div > div > app-cart > div > div > div > div.col-sm-12.col-md-12.col-lg-8.mt-5 > div > div:nth-child(2) > div > pagination-controls > pagination-template > nav > ul
 {
-    background: cadetblue;
+    background: rgb(83, 182, 185);
     border-radius: 15px;
+    border: 5px solid #106a58;
     width: fit-content;
     margin: 10px auto;
     padding: 10px;
 }
-.current{
-      background: darkgoldenrod  !important;
-      border-radius: 8px;
+.ngx-pagination .current{
+      background: darkcyan  !important;
+      border-radius: 15px;
+      
+}
+.pagination-next, .pagination-previous{
+  color:white !important
+}
+.pagination-next:hover, .pagination-previous:hover{
+  color:black !important
+}
+.pagination-next.disabled, .pagination-previous.disabled{
+  color:black !important
+}
+.ngx-pagination a{
+  color: white !important
+}
+.ngx-pagination a:hover{
+  color: black !important;
+  border-radius: 15px;
+
 }

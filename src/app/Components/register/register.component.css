@@ -4,9 +4,6 @@ display: flex;
 margin: auto;
 }
 .register-form{
-display: flex;
-justify-content: center;
-align-items: center;
 font-size: 12px;
 }
 mat-error{
@@ -22,4 +19,16 @@ width: 200px;
 }
 h6,span{
   font-size: 13px;
+}
+.h-custom{
+      margin: 0;
+}
+
+input[type="email"],
+input[type="text"],
+input[type="password"]{
+  border: none;
+  border-bottom: 2px solid orange;
+  width: 50%;
+  outline: none;
 }

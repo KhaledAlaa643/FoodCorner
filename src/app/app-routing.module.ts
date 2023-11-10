@@ -18,7 +18,7 @@ const routes: Routes = [
   { path: 'contact', component: ContactComponent },
 
   { path: 'book', component: BookComponent },
-  { path: 'track', loadChildren: () => import('./lazy/lazy.module').then(m => m.LazyModule)
+  { path: 'user', loadChildren: () => import('./lazy/lazy.module').then(m => m.LazyModule)
   },
   { path: '**', component: NotFoundComponent },
 

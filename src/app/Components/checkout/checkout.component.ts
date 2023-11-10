@@ -4,6 +4,7 @@ import { Subscription } from 'rxjs';
 import { FoodCorner } from 'src/app/Model/FoodCorner';
 import { CartItemsService } from 'src/app/Service/cart-items.service';
 import { CartService } from 'src/app/Service/cart.service';
+import { CartComponent } from '../cart/cart.component';
 
 @Component({
   selector: 'app-checkout',
@@ -13,28 +14,24 @@ import { CartService } from 'src/app/Service/cart.service';
 export class CheckoutComponent {
   cartItems: FoodCorner[] = [];
   private cartItemsSubscription!: Subscription;
-
-  constructor(private cartService: CartService,
-      private router: Router,
+  totalPrice: number = 0
+  constructor(private cartItemsService: CartItemsService,
 ) { }
 
 ngOnInit(): void {
-    this.cartItemsSubscription = this.cartService.cartItems$.subscribe((cartItems) => {
+    this.cartItemsSubscription = this.cartItemsService.cartItems$.subscribe((cartItems) => {
       this.cartItems = cartItems;
     });
+  this.totalPrice = this.calculateTotalPrice()
 }
 
 calculateTotalPrice(): number {
-    // Calculate the total price from the cartItems array
     return this.cartItems.reduce((total, item) => total + (item.price * item.quantity), 0);
   }
 
   ngOnDestroy(): void {
     this.cartItemsSubscription.unsubscribe();
   }
-  track() {
-      this.router.navigate(['/track']);
 
-}
 
 }

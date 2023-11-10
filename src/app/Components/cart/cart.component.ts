@@ -1,9 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { FoodCorner } from 'src/app/Model/FoodCorner';
 import { CartService } from 'src/app/Service/cart.service';
 import { CartItemsService } from 'src/app/Service/cart-items.service';
 import { CartCommunicationService } from 'src/app/Service/cart-communication.service';
+import { Location } from '@angular/common';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
   selector: 'app-cart',
@@ -13,41 +16,55 @@ import { CartCommunicationService } from 'src/app/Service/cart-communication.ser
 export class CartComponent implements OnInit {
   foods: FoodCorner[] = [];
   price: number = 0;
-  totalCartItems: number = 0;
-
+  @Input() totalCartItems: number = 0;
+  @ViewChild('quantityInput') quantityInput!: ElementRef;
+  @ViewChild(MatPaginator) paginator: MatPaginator | undefined;
+  dataSource = new MatTableDataSource<FoodCorner>([]); // Initialize as an empty array
+  currentPage: number = 1;
+  itemsPerPage: number = 3;
+  carts!:any
   constructor(
     private router: Router,
     private cartService: CartService,
     private cartItemsService: CartItemsService,
-    private cartCommunicationService: CartCommunicationService
+    private cartCommunicationService: CartCommunicationService,
   ) {}
 
   ngOnInit(): void {
 
     // Load cart items from local storage during component initialization
-    this.cartService.loadCartItemsFromLocalStorage();
+    // this.cartItemsService.loadCartItems();
+    // console.log(    this.cartItemsService.loadCartItems());
+    
 
     // Subscribe to cartItems$ from the CartService to get updates dynamically
     this.cartItemsService.cartItems$.subscribe((cartItems) => {
       this.foods = cartItems;
       this.calculateTotalPrice();
-      console.log(this.foods.length);
     });
-
+    
     // Calculate and update the total cart items
-    // this.cartService.getTotalCartItems().subscribe((totalItems) => {
-    //   this.totalCartItems = totalItems;
-    //   console.log(this.totalCartItems);
+    // this.cartService.getCartItems().subscribe((totalItems) => {
+        this.carts = this.cartService.getCartItems();
+        console.log(this.carts);
     // });
-  }
-
-removeFromCart(food: FoodCorner): void {
-  this.cartService.removeFromCart(food);
-  const index = this.foods.indexOf(food);
-  if (index > -1) {
-    this.foods.splice(index, 1);
-    this.calculateTotalPrice();
-      this.cartCommunicationService.notifyItemRemoved(); // Notify item removal
+          this.dataSource.data = this.foods;
+      if (this.paginator) {
+        this.dataSource.paginator = this.paginator;
+      }
+    }
+    onInput(event: any) {
+      const input = event.target;
+      input.value = input.value.replace(/[^0-9]/g, ''); // Allow only numbers
+    }
+    removeFromCart(food: FoodCorner): void {
+      this.cartItemsService.removeFromCart(food);
+      const index = this.foods.indexOf(food);
+      if (index > -1) {
+        this.foods.splice(index, 1);
+        this.calculateTotalPrice();
+        this.cartCommunicationService.notifyItemRemoved(); // Notify item removal
+        window.location.reload();
     }
   }
 
@@ -57,7 +74,7 @@ loadCartItemsFromLocalStorage(): void {
   }
 
 increaseQuantity(food: FoodCorner): void {
-    if (food.quantity < 10) {
+    if (food.quantity < 100) {
       food.quantity++;
       this.calculateTotalPrice();
       this.cartItemsService.updateCartItemsInLocalStorage(this.foods); // Update local storage with the new cart items
@@ -74,11 +91,11 @@ decreaseQuantity(food: FoodCorner): void {
 }
 
 updateFoodInLocalStorage(food: FoodCorner): void {
-    this.cartService.getCartItems().subscribe((cartItems: FoodCorner[]) => {
+    this.cartItemsService.getCartItemsApi().subscribe((cartItems: FoodCorner[]) => {
       const cartItem = cartItems.find((item: FoodCorner) => item.id === food.id);
       if (cartItem) {
         cartItem.quantity = food.quantity;
-        this.cartService.setCartItems(cartItems).subscribe(() => {
+        this.cartItemsService.setCartItems(cartItems).subscribe(() => {
           this.cartItemsService.updateCartItemsInLocalStorage(cartItems);
         });
       }
@@ -93,7 +110,8 @@ getFoodQuantity(foodId: string): number {
 
 
 calculateTotalPrice(): number {
-  return this.foods.reduce((total, food) => total + (food.price * food.quantity), 0);
+  this.totalCartItems = this.foods.reduce((total, food) => total + (food.price * food.quantity), 0);
+  return this.totalCartItems
 }
 
 
@@ -109,7 +127,7 @@ continue(): void {
 
 
   checkout(): void {
-    this.cartService.sendCartItems(this.foods); // Send the cart items to the CheckoutDataService
+    this.cartItemsService.sendCartItems(this.foods); // Send the cart items to the CheckoutDataService
     this.router.navigate(['/checkout']);
   }
 }

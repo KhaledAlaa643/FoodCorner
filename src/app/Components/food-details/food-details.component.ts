@@ -1,12 +1,10 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { FoodService } from 'src/app/Service/food.service';
 import { FoodCorner } from 'src/app/Model/FoodCorner';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { CartItemsService } from 'src/app/Service/cart-items.service';
-import { CartStatusService } from 'src/app/Service/cart-status.service';
-import { CartCommunicationService } from 'src/app/Service/cart-communication.service';
 import { CartService } from 'src/app/Service/cart.service';
 
 @Component({
@@ -16,11 +14,12 @@ import { CartService } from 'src/app/Service/cart.service';
 })
 export class FoodDetailsComponent implements OnInit, OnDestroy {
   currFoodId!: string;
-  @Input() food: FoodCorner = {} as FoodCorner;
+  food: FoodCorner = {} as FoodCorner;
+  foods: FoodCorner[] = [] ;
   sub!: Subscription;
   isItemInCart= false  ;
   cartItem = true
-  color!:any
+  length!:any
   private static isItemInCartSubject = new BehaviorSubject<boolean>(false);
   static isItemInCart$ = FoodDetailsComponent.isItemInCartSubject.asObservable();
 
@@ -29,8 +28,7 @@ export class FoodDetailsComponent implements OnInit, OnDestroy {
     private foodService: FoodService,
     private location: Location,
     private cartItemsService: CartItemsService,
-    private cartStatusService: CartStatusService,
-    private CartService:CartService
+    // private CartService:CartService
   ) {
     const savedValue = localStorage.getItem('isItemInCart');
     if (savedValue !== null) {
@@ -68,7 +66,7 @@ ngOnInit(): void {
 
   checkIfItemInCart(): any {
     const savedCartItems = JSON.parse(localStorage.getItem('cartItems') || '[]');
-    const itemIdToCheck = this.food.id || this.currFoodId; // Use either food.id or currFoodId
+    const itemIdToCheck =  this.currFoodId; // Use either food.id or currFoodId
     const isItemInCart = savedCartItems.some((item: any) => item.id === itemIdToCheck && item.quantity > 0);
 
     this.isItemInCart = isItemInCart;
@@ -79,14 +77,11 @@ ngOnInit(): void {
 
 
 
-// FoodDetailsComponent.isItemInCartSubject.next(true);
-// localStorage.setItem('isItemInCart', 'true');
+
   addToCart(): void {
-  this.CartService.checkCartState()
-  // this.cartStatusService.updateCartColor('orange')
   this.cartItemsService.addToCart(this.food);
   this.isItemInCart = true;
-  this.CartService.updateCartState(this.isItemInCart)
+  this.cartItemsService.updateCartState(this.isItemInCart)
   const currentCartItems = this.cartItemsService.cartItemsSubject.getValue();
 
 
@@ -95,7 +90,6 @@ ngOnInit(): void {
 
     if (!isItemInCart) {
       currentCartItems.push(this.food);
-
       // Save the updated cart items to local storage
       this.saveItemsToLocalStorage(currentCartItems);
 
@@ -105,9 +99,7 @@ ngOnInit(): void {
     }
 
 }
-  getButtonColor() {
-    return this.isItemInCart ? 'orange' : 'white';
-  }
+
 
 saveItemsToLocalStorage(cartItems: any[]): void {
   const savedCartItems = JSON.parse(localStorage.getItem('cartItems') || '[]');

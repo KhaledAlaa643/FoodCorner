@@ -20,8 +20,9 @@ export class HeaderComponent implements OnInit {
   colorCart!:any;
   userStatus: boolean = false
   isMobile = false;
+  length !:any
   @ViewChild('popupComp') popupComponent!:PopupComponent
-  constructor(private cartService: CartService,
+  constructor(
     private authService: AuthService,
     private CartItemsService: CartItemsService,
     private router: Router,
@@ -35,7 +36,7 @@ isActive(route: string): boolean {
   return this.router.isActive(route, true);
 }
   ngOnInit(): void {
-    this.cartItemsSubscription = this.cartService.cartItems$.subscribe((cartItems) => {
+    this.cartItemsSubscription = this.CartItemsService.cartItems$.subscribe((cartItems) => {
       this.cartItems = cartItems;
     });
     FoodDetailsComponent.isItemInCart$.subscribe((isItemInCart) => {
@@ -49,6 +50,11 @@ isActive(route: string): boolean {
     })
     this.checkScreenWidth();
 
+    this.CartItemsService.cartItems$.subscribe((cartItems) => {
+      this.cartItems = cartItems;
+      this.length = cartItems.length;
+    });
+    
   }
 
 
