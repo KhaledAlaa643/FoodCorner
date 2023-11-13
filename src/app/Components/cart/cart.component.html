@@ -51,7 +51,15 @@
                   </div>
                 </div>
                 <pagination-controls (pageChange)="currentPage = $event"[class.custom-pagination-controls]="true"></pagination-controls>
-
+                <div class="form-group mt-3">
+                  <h3>Notes On Your Order: </h3>
+                  <form [formGroup]="messageForm">
+                    <textarea formControlName="msg" 
+                      class="bg-transparent text-white" name="message" rows="8" placeholder="Your Message"></textarea>
+                    <button type="button"class="btn btn-success save" (click)="save()"
+                    [disabled]="messageForm.invalid">Save</button>
+                  </form>
+                </div>
               </div>
             </div>
             <!-- button continue -->

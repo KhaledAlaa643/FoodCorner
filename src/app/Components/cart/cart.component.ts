@@ -7,6 +7,8 @@ import { CartCommunicationService } from 'src/app/Service/cart-communication.ser
 import { Location } from '@angular/common';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
+import Swal from 'sweetalert2';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-cart',
@@ -22,13 +24,20 @@ export class CartComponent implements OnInit {
   dataSource = new MatTableDataSource<FoodCorner>([]); // Initialize as an empty array
   currentPage: number = 1;
   itemsPerPage: number = 3;
-  carts!:any
+  carts!: any
+  public messageForm: FormGroup;
   constructor(
     private router: Router,
     private cartService: CartService,
     private cartItemsService: CartItemsService,
     private cartCommunicationService: CartCommunicationService,
-  ) {}
+    private fb: FormBuilder
+  ) {
+    this.messageForm = this.fb.group({
+      msg: ['', [Validators.required]],
+    })
+  
+  }
 
   ngOnInit(): void {
 
@@ -122,12 +131,25 @@ calculateProductPrice(food: FoodCorner): number {
 
 
 continue(): void {
-    this.router.navigate(['/home']);
+  this.router.navigate(['/home']);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+
 }
 
 
   checkout(): void {
-    this.cartItemsService.sendCartItems(this.foods); // Send the cart items to the CheckoutDataService
+    this.cartItemsService.sendCartItems(this.foods);
     this.router.navigate(['/checkout']);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  save() {
+  Swal.fire({
+  position: "center",
+  icon: "success",
+  title: "Your Note has been saved",
+  showConfirmButton: false,
+  timer: 1500
+});
   }
 }

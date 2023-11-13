@@ -1,4 +1,4 @@
-import { Component,  HostListener,  OnInit, ViewChild } from '@angular/core';
+import { Component,  ElementRef,  HostListener,  OnInit, ViewChild } from '@angular/core';
 import { Subscription} from 'rxjs';
 import { FoodCorner } from 'src/app/Model/FoodCorner';
 import { CartService } from 'src/app/Service/cart.service';
@@ -20,17 +20,23 @@ export class HeaderComponent implements OnInit {
   colorCart!:any;
   userStatus: boolean = false
   isMobile = false;
-  length !:any
+  length !: any
+  close!:any
   @ViewChild('popupComp') popupComponent!:PopupComponent
   constructor(
     private authService: AuthService,
     private CartItemsService: CartItemsService,
     private router: Router,
+    private el: ElementRef
   ) {
-    const savedValue = localStorage.getItem('isItemInCart');
-      if (savedValue !== null) {
-      this.colorCart = savedValue === 'true' ? 'orange' : 'white';
-      }
+  }
+  closeNavbar() {
+    const yourDiv = this.el.nativeElement.querySelector('#navbarSupportedContent');
+    if (yourDiv) {
+      yourDiv.classList.remove('show');
+    }
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+
   }
 isActive(route: string): boolean {
   return this.router.isActive(route, true);

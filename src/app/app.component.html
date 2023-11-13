@@ -1,7 +1,10 @@
-<div class="color" style="color: rgb(24, 92, 92);">
+<div class="color" style="color: rgb(24, 92, 92);scroll-behavior: smooth;">
   <app-header></app-header>
   <div>
     <router-outlet style="padding-top: 40px;"></router-outlet>
+    <button class="btn btn-warning scroll-to-top-btn" [class.hidden]="!showScrollButton" (click)="scrollToTop()">
+<i class="fa-solid fa-angles-up"></i>
+</button>
   </div>
   <app-footer></app-footer>
 </div>

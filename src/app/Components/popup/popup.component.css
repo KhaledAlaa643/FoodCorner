@@ -30,12 +30,26 @@ a{
 i{
   color: darkgoldenrod;
 }
+mat-error{
+  display: flex;
+}
 
-.name,h4{
+.modal-content{
+  background-color: rgba(21, 21, 21, 0.9); 
+  border: 2px solid #1ab394;
+}
+.name,.login-with{
   color: #1ab394 !important;
 }
 .photo{
   border: 6px solid #1ab394;
+}
+.h-custom{
+      margin: 0;
+}
+
+.passwordConfirm{
+width: 200px;
 }
 
 input[type="email"],
@@ -45,4 +59,12 @@ input[type="password"]{
   border-bottom: 2px solid orange;
   width: 50%;
   outline: none;
+}
+
+.sign-btn {
+display: flex;
+margin: auto;
+}
+.register-form{
+font-size: 12px;
 }

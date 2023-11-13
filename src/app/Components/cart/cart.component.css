@@ -138,3 +138,28 @@ h3 {
 	margin-top: 20px;
 }
 
+textarea::-moz-placeholder {
+  color: #fff;
+}
+
+textarea::placeholder {
+  color: #ffffff9c;
+}
+
+textarea:focus {
+  border-color: darkgoldenrod
+}
+textarea {
+  border-radius: 0;
+  box-shadow: none;
+  font-size: 14px;
+  /* background: darkgoldenrod; */
+  border-color: rgb(100, 73, 7);;
+  color: white;
+  outline: none;
+  width: 100%;
+}
+.save{
+  display: block;
+  margin-left: auto;
+}

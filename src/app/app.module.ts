@@ -23,8 +23,7 @@ import { NotFoundComponent } from './Components/not-found/not-found.component';
 import { PopupComponent } from './Components/popup/popup.component';
 import { CartComponent } from './Components/cart/cart.component';
 import { NgxPaginationModule } from 'ngx-pagination';
-// import { SettingComponent } from './Components/setting/setting.component';
-// import { ProfileComponent } from './Components/profile/profile.component';
+import { NgScrollbarModule } from 'ngx-scrollbar';
 
 @NgModule({
   declarations: [
@@ -40,8 +39,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
     BookComponent,
     PopupComponent,
     RegisterComponent,
-    // SettingComponent,
-    // ProfileComponent
+
 
   ],
   imports: [
@@ -57,7 +55,8 @@ import { NgxPaginationModule } from 'ngx-pagination';
     MatDialogModule,
     MatPaginatorModule,
     MatTableModule,
-    NgxPaginationModule
+    NgxPaginationModule,
+    NgScrollbarModule,    
   ],
   providers: [],
   bootstrap: [AppComponent]

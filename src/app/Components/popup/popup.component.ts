@@ -8,17 +8,20 @@ import { AuthService } from 'src/app/Service/auth.service';
   templateUrl: './popup.component.html',
   styleUrls: ['./popup.component.css']
 })
-export class PopupComponent implements OnInit  {
+export class PopupComponent {
   modal_name: string = 'modalID';
   @ViewChild('close_btn') close_btn!: ElementRef;
   @ViewChild('open_btn') open_btn!: ElementRef;
   @Output() loginAndNavigate = new EventEmitter<void>();
   user: User = {} as User
-  hide = true;
+  loginHide = true;
+  signHidePw = true
+  signHideConf = true
   showLogin = true;
   showSignUp = false;
-  // loginPop = false
+  public registrationForm: FormGroup;
   public jobForm: FormGroup;
+  @Output() showLoginSection = new EventEmitter<void>();
   constructor(private fb: FormBuilder, private router: Router,
     private authService:AuthService
   ) {
@@ -26,15 +29,23 @@ export class PopupComponent implements OnInit  {
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(8)]],
     });
+        this.registrationForm = this.fb.group({
+      name: ['', [Validators.required]],
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(8),
+        Validators.pattern
+          (/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#])[A-Za-z\d@$!%*?&#]{8,}$/)],
+    ],
+      passwordConfirm: [null, [Validators.required]],
+    }
+      , { validator: this.passwordMatchValidator }
+    )
   }
-  ngOnInit(): void {
-    //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
-    //Add 'implements OnInit' to the class.
 
+  openLoginSection() {
+    this.showLoginSection.emit();
   }
-    openLoginSection() {
-    // this.showLogin  = true;
-  }
+
   open_modal() {
     this.open_btn.nativeElement.click();
   }
@@ -45,12 +56,13 @@ export class PopupComponent implements OnInit  {
   close_modal(e: any) {
     this.close_btn.nativeElement.click();
   }
-    closeAndGoHome() {
+  closeAndGoHome() {
     this.loginAndNavigate.emit();
-    }
-
+  }
+  
   login() {
     this.authService.login("khaled","n2KA643n2!")
+    this.close_btn.nativeElement.click();
     this.close_modal(null)
     this.router.navigate(['/home']);
   }

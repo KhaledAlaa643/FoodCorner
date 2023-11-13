@@ -14,37 +14,39 @@
         </div>
         <hr class="mb-0 text-warning">
         <div class="card-body bg-transparent">
-          <form class="bg-transparent">
+          <form class="bg-transparent" [formGroup]="purchaseForm" method="post" role="form" >
             <!-- 2 column grid layout with text inputs for the first and last names -->
             <div class="row mb-4">
+              <!-- First Name input -->
               <div class="col">
                 <div class="form-outline mt-3">
                   <label class="form-label text-white" for="form6Example1">First name</label>
-                  <input type="text" id="form6Example1 " class="form-control bg-transparent text-white" />
+                  <input formControlName="firstName" name="firstName"  type="text" id="form6Example1 " class="form-control bg-transparent text-white" />
                 </div>
               </div>
+              <!-- Last Name input -->
               <div class="col">
                 <div class="form-outline mt-3">
                   <label class="form-label text-white" for="form6Example2">Last name</label>
-                  <input type="text" id="form6Example2" class="form-control bg-transparent text-white" />
+                  <input formControlName="lastName" name="lastName" type="text" id="form6Example2" class="form-control bg-transparent text-white" />
                 </div>
               </div>
             </div>
 
-            <!-- Text input -->
+            <!-- address input -->
             <div class="form-outline mb-4">
               <label class="form-label text-white" for="form6Example4">Address</label>
-              <input type="text" id="form6Example4" class="form-control bg-transparent text-white" />
+              <input formControlName="address"  name="address" type="text" id="form6Example4" class="form-control bg-transparent text-white" />
             </div>
             <!-- Email input -->
             <div class="form-outline mb-4">
-              <label class="form-label text-white" for="form6Example5">Email</label>
-              <input type="email" id="form6Example5" class="form-control bg-transparent text-white" />
+              <label class="form-label text-white" for="email">Email</label>
+              <input  formControlName="email"  placeholder="example@example.com"  name="email" type="email" id="email" class="form-control bg-transparent text-white" />
             </div>
-            <!-- Number input -->
+            <!-- phone input -->
             <div class="form-outline mb-4">
-              <label class="form-label text-white" for="form6Example6">Phone</label>
-              <input type="number" id="form6Example6" class="form-control bg-transparent text-white" />
+              <label class="form-label text-white" for="phone">Phone</label>
+              <input formControlName="phone" name="phone" type="text" id="phone" placeholder="Your Phone" class="form-control bg-transparent text-white" />
             </div>
             <hr class="my-4" />
             <div class="form-check">
@@ -91,26 +93,25 @@
             <div class="row mb-4">
               <div class="col">
                 <div class="form-outline">
-                  <label class="form-label text-white" for="formCardNumber">Credit card number</label>
-                  <input type="text" id="formCardNumber" class="form-control bg-transparent text-white" placeholder="0000 - 0000 - 0000 - 0000" />
+                  <label class="form-label text-white" for="formCardNumber">Card number</label>
+                  <input formControlName="cardNumber" name="cardNumber" type="text" id="formCardNumber" class="form-control bg-transparent text-white" placeholder="0123XXXXXXXXXXXX" />
                 </div>
               </div>
             </div>
 
                 <div class="form-outline">
-                  <label class="form-label text-white" for="formExpiration">Expiration</label>
-                  <input type="text" id="formExpiration" class="form-control bg-transparent text-white" placeholder="DD/YY" />
+                  <label class="form-label text-white" for="formExpiration">Expiration Date</label>
+                  <input formControlName="expiration" name="expiration" type="text" id="formExpiration" class="form-control bg-transparent text-white" placeholder="MM/YY" />
                 </div>
 
                 <div class="form-outline mt-3 mb-3">
                   <label class="form-label text-white" for="formCVV">CVV</label>
-                  <input type="text" id="formCVV" class="form-control bg-transparent text-white" placeholder="123" />
+                  <input formControlName="cvv" name="cvv" type="text" id="formCVV" class="form-control bg-transparent text-white" placeholder="123" />
                 </div>
 
-                <button class="btn btn-outline-warning btn-lg btn-block" type="submit" routerLink="/user">
+                <button [disabled]="purchaseForm.invalid" class="btn btn-outline-warning btn-lg btn-block" type="submit" (click)="track()">
                   Purchase now!
                 </button>
-
           </form>
         </div>
       </div>

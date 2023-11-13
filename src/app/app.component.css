@@ -6,3 +6,17 @@ app-header{
   z-index: 5;
   position: fixed;
 }
+.scroll-to-top-btn {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  transition: opacity 0.3s ease;
+  border-radius: 50%;
+  font-size: 18px;
+  cursor: pointer;
+  z-index: 999
+}
+.scroll-to-top-btn.hidden {
+  opacity: 0;
+  pointer-events: none;
+}

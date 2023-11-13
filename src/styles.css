@@ -1,15 +1,14 @@
 @import '~@fortawesome/fontawesome-free/css/all.css';
 @import "~bootstrap/dist/css/bootstrap.min.css";
+@import 'owl.carousel/dist/assets/owl.carousel.css';
 
 .fa-star{
   color: orange;
 }
-html{
-  scroll-behavior: smooth;
-}
-*{
-  scroll-behavior: smooth;
 
+body, html {
+  scroll-behavior: smooth;
+   height: 100%;
 }
 #modalID > div > div > div{
   background-color: rgba(21, 21, 21, 0.9);
@@ -25,7 +24,6 @@ html{
   opacity: 0.5;
 display: none;
 }
-html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 
