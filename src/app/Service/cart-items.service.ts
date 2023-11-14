@@ -3,13 +3,13 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { FoodCorner } from '../Model/FoodCorner';
 import { CartEventService } from './cart-event.service';
 import { HttpClient } from '@angular/common/http';
+import { environment } from 'src/environments/environment.development';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CartItemsService {
   private cartKey = 'cartItems';
-  private apiUrl = 'http://localhost:3000';
   public cartItemsSubject = new BehaviorSubject<FoodCorner[]>([]);
   public cartItems$ = this.cartItemsSubject.asObservable();
   private itemAddedToCartSubject = new BehaviorSubject<boolean>(false);
@@ -48,7 +48,7 @@ export class CartItemsService {
     return this.cartItems$;
   }
   getCartItemsApi(): Observable<FoodCorner[]> {
-    return this.http.get<FoodCorner[]>(this.apiUrl);
+    return this.http.get<FoodCorner[]>(`${environment.apiUrl}`);
   }
 
   setCartItems(cartItems: FoodCorner[]): Observable<FoodCorner[]> {

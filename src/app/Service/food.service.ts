@@ -2,11 +2,12 @@ import { Injectable } from '@angular/core';
 import { FoodCorner } from '../Model/FoodCorner';
 import { Observable, throwError } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-import { catchError, map } from 'rxjs/operators';
-import { Special } from '../Model/special';
+import { catchError } from 'rxjs/operators';
 import { Service } from '../Model/Service';
 import { WhyUs } from '../Model/WhyUs';
-import { Slider } from '../Model/slider';
+import { Slider } from '../Model/Slider';
+import { Special } from '../Model/Special';
+import { environment } from 'src/environments/environment.development';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +15,8 @@ import { Slider } from '../Model/slider';
 export class FoodService {
   private apiUrl = 'http://localhost:3000';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient,
+  ) { }
 
 getFoodByID(id: string | null): Observable<FoodCorner> {
   const url = `${this.apiUrl}/${id}`;
@@ -26,19 +28,19 @@ getFoodByID(id: string | null): Observable<FoodCorner> {
   );
 }
   getAllFoods(): Observable<FoodCorner[]> {
-    return this.http.get<FoodCorner[]>(`${this.apiUrl}/cart`)
+    return this.http.get<FoodCorner[]>(`${environment.apiUrl}/cart`)
   }
   getAllSpecial(): Observable<Special[]> {
-    return this.http.get<Special[]>(`${this.apiUrl}/special`)
+    return this.http.get<Special[]>(`${environment.apiUrl}/special`)
   }
   getAllServices(): Observable<Service[]> {
-    return this.http.get<Service[]>(`${this.apiUrl}/service`)
+    return this.http.get<Service[]>(`${environment.apiUrl}/service`)
   }
   getAllWhyUs(): Observable<WhyUs[]> {
-    return this.http.get<WhyUs[]>(`${this.apiUrl}/whyus`)
+    return this.http.get<WhyUs[]>(`${environment.apiUrl}/whyus`)
   }
   getAllSlider(): Observable<Slider[]> {
-    return this.http.get<Slider[]>(`${this.apiUrl}/slider`)
+    return this.http.get<Slider[]>(`${environment.apiUrl}/slider`)
   }
 
   getFoodIDs(): Observable<string[]> {

@@ -4,12 +4,12 @@ import { Observable, catchError, map, switchMap, take, tap, throwError } from 'r
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject } from 'rxjs';
 import { CartEventService } from './cart-event.service';
+import { environment } from 'src/environments/environment.development';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CartService {
-  private apiUrl = 'http://localhost:3000';
   private cartItemsSubject = new BehaviorSubject<FoodCorner[]>([]);
   public cartItems$ = this.cartItemsSubject.asObservable();
   private cartKey = 'cartItems';
@@ -21,21 +21,17 @@ export class CartService {
     private http: HttpClient,
     private cartEventService: CartEventService) {
     this.initCartItemsFromLocalStorage();
-    const savedState = localStorage.getItem('cartState');
-    if (savedState) {
-      this.cartStateSubject.next(savedState === 'orange');
-    }
   }
   updateCartState(hasItems: boolean) {
     this.hasItemsSubject.next(hasItems);
   }
 
-  checkCartState() {
-    const isEmpty = this.cartItems.length === 0;
-    this.cartStateSubject.next(isEmpty);
-    localStorage.setItem('cartState', isEmpty ? 'white' : 'orange');
+  // checkCartState() {
+  //   const isEmpty = this.cartItems.length === 0;
+  //   this.cartStateSubject.next(isEmpty);
+  //   localStorage.setItem('cartState', isEmpty ? 'white' : 'orange');
 
-  }
+  // }
 
 
 sendCartItems(cartItems: FoodCorner[]): void {
@@ -52,7 +48,7 @@ sendCartItems(cartItems: FoodCorner[]): void {
     this.cartItemsSubject.next(updatedItems);
     this.updateCartLocalStorage(updatedItems);
     this.cartEventService.emitCartUpdated();
-    this.checkCartState();
+    // this.checkCartState();
   }
 
 
@@ -81,7 +77,7 @@ addToCart(food: FoodCorner): any {
     const currentCartItems = this.cartItemsSubject.getValue();
     const updatedCartItems = [...currentCartItems, food];
     this.cartItemsSubject.next(updatedCartItems);
-    this.checkCartState();
+    // this.checkCartState();
 
 }
 
@@ -98,7 +94,7 @@ getTotalCartItems(): Observable<number> {
 }
 
 getCartItems(): Observable<FoodCorner[]> {
-    return this.http.get<FoodCorner[]>(this.apiUrl);
+    return this.http.get<FoodCorner[]>(`${environment.apiUrl}`);
   }
 
 setCartItems(cartItems: FoodCorner[]): Observable<FoodCorner[]> {
@@ -107,7 +103,7 @@ setCartItems(cartItems: FoodCorner[]): Observable<FoodCorner[]> {
   }
 
 clearCart(): Observable<any> {
-    return this.http.delete(this.apiUrl);
+    return this.http.delete(`${environment.apiUrl}`);
   }
 
 }

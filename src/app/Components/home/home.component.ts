@@ -8,10 +8,10 @@ import 'owl.carousel';
 import { Subscription } from 'rxjs';
 import { CartItemsService } from 'src/app/Service/cart-items.service';
 import { CartService } from 'src/app/Service/cart.service';
-import { Special } from 'src/app/Model/special';
+import { Special } from 'src/app/Model/Special';
 import { Service } from 'src/app/Model/Service';
 import { WhyUs } from 'src/app/Model/WhyUs';
-import { Slider } from 'src/app/Model/slider';
+import { Slider } from 'src/app/Model/Slider';
 
 @Component({
   selector: 'app-home',
@@ -51,7 +51,6 @@ export class HomeComponent implements OnInit{
   constructor(
     private router: Router,
     private foodService: FoodService,
-    private activatedRoute: ActivatedRoute,
     private cartItemsService: CartItemsService,
     private CartService: CartService
 
