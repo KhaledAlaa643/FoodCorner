@@ -13,13 +13,14 @@ import { environment } from 'src/environments/environment.development';
   providedIn: 'root'
 })
 export class FoodService {
-  private apiUrl = 'http://localhost:3000';
 
-  constructor(private http: HttpClient,
-  ) { }
+constructor(private http: HttpClient){}
 
+getCartItems(): Observable<FoodCorner[]> {
+    return this.http.get<FoodCorner[]>(`${environment.apiUrl}`);
+}
 getFoodByID(id: string | null): Observable<FoodCorner> {
-  const url = `${this.apiUrl}/${id}`;
+  const url = `${environment.apiUrl}/${id}`;
   return this.http.get<FoodCorner>(url).pipe(
     catchError((error: any) => {
       // Handle the error
@@ -27,23 +28,22 @@ getFoodByID(id: string | null): Observable<FoodCorner> {
     })
   );
 }
-  getAllFoods(): Observable<FoodCorner[]> {
-    return this.http.get<FoodCorner[]>(`${environment.apiUrl}/cart`)
-  }
-  getAllSpecial(): Observable<Special[]> {
-    return this.http.get<Special[]>(`${environment.apiUrl}/special`)
-  }
-  getAllServices(): Observable<Service[]> {
-    return this.http.get<Service[]>(`${environment.apiUrl}/service`)
-  }
-  getAllWhyUs(): Observable<WhyUs[]> {
-    return this.http.get<WhyUs[]>(`${environment.apiUrl}/whyus`)
-  }
-  getAllSlider(): Observable<Slider[]> {
-    return this.http.get<Slider[]>(`${environment.apiUrl}/slider`)
-  }
-
-  getFoodIDs(): Observable<string[]> {
-    return this.http.get<string[]>(`${this.apiUrl}?_fields=id`);
-  }
+getAllFoods(): Observable<FoodCorner[]> {
+  return this.http.get<FoodCorner[]>(`${environment.apiUrl}/cart`)
+}
+getAllSpecial(): Observable<Special[]> {
+  return this.http.get<Special[]>(`${environment.apiUrl}/special`)
+}
+getAllServices(): Observable<Service[]> {
+  return this.http.get<Service[]>(`${environment.apiUrl}/service`)
+}
+getAllWhyUs(): Observable<WhyUs[]> {
+  return this.http.get<WhyUs[]>(`${environment.apiUrl}/whyus`)
+}
+getAllSlider(): Observable<Slider[]> {
+  return this.http.get<Slider[]>(`${environment.apiUrl}/slider`)
+}
+getFoodIDs(): Observable<string[]> {
+  return this.http.get<string[]>(`${environment.apiUrl}?_fields=id`);
+}
 }

@@ -13,7 +13,7 @@ import { Slider } from 'src/app/Model/Slider';
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css'],
-    animations: [
+  animations: [
     trigger('fadeInOut', [
       state('show', style({
         opacity: 1,
@@ -74,7 +74,7 @@ export class HomeComponent implements OnInit{
     })
     this.cartItemsService.loadCartItemsFromLocalStorage();
     this.cartItems = this.cartItemsService.cartItemsSubject.getValue();
-    this.carts = this.cartItemsService.getCartItems();
+    this.carts = this.foodService.getCartItems();
     
   }
   filterFoodsByCategory(category: string | any) {
@@ -122,8 +122,6 @@ addToCart(food: any): void {
     this.cartItemsService.addToCart(food);
     const currentCartItems = this.cartItemsService.cartItemsSubject.getValue();
     this.cartItems = currentCartItems;
-    this.saveItemsToLocalStorage(currentCartItems);
-    this.cartItemsService.removeLastItemFromCart();
   }
 }
 
