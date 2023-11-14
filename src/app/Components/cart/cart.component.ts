@@ -2,12 +2,10 @@ import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { FoodCorner } from 'src/app/Model/FoodCorner';
 import { CartItemsService } from 'src/app/Service/cart-items.service';
-import { CartCommunicationService } from 'src/app/Service/cart-communication.service';
-import { Location } from '@angular/common';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
-import Swal from 'sweetalert2';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-cart',
@@ -28,7 +26,6 @@ export class CartComponent implements OnInit {
   constructor(
     private router: Router,
     private cartItemsService: CartItemsService,
-    private cartCommunicationService: CartCommunicationService,
     private fb: FormBuilder
   ) {
     this.messageForm = this.fb.group({
@@ -62,7 +59,7 @@ export class CartComponent implements OnInit {
       if (index > -1) {
         this.foods.splice(index, 1);
         this.calculateTotalPrice();
-        this.cartCommunicationService.notifyItemRemoved();
+        this.cartItemsService.notifyItemRemoved();
         window.location.reload();
     }
   }

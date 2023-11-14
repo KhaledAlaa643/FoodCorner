@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { FoodCorner } from '../Model/FoodCorner';
 import { CartEventService } from './cart-event.service';
 import { HttpClient } from '@angular/common/http';
@@ -13,9 +13,12 @@ export class CartItemsService {
   public cartItemsSubject = new BehaviorSubject<FoodCorner[]>([]);
   public cartItems$ = this.cartItemsSubject.asObservable();
   private itemAddedToCartSubject = new BehaviorSubject<boolean>(false);
-  itemAddedToCart$: Observable<boolean> = this.itemAddedToCartSubject.asObservable();
+  private itemRemovedSubject = new Subject<void>();
   private hasItemsSubject = new BehaviorSubject<boolean>(false);
+  
   hasItems$ = this.hasItemsSubject.asObservable();
+  itemAddedToCart$: Observable<boolean> = this.itemAddedToCartSubject.asObservable();
+  itemRemoved$ = this.itemRemovedSubject.asObservable();
 
 
   constructor(private cartEventService: CartEventService,
@@ -123,7 +126,9 @@ addToCart(item: FoodCorner): void {
   }
 }
 
-
+  notifyItemRemoved() {
+    this.itemRemovedSubject.next();
+  }
 
 
   updateCartItemsInLocalStorage(cartItems: FoodCorner[]): void {

@@ -117,27 +117,14 @@ checkIfItemInCart(): any {
 }
 
 addToCart(food: any): void {
-  
-  const isItemInCart = this.cartItemsService.id(food.id);
-  console.log("is item in cart ? " + isItemInCart);
-  
-  if (isItemInCart) {
-    console.log("Item is already in the cart");
-  } else {
+  const isItemInCart = this.cartItemsService.id(food.id);  
+  if (!isItemInCart) {
     this.cartItemsService.addToCart(food);
-
     const currentCartItems = this.cartItemsService.cartItemsSubject.getValue();
-    // Update the cartItems array 
     this.cartItems = currentCartItems;
-
     this.saveItemsToLocalStorage(currentCartItems);
     this.cartItemsService.removeLastItemFromCart();
-
-
-    console.log("Item added to the cart");
   }
-
-  
 }
 
 saveItemsToLocalStorage(cartItems: any[]): void {

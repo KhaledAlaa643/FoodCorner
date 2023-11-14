@@ -11,18 +11,18 @@ constructor( ) {
   this.isLoggedInValue = new BehaviorSubject<boolean> (false)
 }
   login(email: string, password: string) {
-    let userToken = "tokenTest"
-    localStorage.setItem("token", userToken);
+    let userToken = "User Loggin"
+    localStorage.setItem("Is User Logged", userToken);
     this.isLoggedInValue.next(true)
   }
 
   logout(): void {
-    localStorage.removeItem("token")
+    localStorage.removeItem("IsLoggin")
     this.isLoggedInValue.next(false)
   }
 
   get isLoggedIn(): boolean {
-    return (localStorage.getItem("token")) ? true : false
+    return (localStorage.getItem("IsLoggin")) ? true : false
   }
   userStatus() {
     return this.isLoggedInValue.asObservable()
