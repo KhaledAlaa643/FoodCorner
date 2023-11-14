@@ -82,10 +82,10 @@
   </div>
   <div class="carousel-inner">
     <div *ngFor="let item of sliderItems; let i = index" class="carousel-item" [class.active]="i === 0" data-bs-interval="10000">
-      <img [src]="item.imagePath" [alt]="item.alt" class="img-slide d-block w-100">
+      <img [src]="item.image" [alt]="item.type" class="img-slide d-block w-100">
       <div class="carousel-caption d-none d-md-block">
-        <h5>{{ item.alt }}</h5>
-        <p>{{ item.caption }}</p>
+        <h5>{{ item.type }}</h5>
+        <p>{{ item.description }}</p>
       </div>
     </div>
   </div>
@@ -226,7 +226,7 @@
         <div class="row g-4">
           <h1 class="section-title text-center mt-4 mb-4">Our Services</h1>
           <div class="row g-4">
-            <div *ngFor="let service of services; let i = index" class="col-lg-3 col-sm-6 wow fadeInUp" [data-wow-delay]="0.1 + i * 0.2 + 's'">
+            <div *ngFor="let service of servicesItems; let i = index" class="col-lg-3 col-sm-6 wow fadeInUp" [data-wow-delay]="0.1 + i * 0.2 + 's'">
               <div class="service-item rounded pt-3">
                 <div class="p-4">
                   <i class="{{ service.iconClass }}"></i>
