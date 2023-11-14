@@ -3,8 +3,6 @@ import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { FoodCorner } from 'src/app/Model/FoodCorner';
 import { CartItemsService } from 'src/app/Service/cart-items.service';
-import { CartService } from 'src/app/Service/cart.service';
-import { CartComponent } from '../cart/cart.component';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import Swal from 'sweetalert2';
 
@@ -19,34 +17,30 @@ export class CheckoutComponent {
   totalPrice: number = 0
   public purchaseForm: FormGroup;
   constructor(
-        private cartItemsService: CartItemsService,
-        private router: Router,
-        private fb: FormBuilder
+    private cartItemsService: CartItemsService,
+    private router: Router,
+    private fb: FormBuilder) {
+    this.purchaseForm = this.fb.group({
+      firstName: ['', [Validators.required]],
+      lastName: ['', [Validators.required]],
+      email: ['', [Validators.required, Validators.email]],
+      address: ['', [Validators.required]],
+      phone: ['', [Validators.required,
+                  Validators.minLength(11),
+                  Validators.maxLength(11),
+        Validators.pattern(/^0[0-9]+$/)
+      ]],
+      cardNumber: ['',
+        [Validators.required,
+        Validators.minLength(16),
+        Validators.maxLength(16),
+        Validators.pattern(/^[0-9]+$/)
+      ]],
+    expiration: ['', [Validators.required, Validators.pattern(/^(0[1-9]|1[0-2])\/\d{2}$/)]],
+      cvv: ['', [Validators.required, Validators.pattern(/^\d{3}$/)]],
+    }
 
-  ) {
-    
-    
-        this.purchaseForm = this.fb.group({
-          firstName: ['', [Validators.required]],
-          lastName: ['', [Validators.required]],
-          email: ['', [Validators.required, Validators.email]],
-          address: ['', [Validators.required]],
-          phone: ['', [Validators.required,
-                      Validators.minLength(11),
-                      Validators.maxLength(11),
-            Validators.pattern(/^0[0-9]+$/)
-          ]],
-          cardNumber: ['',
-            [Validators.required,
-            Validators.minLength(16),
-            Validators.maxLength(16),
-            Validators.pattern(/^[0-9]+$/)
-          ]],
-        expiration: ['', [Validators.required, Validators.pattern(/^(0[1-9]|1[0-2])\/\d{2}$/)]],
-          cvv: ['', [Validators.required, Validators.pattern(/^\d{3}$/)]],
-        }
-    
-        )
+    )
 }
   
 ngOnInit(): void {

@@ -1,4 +1,4 @@
-import { Component, ElementRef, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Output, ViewChild } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { User } from 'src/app/Model/User';
@@ -9,10 +9,11 @@ import { AuthService } from 'src/app/Service/auth.service';
   styleUrls: ['./popup.component.css']
 })
 export class PopupComponent {
-  modal_name: string = 'modalID';
   @ViewChild('close_btn') close_btn!: ElementRef;
   @ViewChild('open_btn') open_btn!: ElementRef;
   @Output() loginAndNavigate = new EventEmitter<void>();
+  @Output() showLoginSection = new EventEmitter<void>();
+  modal_name: string = 'modalID';
   user: User = {} as User
   loginHide = true;
   signHidePw = true
@@ -21,7 +22,7 @@ export class PopupComponent {
   showSignUp = false;
   public registrationForm: FormGroup;
   public jobForm: FormGroup;
-  @Output() showLoginSection = new EventEmitter<void>();
+
   constructor(private fb: FormBuilder, private router: Router,
     private authService:AuthService
   ) {

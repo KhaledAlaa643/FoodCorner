@@ -5,7 +5,6 @@ import { FoodService } from 'src/app/Service/food.service';
 import { FoodCorner } from 'src/app/Model/FoodCorner';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { CartItemsService } from 'src/app/Service/cart-items.service';
-import { CartService } from 'src/app/Service/cart.service';
 
 @Component({
   selector: 'app-food-details',
@@ -28,7 +27,6 @@ export class FoodDetailsComponent implements OnInit, OnDestroy {
     private foodService: FoodService,
     private location: Location,
     private cartItemsService: CartItemsService,
-    // private CartService:CartService
   ) {
     const savedValue = localStorage.getItem('isItemInCart');
     if (savedValue !== null) {

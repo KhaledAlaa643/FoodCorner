@@ -1,13 +1,9 @@
-import { HttpClient } from '@angular/common/http';
-import { AfterViewInit, Component, HostListener, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { FoodCorner } from 'src/app/Model/FoodCorner';
 import { FoodService } from 'src/app/Service/food.service';
 import { trigger, state, style, animate, transition } from '@angular/animations';
-import 'owl.carousel';
-import { Subscription } from 'rxjs';
 import { CartItemsService } from 'src/app/Service/cart-items.service';
-import { CartService } from 'src/app/Service/cart.service';
 import { Special } from 'src/app/Model/Special';
 import { Service } from 'src/app/Model/Service';
 import { WhyUs } from 'src/app/Model/WhyUs';
@@ -52,8 +48,6 @@ export class HomeComponent implements OnInit{
     private router: Router,
     private foodService: FoodService,
     private cartItemsService: CartItemsService,
-    private CartService: CartService
-
   ) { }
 
   ngOnInit(): void {    
@@ -78,9 +72,9 @@ export class HomeComponent implements OnInit{
     this.foodService.getAllSlider().subscribe((slider) => {
       this.sliderItems = slider
     })
-    this.CartService.loadCartItemsFromLocalStorage();
+    this.cartItemsService.loadCartItemsFromLocalStorage();
     this.cartItems = this.cartItemsService.cartItemsSubject.getValue();
-    this.carts = this.CartService.getCartItems();
+    this.carts = this.cartItemsService.getCartItems();
     
   }
   filterFoodsByCategory(category: string | any) {

@@ -1,9 +1,7 @@
 import { Component,  ElementRef,  HostListener,  OnInit, ViewChild } from '@angular/core';
 import { Subscription} from 'rxjs';
 import { FoodCorner } from 'src/app/Model/FoodCorner';
-import { CartService } from 'src/app/Service/cart.service';
 import { AuthService } from 'src/app/Service/auth.service';
-import { CartStatusService } from 'src/app/Service/cart-status.service';
 import { Router } from '@angular/router';
 import { PopupComponent } from '../popup/popup.component';
 import { CartItemsService } from 'src/app/Service/cart-items.service';

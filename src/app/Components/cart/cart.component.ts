@@ -1,7 +1,6 @@
 import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { FoodCorner } from 'src/app/Model/FoodCorner';
-import { CartService } from 'src/app/Service/cart.service';
 import { CartItemsService } from 'src/app/Service/cart-items.service';
 import { CartCommunicationService } from 'src/app/Service/cart-communication.service';
 import { Location } from '@angular/common';
@@ -28,7 +27,6 @@ export class CartComponent implements OnInit {
   public messageForm: FormGroup;
   constructor(
     private router: Router,
-    private cartService: CartService,
     private cartItemsService: CartItemsService,
     private cartCommunicationService: CartCommunicationService,
     private fb: FormBuilder
@@ -41,22 +39,14 @@ export class CartComponent implements OnInit {
 
   ngOnInit(): void {
 
-    // Load cart items from local storage during component initialization
-    // this.cartItemsService.loadCartItems();
-    // console.log(    this.cartItemsService.loadCartItems());
-    
-
     // Subscribe to cartItems$ from the CartService to get updates dynamically
     this.cartItemsService.cartItems$.subscribe((cartItems) => {
       this.foods = cartItems;
       this.calculateTotalPrice();
     });
     
-    // Calculate and update the total cart items
-    // this.cartService.getCartItems().subscribe((totalItems) => {
-        this.carts = this.cartService.getCartItems();
+        this.carts = this.cartItemsService.getCartItems();
         console.log(this.carts);
-    // });
           this.dataSource.data = this.foods;
       if (this.paginator) {
         this.dataSource.paginator = this.paginator;
@@ -64,7 +54,7 @@ export class CartComponent implements OnInit {
     }
     onInput(event: any) {
       const input = event.target;
-      input.value = input.value.replace(/[^0-9]/g, ''); // Allow only numbers
+      input.value = input.value.replace(/[^0-9]/g, ''); 
     }
     removeFromCart(food: FoodCorner): void {
       this.cartItemsService.removeFromCart(food);
@@ -72,7 +62,7 @@ export class CartComponent implements OnInit {
       if (index > -1) {
         this.foods.splice(index, 1);
         this.calculateTotalPrice();
-        this.cartCommunicationService.notifyItemRemoved(); // Notify item removal
+        this.cartCommunicationService.notifyItemRemoved();
         window.location.reload();
     }
   }
@@ -111,32 +101,23 @@ updateFoodInLocalStorage(food: FoodCorner): void {
     });
 }
 
-
 getFoodQuantity(foodId: string): number {
     const item = this.foods.find((food: FoodCorner) => food.id === foodId);
     return item ? item.quantity : 0;
 }
 
-
 calculateTotalPrice(): number {
   this.totalCartItems = this.foods.reduce((total, food) => total + (food.price * food.quantity), 0);
   return this.totalCartItems
 }
-
-
 calculateProductPrice(food: FoodCorner): number {
     return food.price * this.getFoodQuantity(food.id);
 }
 
-
-
 continue(): void {
   this.router.navigate(['/home']);
     window.scrollTo({ top: 0, behavior: 'smooth' });
-
 }
-
-
   checkout(): void {
     this.cartItemsService.sendCartItems(this.foods);
     this.router.navigate(['/checkout']);
@@ -144,12 +125,12 @@ continue(): void {
   }
 
   save() {
-  Swal.fire({
-  position: "center",
-  icon: "success",
-  title: "Your Note has been saved",
-  showConfirmButton: false,
-  timer: 1500
-});
+    Swal.fire({
+    position: "center",
+    icon: "success",
+    title: "Your Note has been saved",
+    showConfirmButton: false,
+    timer: 1500
+    });
   }
 }

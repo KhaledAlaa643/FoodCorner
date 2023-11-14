@@ -44,9 +44,10 @@ export class CartItemsService {
     return cartItems.find((item) => item.id === id);
   }
 
-  getCartItems(): Observable<FoodCorner[]> {
-    return this.cartItems$;
+getCartItems(): Observable<FoodCorner[]> {
+    return this.http.get<FoodCorner[]>(`${environment.apiUrl}`);
   }
+
   getCartItemsApi(): Observable<FoodCorner[]> {
     return this.http.get<FoodCorner[]>(`${environment.apiUrl}`);
   }
@@ -59,9 +60,12 @@ export class CartItemsService {
     this.cartItemsSubject.next(cartItems);
   }
 
+
   loadCartItemsFromLocalStorage(): void {
-    const savedCartItems = JSON.parse(localStorage.getItem('cartItems') || '[]');
-    this.cartItemsSubject.next(savedCartItems);
+  const cartItems = JSON.parse(localStorage.getItem('cartItems') || '[]');
+  // Filter out undefined or items without an ID
+  const filteredCartItems = cartItems.filter((item: any) => item && item.id);
+  this.cartItemsSubject.next(filteredCartItems);
   }
 loadCartItems(): void {
   const cartItems = JSON.parse(localStorage.getItem('cartItems') || '[]');
