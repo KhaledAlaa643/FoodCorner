@@ -1,4 +1,4 @@
-import { Component, ElementRef, EventEmitter, Output, ViewChild } from '@angular/core';
+import { Component, OnInit ,ElementRef, EventEmitter, Output, ViewChild } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { User } from 'src/app/Model/User';
@@ -8,7 +8,7 @@ import { AuthService } from 'src/app/Service/auth.service';
   templateUrl: './popup.component.html',
   styleUrls: ['./popup.component.css']
 })
-export class PopupComponent {
+export class PopupComponent implements OnInit{
   @ViewChild('close_btn') close_btn!: ElementRef;
   @ViewChild('open_btn') open_btn!: ElementRef;
   @Output() loginAndNavigate = new EventEmitter<void>();
@@ -41,6 +41,12 @@ export class PopupComponent {
     }
       , { validator: this.passwordMatchValidator }
     )
+  }
+
+  ngOnInit(): void {
+    this.authService.showModal$.subscribe(() => {
+      this.open_modal();
+    });
   }
 
   openLoginSection() {

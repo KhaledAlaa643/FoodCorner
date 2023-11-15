@@ -7,14 +7,14 @@ import { NotFoundComponent } from './Components/not-found/not-found.component';
 import { CheckoutComponent } from './Components/checkout/checkout.component';
 import { ContactComponent } from './Components/contact/contact.component';
 import { BookComponent } from './Components/book/book.component';
-import { TrackOrderComponent } from './Components/track-order/track-order.component';
+import { AuthGuard } from './Guards/auth.guard';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
   { path: '', component: HomeComponent },
   { path: 'food/:id', component: FoodDetailsComponent },
   { path: 'cart', component: CartComponent },
-  { path: 'checkout', component: CheckoutComponent },
+  { path: 'checkout', component: CheckoutComponent,canActivate:[AuthGuard] },
   { path: 'contact', component: ContactComponent },
 
   { path: 'book', component: BookComponent },

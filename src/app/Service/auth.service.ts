@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -7,6 +7,12 @@ import { BehaviorSubject } from 'rxjs';
 export class AuthService {
 
   private isLoggedInValue: BehaviorSubject<boolean>;
+
+    private showModalSubject = new Subject<void>();
+
+  showModal$ = this.showModalSubject.asObservable();
+
+
 constructor( ) {
   this.isLoggedInValue = new BehaviorSubject<boolean> (false)
 }
@@ -26,5 +32,9 @@ constructor( ) {
   }
   userStatus() {
     return this.isLoggedInValue.asObservable()
+  }
+
+    showLoginModal() {
+    this.showModalSubject.next();
   }
 }

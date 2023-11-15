@@ -79,6 +79,6 @@ openPopup() {
   }
 
   checkScreenWidth() {
-    this.isMobile = window.innerWidth <= 993; // Adjust the breakpoint as needed
+    this.isMobile = window.innerWidth <= 993; 
   }
 }
