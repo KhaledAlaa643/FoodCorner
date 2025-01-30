@@ -1,0 +1,27 @@
+<section class="offer_section layout_padding-bottom mb-5">
+  <div class="offer_container">
+    <div class="container ">
+      <div class="row">
+        <div class="col-md-12 col-lg-6" *ngFor="let offer of offerItems">
+          <div class="box mt-5">
+            <div class="img-box">
+              <img [src]="offer.imageURL" alt="">
+            </div>
+            <div class="detail-box justify-content-center">
+              <h5>
+                {{offer.title}}
+              </h5>
+              <h6>
+                <span>{{offer.discount}}</span> Off
+              </h6>
+              <a href="#menu" class="btn btn-danger w-100">
+                <i class="fa-solid fa-cart-shopping"></i>
+                Order Now
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

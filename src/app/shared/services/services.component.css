@@ -1,0 +1,23 @@
+/*** Service ***/
+.service-item {
+    box-shadow: 0 0 4px darkgoldenrod;
+    transition: .5s;
+    margin: auto;
+    text-align: center;
+    height: 280px;
+}
+.service-item p,.title-special{
+  color: #aaaaaa !important
+}
+.service-item:hover {
+    background: rgb(24, 92, 92);;
+}
+
+.service-item * {
+    transition: .5s;
+}
+
+.service-item:hover * {
+    color: #F1F8FF !important;
+}
+

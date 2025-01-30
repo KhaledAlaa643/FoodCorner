@@ -1,130 +1,81 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, DestroyRef, inject, Inject, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { FoodService } from 'src/app/Service/food.service';
 import { FoodCorner } from 'src/app/Model/FoodCorner';
-import { BehaviorSubject, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { CartItemsService } from 'src/app/Service/cart-items.service';
+import { LocalstorageService } from 'src/app/Service/localstorage.service';
+import { CART_ITEMS } from 'src/app/cartItemsToken';
 
 @Component({
   selector: 'app-food-details',
   templateUrl: './food-details.component.html',
   styleUrls: ['./food-details.component.css']
 })
-export class FoodDetailsComponent implements OnInit, OnDestroy {
+export class FoodDetailsComponent implements OnInit {
   currFoodId!: string;
-  food: FoodCorner = {} as FoodCorner;
+  foodData: FoodCorner = {} as FoodCorner;
   foods: FoodCorner[] = [] ;
   sub!: Subscription;
   isItemInCart= false  ;
-  cartItem = true
-  length!:any
-  private static isItemInCartSubject = new BehaviorSubject<boolean>(false);
-  static isItemInCart$ = FoodDetailsComponent.isItemInCartSubject.asObservable();
-
   constructor(
+    @Inject(CART_ITEMS) private getCartItemsToken:any[],
     private activatedRoute: ActivatedRoute,
     private foodService: FoodService,
     private location: Location,
     private cartItemsService: CartItemsService,
-  ) {
-    const savedValue = localStorage.getItem('isItemInCart');
-    if (savedValue !== null) {
-      this.isItemInCart = savedValue === 'true';
-      FoodDetailsComponent.isItemInCartSubject.next(this.isItemInCart);
-    }
-  }
+    private localStorageService:LocalstorageService,
+    private destroyRef: DestroyRef
+  ) {}
 
 
 ngOnInit(): void {
   this.sub = this.activatedRoute.params.subscribe((params) => {
     this.currFoodId = params['id'];
-    this.food = history.state.foodData;
-
-    // Check if the item is already in the cart
-    this.checkIfItemInCart();
-
   });
+  const foodSubscription = this.foodService.getFoodByID(this.currFoodId).subscribe((res)=>{
+    this.foodData = res    
+  })
+  // show and hide button based on the food is in cart or no
+  this.foods = this.cartItemsService.cartItemsSubject.getValue();
+  this.isItemInCart =  this.foods.some(item => item.id ===  this.currFoodId) 
+  this.destroyRef.onDestroy(()=>{
+    this.sub.unsubscribe()
+    foodSubscription.unsubscribe()
+  })
+
 }
-
-
-
-  getFoodDetails(): void {
-    this.foodService.getFoodByID(this.currFoodId).subscribe(
-      (res: FoodCorner) => {
-        this.food = res;
-        this.checkIfItemInCart();
-      },
-      (err: any) => {
-        console.error('Error fetching food details:', err);
-      }
-    );
-  }
-
-
-  checkIfItemInCart(): any {
-    const savedCartItems = JSON.parse(localStorage.getItem('cartItems') || '[]');
-    const itemIdToCheck =  this.currFoodId; // Use either food.id or currFoodId
-    const isItemInCart = savedCartItems.some((item: any) => item.id === itemIdToCheck && item.quantity > 0);
-
-    this.isItemInCart = isItemInCart;
-
-  return isItemInCart;
-}
-
-
-
 
 
   addToCart(): void {
-  this.cartItemsService.addToCart(this.food);
+  this.cartItemsService.addToCart(this.foodData);
   this.isItemInCart = true;
   this.cartItemsService.updateCartState(this.isItemInCart)
-  const currentCartItems = this.cartItemsService.cartItemsSubject.getValue();
-
-
-  // Check if the food item is already in the cart
-  const isItemInCart = currentCartItems.some((item) => item.id === this.food.id);
-
-    if (!isItemInCart) {
-      currentCartItems.push(this.food);
-      // Save the updated cart items to local storage
-      this.saveItemsToLocalStorage(currentCartItems);
-
-      this.isItemInCart = true;
-      // Update the cart items in the service
-      this.cartItemsService.updateCartItems(currentCartItems);
+  
+    if (!this.isItemInCart) {
+      this.foods.push(this.foodData);
+      this.saveItemsToLocalStorage(this.foods);
+      this.cartItemsService.updateCartItems(this.foods);
     }
 
 }
 
 
-saveItemsToLocalStorage(cartItems: any[]): void {
-  const savedCartItems = JSON.parse(localStorage.getItem('cartItems') || '[]');
-
-  if (!savedCartItems.some((item: any) => item.id === this.currFoodId && item.quantity > 0)) {
-    savedCartItems.push({
+saveItemsToLocalStorage(cartItems: FoodCorner[]): void {
+  if (!this.getCartItemsToken.some((item: FoodCorner) => item.id === this.currFoodId && item.quantity > 0)) {
+    this.getCartItemsToken.push({
       id: this.currFoodId,
-      name: this.food.name,
-      cookTime: this.food.cookTime,
-      price: this.food.price,
-      quantity: this.food.quantity,
-      imageURL: this.food.imageURL,
+      name: this.foodData.name,
+      cookTime: this.foodData.cookTime,
+      price: this.foodData.price,
+      quantity: this.foodData.quantity,
+      imageURL: this.foodData.imageURL,
     }); // Add the item to the cart in the local storage
 
     // Save the updated cart items to local storage
-    localStorage.setItem('cartItems', JSON.stringify(savedCartItems));
-
-    // Update the isItemInCart flag and save it in local storage
-    localStorage.setItem('isItemInCart', 'true');
-  } else {
-    // If the item is already in the cart, set isItemInCart to false and remove it from local storage
-    localStorage.setItem('isItemInCart', 'false');
-
-    // Handle removing the item from the cartItems array in local storage if needed
-    // (remove the logic to remove the item from cartItems if not needed)
-    const updatedCartItems = savedCartItems.filter((item: any) => item.id !== this.currFoodId);
-    localStorage.setItem('cartItems', JSON.stringify(updatedCartItems));
+    
+    this.localStorageService.setItem('cartItems', this.getCartItemsToken);
   }
 }
 
@@ -137,21 +88,5 @@ back(): void {
     this.location.back();
   }
 
-ngOnDestroy(): void {
-    this.sub.unsubscribe();
-  }
-
-  getStarsArray(stars: number): any{
-    const fullStars = Math.floor(stars); // Number of full stars
-    const hasHalfStar = stars % 1 !== 0; // Check if there is a half star
-
-    if (hasHalfStar) {
-      // Add half star if present
-      return Array(fullStars).fill(0).concat(0.5);
-    } else {
-      // Only full stars
-      return Array(fullStars).fill(0);
-    }
-  }
 }
 

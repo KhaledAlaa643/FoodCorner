@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, DestroyRef, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { FoodCorner } from 'src/app/Model/FoodCorner';
@@ -12,6 +12,7 @@ import Swal from 'sweetalert2';
   styleUrls: ['./checkout.component.css']
 })
 export class CheckoutComponent {
+  private destroyRef = inject(DestroyRef) 
   cartItems: FoodCorner[] = [];
   private cartItemsSubscription!: Subscription;
   totalPrice: number = 0
@@ -48,6 +49,7 @@ ngOnInit(): void {
       this.cartItems = cartItems;
     });
   this.totalPrice = this.calculateTotalPrice()
+  this.destroyRef.onDestroy(()=> this.cartItemsSubscription.unsubscribe())
 }
 
 calculateTotalPrice(): number {
@@ -64,9 +66,4 @@ calculateTotalPrice(): number {
     this.router.navigate(['/user']);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
-  ngOnDestroy(): void {
-    this.cartItemsSubscription.unsubscribe();
-  }
-
-
 }

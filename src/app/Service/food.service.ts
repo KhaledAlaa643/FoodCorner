@@ -3,47 +3,31 @@ import { FoodCorner } from '../Model/FoodCorner';
 import { Observable, throwError } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { catchError } from 'rxjs/operators';
-import { Service } from '../Model/Service';
-import { WhyUs } from '../Model/WhyUs';
-import { Slider } from '../Model/Slider';
-import { Special } from '../Model/Special';
 import { environment } from 'src/environments/environment.development';
 
 @Injectable({
   providedIn: 'root'
 })
 export class FoodService {
+  cartItems: FoodCorner[] = [];
 
 constructor(private http: HttpClient){}
 
-getCartItems(): Observable<FoodCorner[]> {
-    return this.http.get<FoodCorner[]>(`${environment.apiUrl}`);
+getFoodByID(id: string | null | number): Observable<FoodCorner> {
+  const url = environment.apiUrl;
+  return this.http.get<FoodCorner>(`${url}/food/${id}`);
 }
-getFoodByID(id: string | null): Observable<FoodCorner> {
-  const url = `${environment.apiUrl}/${id}`;
-  return this.http.get<FoodCorner>(url).pipe(
-    catchError((error: any) => {
-      // Handle the error
-      return throwError(error);
-    })
-  );
+
+private handleError(operation: string) {
+  return (error: any): Observable<never> => {
+    console.error(`Error during ${operation}:`, error);
+    return throwError(() => new Error(`Error during ${operation}. Please try again later.`));
+  };
 }
-getAllFoods(): Observable<FoodCorner[]> {
-  return this.http.get<FoodCorner[]>(`${environment.apiUrl}/cart`)
+
+fetchData<T>(endpoint?:string): Observable<T[]> {
+  const url = endpoint ? `${environment.apiUrl}/${endpoint}` : `${environment.apiUrl}`;
+  return this.http.get<T[]>(`${url}`).pipe(catchError(this.handleError("error")));
 }
-getAllSpecial(): Observable<Special[]> {
-  return this.http.get<Special[]>(`${environment.apiUrl}/special`)
-}
-getAllServices(): Observable<Service[]> {
-  return this.http.get<Service[]>(`${environment.apiUrl}/service`)
-}
-getAllWhyUs(): Observable<WhyUs[]> {
-  return this.http.get<WhyUs[]>(`${environment.apiUrl}/whyus`)
-}
-getAllSlider(): Observable<Slider[]> {
-  return this.http.get<Slider[]>(`${environment.apiUrl}/slider`)
-}
-getFoodIDs(): Observable<string[]> {
-  return this.http.get<string[]>(`${environment.apiUrl}?_fields=id`);
-}
+
 }

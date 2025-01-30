@@ -1,12 +1,13 @@
-import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, DestroyRef, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { FoodCorner } from 'src/app/Model/FoodCorner';
 import { CartItemsService } from 'src/app/Service/cart-items.service';
-import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import Swal from 'sweetalert2';
 import { FoodService } from 'src/app/Service/food.service';
+import { AuthService } from 'src/app/Service/auth.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-cart',
@@ -16,19 +17,22 @@ import { FoodService } from 'src/app/Service/food.service';
 export class CartComponent implements OnInit {
   foods: FoodCorner[] = [];
   price: number = 0;
+  
   @Input() totalCartItems: number = 0;
   @ViewChild('quantityInput') quantityInput!: ElementRef;
-  @ViewChild(MatPaginator) paginator: MatPaginator | undefined;
-  dataSource = new MatTableDataSource<FoodCorner>([]); // Initialize as an empty array
+  dataSource = new MatTableDataSource<FoodCorner>([]); 
   currentPage: number = 1;
   itemsPerPage: number = 3;
   carts!: any
   public messageForm: FormGroup;
   constructor(
+    private authService: AuthService,
     private router: Router,
     private cartItemsService: CartItemsService,
     private foodService:FoodService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private destroyRef: DestroyRef
+
   ) {
     this.messageForm = this.fb.group({
       msg: ['', [Validators.required]],
@@ -37,16 +41,17 @@ export class CartComponent implements OnInit {
   }
 
 ngOnInit(): void {
-  this.cartItemsService.cartItems$.subscribe((cartItems) => {
+  const cartItemsSubscription = this.cartItemsService.cartItems$.subscribe((cartItems) => {
     this.foods = cartItems;
     this.calculateTotalPrice();
   });
     
-    this.carts = this.foodService.getCartItems();
+    this.carts = this.foodService.fetchData<FoodCorner>();
     this.dataSource.data = this.foods;
-    if (this.paginator) {
-      this.dataSource.paginator = this.paginator;
-      }
+    this.destroyRef.onDestroy(()=>{
+      cartItemsSubscription.unsubscribe()
+    })
+
 }
 onInput(event: any) {
   const input = event.target;
@@ -72,25 +77,25 @@ increaseQuantity(food: FoodCorner): void {
     if (food.quantity < 100) {
       food.quantity++;
       this.calculateTotalPrice();
-      this.cartItemsService.updateCartItemsInLocalStorage(this.foods); // Update local storage with the new cart items
+      this.cartItemsService.updateCartItemsInLocalStorage(this.foods);
     }
 }
 
 
 decreaseQuantity(food: FoodCorner): void {
-    if (food.quantity > 1) {
-      food.quantity--;
+  if (food.quantity > 1) {
+    food.quantity--;
       this.calculateTotalPrice();
-      this.cartItemsService.updateCartItemsInLocalStorage(this.foods); // Update local storage with the new cart items
+      this.cartItemsService.updateCartItemsInLocalStorage(this.foods);
     }
 }
 
 updateFoodInLocalStorage(food: FoodCorner): void {
-    this.foodService.getCartItems().subscribe((cartItems: FoodCorner[]) => {
+    this.foodService.fetchData<FoodCorner>().subscribe((cartItems: FoodCorner[]) => {
       const cartItem = cartItems.find((item: FoodCorner) => item.id === food.id);
       if (cartItem) {
         cartItem.quantity = food.quantity;
-        this.cartItemsService.setCartItems(cartItems).subscribe(() => {
+      this.cartItemsService.setCartItems(cartItems).subscribe(() => {
           this.cartItemsService.updateCartItemsInLocalStorage(cartItems);
         });
       }
@@ -115,6 +120,9 @@ continue(): void {
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
   checkout(): void {
+    var x = this.authService.isLoggedIn
+    console.log(x);
+    
     this.cartItemsService.sendCartItems(this.foods);
     this.router.navigate(['/checkout']);
     window.scrollTo({ top: 0, behavior: 'smooth' });

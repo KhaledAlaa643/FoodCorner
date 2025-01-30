@@ -1,0 +1,19 @@
+<section id="why-us" class="why-us mb-5" >
+  <div class="container">
+
+    <div class="section-title mt-3 d-flex justify-content-center">
+      <h1 class="heading_center">Why choose Our Restaurants</h1>
+    </div>
+
+    <div class="row">
+      <div *ngFor="let item of whyUsItems" class="col-lg-6 col-xl-3 col-md-6 col-sm-12 mt-4 mt-lg-0 mb-5">
+        <div class="box">
+          <span>{{ item.number }}</span>
+          <h4>{{ item.title }}</h4>
+          <p>{{ item.description }}</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>

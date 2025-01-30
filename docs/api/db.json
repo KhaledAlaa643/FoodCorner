@@ -1,234 +1,299 @@
 {
-  "cart": [
-      {
-        "id": "1",
-        "name": "Pizza pepproni",
-        "cookTime": "10-20",
-        "price": 15,
-        "quantity": 1,
-        "favorite": false,
-        "origin": "italy",
-        "stars": 3.5,
-        "imageURL": "Images/pepproni.png",
-        "tag": "Pizza",
-        "description": "Pepperoni is an American variety of spicy salami made from cured pork and beef seasoned with paprika or other chili pepper."
-      },
-      {
-        "id": "2",
-        "name": "Margherita Pizza ",
-        "cookTime": "10-20",
-        "price": 10,
-        "quantity": 1,
-        "favorite": false,
-        "origin": "Italy",
-        "stars": 4.5,
-        "imageURL": "Images/margreta.png",
-        "tag": "pizza",
-        "description": "margherita pizza features a bubbly crust, crushed San Marzano tomato sauce, fresh mozzarella and basil, a drizzle of olive oil, and a sprinkle"
-      },
-      {
-        "id": "3",
-        "name": "Seafood Pizza ",
-        "cookTime": "10-20",
-        "price": 10,
-        "quantity": 1,
-        "favorite": false,
-        "origin": "Portugal",
-        "stars": 4.5,
-        "imageURL": "Images/f1.png",
-        "tag": "pizza",
-        "description": "Seafood pizza is pizza prepared with seafood as a primary ingredient. Many types of seafood ingredients in fresh, frozen or canned forms."
-      },
-      {
-        "id": "4",
-        "name": "Beef Pepperoni Pizza",
-        "cookTime": "10-20",
-        "price": 10,
-        "quantity": 1,
-        "favorite": false,
-        "origin": "France",
-        "stars": 3.5,
-        "imageURL": "Images/pngwing.com (7).png",
-        "tag": "pizza",
-        "description": "Beef Pepperoni Pizza. Stone-baked pizza crust topped with robust sauce, mozzarella cheese, and beef pepperoni slices."
-      },
-      {
-        "id": "5",
-        "name": "Cheese Burger ",
-        "cookTime": "15-25",
-        "price": 30,
-        "quantity": 1,
-        "favorite": false,
-        "origin": "Italy",
-        "stars": 4,
-        "imageURL": "Images/cheese.png",
-        "tag": "burger",
-        "description": "A cheeseburger is a hamburger with a slice of melted cheese on top of the meat patty, added near the end of the cooking time."
-      },
-      {
-        "id": "6",
-        "name": "Chicken Burger ",
-        "cookTime": "15-25",
-        "price": 25,
-        "quantity": 1,
-        "favorite": false,
-        "origin": "Spain",
-        "stars": 4.5,
-        "imageURL": "Images/chicken.png",
-        "tag": "burger",
-        "description": "A chicken sandwich is a sandwich that typically consists of boneless, skinless chicken breast or thigh served between slices of bread."
-      },
-      {
-        "id": "7",
-        "name": "Double Cheese Burger ",
-        "cookTime": "15-25",
-        "price": 25,
-        "quantity": 1,
-        "favorite": false,
-        "origin": "USA",
-        "stars": 4.5,
-        "imageURL": "Images/double.png",
-        "tag": "burger",
-        "description": "Double Cheeseburger. Two charbroiled all-beef patties topped with American Cheese, dill pickles, diced onions, ketchup, and mustard."
-      },
-      {
-        "id": "8",
-        "name": "Double Chicken Burger ",
-        "cookTime": "15-25",
-        "price": 25,
-        "quantity": 1,
-        "favorite": false,
-        "origin": "USA",
-        "stars": 4.5,
-        "imageURL": "Images/double-chicken.png",
-        "tag": "burger",
-        "description": "The Double Chicken Cheese is made up of two tender chicken patties and a slice of cheese topped with the right amount of mustard."
-      },
-      {
-        "id": "9",
-        "name": "Triple Cheese Burger ",
-        "cookTime": "15-25",
-        "price": 25,
-        "quantity": 1,
-        "favorite": false,
-        "origin": "Netherland",
-        "stars": 4.5,
-        "imageURL": "Images/triple.png",
-        "tag": "burger",
-        "description": "Triple Cheeseburger. Two charbroiled all-beef patties topped with American Cheese, dill pickles, diced onions, ketchup, and mustard."
-      },
-      {
-        "id": "10",
-        "name": "Vegetable Spaghetti ",
-        "cookTime": "15-25",
-        "price": 25,
-        "quantity": 1,
-        "favorite": false,
-        "origin": "Germany",
-        "stars": 4.5,
-        "imageURL": "Images/pasta1.png",
-        "tag": "pasta",
-        "description": "Vegetable Spaghetti is a simple mix of zucchini, mushrooms, spinach and tomatoes tossed together with pasta for a healthy pasta."
-      },
-      {
-        "id": "11",
-        "name": "Chicken Pasta",
-        "cookTime": "15-25",
-        "price": 25,
-        "quantity": 1,
-        "favorite": false,
-        "origin": "England",
-        "stars": 4.5,
-        "imageURL": "Images/pasta2.png",
-        "tag": "pasta",
-        "description": "Chicken pasta in a garlic tomato cream sauce is the ultimate comfort meal. Made with pasta, chicken, seasonings, and parmesan cheese."
-      },
-      {
-        "id": "12",
-        "name": "French fries",
-        "cookTime": "15-25",
-        "price": 25,
-        "quantity": 1,
-        "favorite": false,
-        "origin": "France",
-        "stars": 5,
-        "imageURL": "Images/fries.png",
-        "tag": "fries",
-        "description": "French fries, french-fried potatoes, are batonnet or allumette-cut deep-fried potatoes of disputed origin from Belgium or France."
-      }
+  "users": [
+    {
+      "fullName": "khaled",
+      "email": "khaledalaaka643@gmail.com",
+      "password": "n2KA643n2!!",
+      "passwordConfirm": "n2KA643n2!!",
+      "id": 1
+    },
+    {
+      "fullName": "KhaledAlaa",
+      "email": "muhammedadel96@gmail.com",
+      "password": "n2KA643n2!!",
+      "passwordConfirm": "n2KA643n2!!",
+      "id": 2
+    },
+    {
+      "fullName": "ahmedali",
+      "email": "alaa@d.com",
+      "password": "n2KA643n2!!",
+      "passwordConfirm": "n2KA643n2!!",
+      "id": 3
+    },
+    {
+      "fullName": "zozo.lolo",
+      "email": "lolo@lolo.com",
+      "password": "n2KA643n2!!",
+      "passwordConfirm": "n2KA643n2!!",
+      "id": 4
+    },
+    {
+      "fullName": "mostafaali",
+      "email": "mahmoud.zayed0001@gmail.com",
+      "password": "n2KA643n2!!",
+      "passwordConfirm": "n2KA643n2!!",
+      "id": 5
+    },
+    {
+      "fullName": "mahmoudahmed",
+      "email": "ahmed@ahmed.com",
+      "password": "n2KA643n2!!",
+      "passwordConfirm": "n2KA643n2!!",
+      "id": 6
+    },
+    {
+      "fullName": "SaraAli",
+      "email": "sara@sara.com",
+      "password": "n2KA643n2!!",
+      "passwordConfirm": "n2KA643n2!!",
+      "id": 7
+    },
+    {
+      "fullName": "Mariam",
+      "email": "mariam@mariam.com",
+      "password": "n2KA643n2!!",
+      "passwordConfirm": "n2KA643n2!!",
+      "id": 8
+    },
+    {
+      "fullName": "khaledalaa",
+      "email": "khaledalaak369@gmail.com",
+      "password": "n2KA643n2!!",
+      "passwordConfirm": "n2KA643n2!!",
+      "id": 9
+    }
+  ],
+  "food": [
+    {
+      "id": "1",
+      "name": "Pizza pepproni",
+      "cookTime": "10-20",
+      "price": 15,
+      "quantity": 1,
+      "favorite": false,
+      "origin": "italy",
+      "stars": 3.5,
+      "imageURL": "Images/pepproni.png",
+      "tag": "Pizza",
+      "description": "Pepperoni is an American variety of spicy salami made from cured pork and beef seasoned with paprika or other chili pepper."
+    },
+    {
+      "id": "2",
+      "name": "Margherita Pizza ",
+      "cookTime": "10-20",
+      "price": 10,
+      "quantity": 1,
+      "favorite": false,
+      "origin": "Italy",
+      "stars": 4.5,
+      "imageURL": "Images/margreta.png",
+      "tag": "pizza",
+      "description": "margherita pizza features a bubbly crust, crushed San Marzano tomato sauce, fresh mozzarella and basil, a drizzle of olive oil, and a sprinkle"
+    },
+    {
+      "id": "3",
+      "name": "Seafood Pizza ",
+      "cookTime": "10-20",
+      "price": 10,
+      "quantity": 1,
+      "favorite": false,
+      "origin": "Portugal",
+      "stars": 4.5,
+      "imageURL": "Images/f1.png",
+      "tag": "pizza",
+      "description": "Seafood pizza is pizza prepared with seafood as a primary ingredient. Many types of seafood ingredients in fresh, frozen or canned forms."
+    },
+    {
+      "id": "4",
+      "name": "Beef Pepperoni Pizza",
+      "cookTime": "10-20",
+      "price": 10,
+      "quantity": 1,
+      "favorite": false,
+      "origin": "France",
+      "stars": 3.5,
+      "imageURL": "Images/pngwing.com (7).png",
+      "tag": "pizza",
+      "description": "Beef Pepperoni Pizza. Stone-baked pizza crust topped with robust sauce, mozzarella cheese, and beef pepperoni slices."
+    },
+    {
+      "id": "5",
+      "name": "Cheese Burger ",
+      "cookTime": "15-25",
+      "price": 30,
+      "quantity": 1,
+      "favorite": false,
+      "origin": "Italy",
+      "stars": 4,
+      "imageURL": "Images/cheese.png",
+      "tag": "burger",
+      "description": "A cheeseburger is a hamburger with a slice of melted cheese on top of the meat patty, added near the end of the cooking time."
+    },
+    {
+      "id": "6",
+      "name": "Chicken Burger ",
+      "cookTime": "15-25",
+      "price": 25,
+      "quantity": 1,
+      "favorite": false,
+      "origin": "Spain",
+      "stars": 4.5,
+      "imageURL": "Images/chicken.png",
+      "tag": "burger",
+      "description": "A chicken sandwich is a sandwich that typically consists of boneless, skinless chicken breast or thigh served between slices of bread."
+    },
+    {
+      "id": "7",
+      "name": "Double Cheese Burger ",
+      "cookTime": "15-25",
+      "price": 25,
+      "quantity": 1,
+      "favorite": false,
+      "origin": "USA",
+      "stars": 4.5,
+      "imageURL": "Images/double.png",
+      "tag": "burger",
+      "description": "Double Cheeseburger. Two charbroiled all-beef patties topped with American Cheese, dill pickles, diced onions, ketchup, and mustard."
+    },
+    {
+      "id": "8",
+      "name": "Double Chicken Burger ",
+      "cookTime": "15-25",
+      "price": 25,
+      "quantity": 1,
+      "favorite": false,
+      "origin": "USA",
+      "stars": 4.5,
+      "imageURL": "Images/double-chicken.png",
+      "tag": "burger",
+      "description": "The Double Chicken Cheese is made up of two tender chicken patties and a slice of cheese topped with the right amount of mustard."
+    },
+    {
+      "id": "9",
+      "name": "Triple Cheese Burger ",
+      "cookTime": "15-25",
+      "price": 25,
+      "quantity": 1,
+      "favorite": false,
+      "origin": "Netherland",
+      "stars": 4.5,
+      "imageURL": "Images/triple.png",
+      "tag": "burger",
+      "description": "Triple Cheeseburger. Two charbroiled all-beef patties topped with American Cheese, dill pickles, diced onions, ketchup, and mustard."
+    },
+    {
+      "id": "10",
+      "name": "Vegetable Spaghetti ",
+      "cookTime": "15-25",
+      "price": 25,
+      "quantity": 1,
+      "favorite": false,
+      "origin": "Germany",
+      "stars": 4.5,
+      "imageURL": "Images/pasta1.png",
+      "tag": "pasta",
+      "description": "Vegetable Spaghetti is a simple mix of zucchini, mushrooms, spinach and tomatoes tossed together with pasta for a healthy pasta."
+    },
+    {
+      "id": "11",
+      "name": "Chicken Pasta",
+      "cookTime": "15-25",
+      "price": 25,
+      "quantity": 1,
+      "favorite": false,
+      "origin": "England",
+      "stars": 4.5,
+      "imageURL": "Images/pasta2.png",
+      "tag": "pasta",
+      "description": "Chicken pasta in a garlic tomato cream sauce is the ultimate comfort meal. Made with pasta, chicken, seasonings, and parmesan cheese."
+    },
+    {
+      "id": "12",
+      "name": "French fries",
+      "cookTime": "15-25",
+      "price": 25,
+      "quantity": 1,
+      "favorite": false,
+      "origin": "France",
+      "stars": 5,
+      "imageURL": "Images/fries.png",
+      "tag": "fries",
+      "description": "French fries, french-fried potatoes, are batonnet or allumette-cut deep-fried potatoes of disputed origin from Belgium or France."
+    }
   ],
   "special": [
-  {
-    "name": "Burger",
-    "description": "Delicious burger with juicy patty, fresh vegetables, and special sauce.",
-    "image": "../../../assets/Images/special-burger.jpg"
-  },
-  {
-    "name": "ITALIAN PIZZA",
-    "description": "Indulge in the authentic flavors of Italy with our Italian Pizza. Crafted with a thin and crispy crust, our pizza is topped with the finest Italian tomatoes, fresh mozzarella cheese, aromatic basil, and a drizzle of extra virgin olive oil. Each bite is a journey to the heart of Italy, bringing you the perfect combination of simplicity and exquisite taste.",
-    "image": "../../../assets/Images/special-menu-2.jpg"
-  },
-  {
-    "name": "Pasta",
-    "description": "Savory pasta with a rich and flavorful tomato sauce, topped with Parmesan cheese.",
-    "image": "../../../assets/Images/pasta-special.jpg"
-  },
-  {
-    "name": "Classic Burger",
-    "description": "A classic burger with a juicy beef patty, fresh lettuce, tomatoes, and special sauce.",
-    "image": "../../../assets/Images/burger-classic.jpg"
-  },
-  {
-    "name": "Spaghetti Bolognese",
-    "description": "Spaghetti pasta with a rich Bolognese sauce made from ground beef, tomatoes, and herbs.",
-    "image": "../../../assets/Images/spagetti-special.jpg"
-  }
+    {
+      "name": "Burger",
+      "description": "Delicious burger with juicy patty, fresh vegetables, and special sauce.",
+      "imageURL": "../../../assets/Images/special-burger.jpg"
+    },
+    {
+      "name": "ITALIAN PIZZA",
+      "description": "Indulge in the authentic flavors of Italy with our Italian Pizza. Crafted with a thin and crispy crust, our pizza is topped with the finest Italian tomatoes, fresh mozzarella cheese, aromatic basil, and a drizzle of extra virgin olive oil. Each bite is a journey to the heart of Italy, bringing you the perfect combination of simplicity and exquisite taste.",
+      "imageURL": "../../../assets/Images/special-menu-2.jpg"
+    },
+    {
+      "name": "Pasta",
+      "description": "Savory pasta with a rich and flavorful tomato sauce, topped with Parmesan cheese.",
+      "imageURL": "../../../assets/Images/pasta-special.jpg"
+    },
+    {
+      "name": "Classic Burger",
+      "description": "A classic burger with a juicy beef patty, fresh lettuce, tomatoes, and special sauce.",
+      "imageURL": "../../../assets/Images/burger-classic.jpg"
+    },
+    {
+      "name": "Spaghetti Bolognese",
+      "description": "Spaghetti pasta with a rich Bolognese sauce made from ground beef, tomatoes, and herbs.",
+      "imageURL": "../../../assets/Images/spagetti-special.jpg"
+    }
   ],
-  "service":[
-  {
-    "iconClass": "fa fa-3x fa-user-tie text-warning mb-4",
-    "title": "Master Chefs",
-    "description": "Our master chefs bring years of culinary expertise to create exquisite dishes for your enjoyment."
-  },
-  {
-    "iconClass": "fa fa-3x fa-utensils text-warning mb-4",
-    "title": "Quality Food",
-    "description": "Experience the finest quality food prepared with the freshest ingredients, ensuring a delightful dining experience."
-  },
-  {
-    "iconClass": "fa fa-3x fa-cart-plus text-warning mb-4",
-    "title": "Online Order",
-    "description": "Conveniently order your favorite dishes online and have them delivered to your doorstep in no time."
-  },
-  {
-    "iconClass": "fa fa-3x fa-headset text-warning mb-4",
-    "title": "24/7 Service",
-    "description": "Enjoy our dedicated 24/7 service, ensuring that you receive assistance and support whenever you need it."
-  }
+  "service": [
+    {
+      "iconClass": "fa fa-3x fa-user-tie text-warning mb-4",
+      "title": "Master Chefs",
+      "description": "Our master chefs bring years of culinary expertise to create exquisite dishes for your enjoyment."
+    },
+    {
+      "iconClass": "fa fa-3x fa-utensils text-warning mb-4",
+      "title": "Quality Food",
+      "description": "Experience the finest quality food prepared with the freshest ingredients, ensuring a delightful dining experience."
+    },
+    {
+      "iconClass": "fa fa-3x fa-cart-plus text-warning mb-4",
+      "title": "Online Order",
+      "description": "Conveniently order your favorite dishes online and have them delivered to your doorstep in no time."
+    },
+    {
+      "iconClass": "fa fa-3x fa-headset text-warning mb-4",
+      "title": "24/7 Service",
+      "description": "Enjoy our dedicated 24/7 service, ensuring that you receive assistance and support whenever you need it."
+    }
   ],
-  "whyus":[
-  {
-    "number": "01",
-    "title": "Fresh and Delectable Dishes",
-    "description": "Indulge in the finest culinary delights prepared by our skilled chefs using only the freshest ingredients. From mouthwatering appetizers to sumptuous main courses and delectable desserts, every dish is a masterpiece that delights your taste buds."
-  },
-  {
-    "number": "02",
-    "title": "Impeccable Service",
-    "description": "At Our Restaurant, we prioritize your comfort and satisfaction. Our courteous and attentive staff is dedicated to making your dining experience memorable. From the moment you step in until you leave, we ensure you receive top-notch service that exceeds your expectations."
-  },
-  {
-    "number": "03",
-    "title": "Charming Ambience",
-    "description": "Step into an enchanting atmosphere that combines elegance with a warm, welcoming vibe. Whether you\"re dining with family, friends, or having a romantic evening, our restaurant\"s cozy ambiance sets the perfect mood for every occasion."
-  },
-  {
-    "number": "04",
-    "title": "Providing Ambience",
-    "description": "At Our Restaurant, we take immense pride in consistently delivering an extraordinary dining experience that captivates our cherished customers. There are numerous compelling reasons why you should wholeheartedly choose us to savor culinary delights beyond compare."
-  }
+  "whyus": [
+    {
+      "number": "01",
+      "title": "Fresh and Delectable Dishes",
+      "description": "Indulge in the finest culinary delights prepared by our skilled chefs using only the freshest ingredients. From mouthwatering appetizers to sumptuous main courses and delectable desserts, every dish is a masterpiece that delights your taste buds."
+    },
+    {
+      "number": "02",
+      "title": "Impeccable Service",
+      "description": "At Our Restaurant, we prioritize your comfort and satisfaction. Our courteous and attentive staff is dedicated to making your dining experience memorable. From the moment you step in until you leave, we ensure you receive top-notch service that exceeds your expectations."
+    },
+    {
+      "number": "03",
+      "title": "Charming Ambience",
+      "description": "Step into an enchanting atmosphere that combines elegance with a warm, welcoming vibe. Whether you\"re dining with family, friends, or having a romantic evening, our restaurant\"s cozy ambiance sets the perfect mood for every occasion."
+    },
+    {
+      "number": "04",
+      "title": "Providing Ambience",
+      "description": "At Our Restaurant, we take immense pride in consistently delivering an extraordinary dining experience that captivates our cherished customers. There are numerous compelling reasons why you should wholeheartedly choose us to savor culinary delights beyond compare."
+    }
   ],
-  "slider":[
+  "slider": [
     {
       "image": "../../../assets/Images/slider1.jpg",
       "type": "Burger",
@@ -243,6 +308,18 @@
       "image": "../../../assets/Images/slider3.jpg",
       "type": "Pasta",
       "description": "Savory pasta dishes made just the way you like."
+    }
+  ],
+  "offer": [
+    {
+      "imageURL": "../../../assets/Images/o1.jpg",
+      "title": "Pizza Days",
+      "discount": "15%"
+    },
+    {
+      "imageURL": "../../../assets/Images/o2.jpg",
+      "title": "Tasty Thursdays",
+      "discount": "20%"
     }
   ]
 }

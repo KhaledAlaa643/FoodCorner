@@ -1,0 +1,33 @@
+<section id="specials" class="specials">
+  <div class="container">
+
+    <div class="section-title text-center mt-4 mb-4">
+      <h1 >Check our Specials</h1>
+      <p class="text-white">Ut possimus qui ut temporibus culpa velit eveniet modi omnis est adipisci expedita at voluptas atque vitae autem.</p>
+    </div>
+
+    <div class="row mt-4">
+      <div class="col-lg-3">
+        <ul class="nav nav-tabs flex-column">
+          <li class="nav-item" *ngFor="let item of specialMenuItems; let i = index"[class.active]="i === activeTabIndex">
+            <a class="nav-link bg-transparent"(click)="setActiveTab(i)">{{ item.name }}</a>
+          </li>
+        </ul>
+      </div>
+      <div class="col-lg-9 mt-4 mt-lg-0">
+        <div class="tab-content">
+          <div *ngFor="let item of specialMenuItems; let i = index" 
+            class="tab-pane"  [class.active]="i === activeTabIndex">
+            <div class="row">
+              <div class="col-lg-8 special-text order-2 order-lg-1">
+                <h3  class="">{{ item.name }}</h3>
+                <h4 class="fst-italic text-white">{{ item.description }}</h4>
+                <img [src]="item.imageURL" width="50%" height="50%" alt="" class="img-fluid rounded">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
