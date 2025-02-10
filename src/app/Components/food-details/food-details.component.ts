@@ -1,6 +1,6 @@
 import { Component, DestroyRef, inject, Inject, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { FoodService } from 'src/app/Service/food.service';
 import { FoodCorner } from 'src/app/Model/FoodCorner';
 import { Subscription } from 'rxjs';
@@ -14,11 +14,17 @@ import { CART_ITEMS } from 'src/app/cartItemsToken';
   styleUrls: ['./food-details.component.css']
 })
 export class FoodDetailsComponent implements OnInit {
-  currFoodId!: string;
+  currFoodId!: number;
+  currentIndex!: number;
   foodData: FoodCorner = {} as FoodCorner;
-  foods: FoodCorner[] = [] ;
+  cartFoods: FoodCorner[] = [] ;
+  allFoods: FoodCorner[] = [] ;
   sub!: Subscription;
+  fetchAllFood!: Subscription;
+  foodSubscription!: Subscription;
   isItemInCart= false  ;
+  isFistDisabled :boolean = false
+  isLastDisabled :boolean = false
   constructor(
     @Inject(CART_ITEMS) private getCartItemsToken:any[],
     private activatedRoute: ActivatedRoute,
@@ -26,39 +32,80 @@ export class FoodDetailsComponent implements OnInit {
     private location: Location,
     private cartItemsService: CartItemsService,
     private localStorageService:LocalstorageService,
-    private destroyRef: DestroyRef
+    private destroyRef: DestroyRef,
+    private router:Router
   ) {}
 
 
-ngOnInit(): void {
+ngOnInit(): void {  
   this.sub = this.activatedRoute.params.subscribe((params) => {
-    this.currFoodId = params['id'];
+    this.currFoodId = +params['id'];
+    this.loadFoodData();
+    this.checkNavigationStatus()
   });
   const foodSubscription = this.foodService.getFoodByID(this.currFoodId).subscribe((res)=>{
     this.foodData = res    
+    
   })
-  // show and hide button based on the food is in cart or no
-  this.foods = this.cartItemsService.cartItemsSubject.getValue();
-  this.isItemInCart =  this.foods.some(item => item.id ===  this.currFoodId) 
+  
   this.destroyRef.onDestroy(()=>{
     this.sub.unsubscribe()
     foodSubscription.unsubscribe()
   })
-
+  
+  this.getAllFoods();
+    
 }
 
+loadFoodData() {
+  this.foodService.getFoodByID(this.currFoodId).subscribe((res) => {
+    this.foodData = res;
+    this.cartFoods = this.cartItemsService.cartItemsSubject.getValue();
+    this.isItemInCart =  this.cartFoods.some(food => food.id ==  this.currFoodId)     
+  });
+}
+getAllFoods(){
+  this.fetchAllFood = this.foodService.fetchData("food").subscribe( (res:any)=>{
+    this.allFoods = res
+    this.checkNavigationStatus()
+  })
+}
+checkNavigationStatus() {
+  if (!this.allFoods) return;
 
-  addToCart(): void {
-  this.cartItemsService.addToCart(this.foodData);
-  this.isItemInCart = true;
-  this.cartItemsService.updateCartState(this.isItemInCart)
+  this.currentIndex = this.allFoods.findIndex((element: any) => +element.id == this.currFoodId);
+
+  if (this.currentIndex === this.allFoods.length - 1) {
+    this.isLastDisabled = true;
+  } else {
+    this.isLastDisabled = false;
+  }
+
+  this.isFistDisabled = this.currentIndex === 0;
+}
+next (){
+  let nextFoodId = +this.allFoods[this.currentIndex + 1]?.id;
   
+  if (!this.allFoods || this.currentIndex === -1) return;
+  if (this.currentIndex < this.allFoods.length - 1) {
+    this.router.navigate(['/food', nextFoodId]);
+  }
+}
+previous (){
+  let previousItemId = +this.allFoods[this.currentIndex - 1].id
+  if (this.currentIndex  > 0) {
+    this.router.navigate(['/food', previousItemId]);
+  }
+}
+  addToCart(): void {
+    this.cartItemsService.addToCart(this.foodData);
+    this.isItemInCart = true
+    this.cartItemsService.updateCartState(this.isItemInCart)
     if (!this.isItemInCart) {
-      this.foods.push(this.foodData);
-      this.saveItemsToLocalStorage(this.foods);
-      this.cartItemsService.updateCartItems(this.foods);
+      this.cartFoods.push(this.foodData);
+      this.saveItemsToLocalStorage(this.cartFoods);
+      this.cartItemsService.updateCartItems(this.cartFoods);
     }
-
 }
 
 

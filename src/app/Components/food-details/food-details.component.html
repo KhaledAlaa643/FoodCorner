@@ -26,7 +26,8 @@
               </div>
               <h5><i class="fa fa-heart red-heart favorite" [ngClass]="{'fas': foodData.favorite, 'far': !foodData.favorite}"(click)="toggleLike(foodData)"></i></h5>
             </div>
-            
+            <button type="button" class="btn btn-warning btn-arrow-left mx-5"  [disabled]="isFistDisabled" (click)="previous()">previous Food</button>
+            <button type="button" class="btn btn-warning btn-arrow-right" [disabled]="isLastDisabled" (click)="next()">Next Food</button>
           </div>
           <div class ="food-details col-6">
             <div class="pb-0">
