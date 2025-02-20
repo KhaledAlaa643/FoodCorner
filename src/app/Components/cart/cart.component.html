@@ -37,7 +37,7 @@
                       <button class="btn btn-link mx-2" (click)="decreaseQuantity(food)">
                         <i class="fas fa-minus text-white"></i>
                       </button>
-                      <input type="text" [(ngModel)]="food.quantity" #quantityInput (input)="onInput($event)" (ngModelChange)="updateFoodInLocalStorage(food)" class="text-center qty text-warning">
+                      <input type="text" [(ngModel)]="food.quantity" (input)="onInput($event)" (ngModelChange)="updateFoodInLocalStorage(food)" class="text-center qty text-warning">
                       <button class="btn btn-link mx-2" (click)="increaseQuantity(food)">
                         <i class="fas fa-plus text-white"></i>
                       </button>

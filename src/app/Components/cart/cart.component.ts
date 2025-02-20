@@ -1,4 +1,4 @@
-import { Component, DestroyRef, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, DestroyRef, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FoodCorner } from 'src/app/Model/FoodCorner';
 import { CartItemsService } from 'src/app/Service/cart-items.service';
@@ -7,7 +7,6 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import Swal from 'sweetalert2';
 import { FoodService } from 'src/app/Service/food.service';
 import { AuthService } from 'src/app/Service/auth.service';
-import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-cart',
@@ -19,7 +18,6 @@ export class CartComponent implements OnInit {
   price: number = 0;
   
   @Input() totalCartItems: number = 0;
-  @ViewChild('quantityInput') quantityInput!: ElementRef;
   dataSource = new MatTableDataSource<FoodCorner>([]); 
   currentPage: number = 1;
   itemsPerPage: number = 3;
@@ -39,7 +37,6 @@ export class CartComponent implements OnInit {
     })
   
   }
-
 ngOnInit(): void {
   const cartItemsSubscription = this.cartItemsService.cartItems$.subscribe((cartItems) => {
     this.foods = cartItems;
@@ -95,10 +92,8 @@ updateFoodInLocalStorage(food: FoodCorner): void {
       const cartItem = cartItems.find((item: FoodCorner) => item.id === food.id);
       if (cartItem) {
         cartItem.quantity = food.quantity;
-      this.cartItemsService.setCartItems(cartItems).subscribe(() => {
-          this.cartItemsService.updateCartItemsInLocalStorage(cartItems);
-        });
-      }
+        this.cartItemsService.setCartItems(cartItems).subscribe(() => this.cartItemsService.updateCartItemsInLocalStorage(cartItems)
+      )}
     });
 }
 
@@ -123,7 +118,7 @@ continue(): void {
     var x = this.authService.isLoggedIn
     console.log(x);
     
-    this.cartItemsService.sendCartItems(this.foods);
+    this.cartItemsService.updateCartItems(this.foods);
     this.router.navigate(['/checkout']);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
