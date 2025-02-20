@@ -1,12 +1,10 @@
-import { Component,  DestroyRef,  ElementRef,  HostListener,  inject,  OnInit, ViewChild } from '@angular/core';
-import { Subscription} from 'rxjs';
+import { Component,  DestroyRef,  ElementRef,  HostListener,  OnInit, ViewChild } from '@angular/core';
 import { FoodCorner } from 'src/app/Model/FoodCorner';
 import { AuthService } from 'src/app/Service/auth.service';
 import { Router } from '@angular/router';
 import { PopupComponent } from '../popup/popup.component';
 import { CartItemsService } from 'src/app/Service/cart-items.service';
-import { FoodDetailsComponent } from '../../Components/food-details/food-details.component';
-import { LocalstorageService } from 'src/app/Service/localstorage.service';
+
 
 @Component({
   selector: 'app-header',
