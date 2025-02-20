@@ -4,10 +4,9 @@ import { FoodCorner } from 'src/app/Model/FoodCorner';
 import { FoodService } from 'src/app/Service/food.service';
 import { trigger, state, style, animate, transition } from '@angular/animations';
 import { CartItemsService } from 'src/app/Service/cart-items.service';
-import { Special } from 'src/app/Model/Special';
-import { forkJoin } from 'rxjs';
 import { LocalstorageService } from 'src/app/Service/localstorage.service';
 import { CART_ITEMS } from 'src/app/cartItemsToken';
+import { concat, first, interval, map, merge, take } from 'rxjs';
 
 @Component({
   selector: 'app-home',
@@ -50,7 +49,7 @@ export class HomeComponent implements OnInit{
     private destroyRef: DestroyRef
   ) { this.categories = FoodCategories}
 
-  ngOnInit(): void {
+  ngOnInit() {
       const fetchFood = this.foodService.fetchData<FoodCorner>('food').subscribe((foods)=>{
         this.foodsOriginal = foods
         this.filteredFoodsSignal.set(foods)
@@ -90,7 +89,7 @@ isInCartItem(id: number): boolean {
 }
 
 addToCart(food: FoodCorner): void {
-  const isItemInCart = this.cartItemsService.id(food.id);  
+  const isItemInCart = this.cartItemsService.hasItemId(food.id);  
   if (!isItemInCart) {
     this.cartItemsService.addToCart(food);
     const currentCartItems = this.cartItemsService.cartItemsSubject.getValue();
