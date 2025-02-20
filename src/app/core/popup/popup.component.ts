@@ -1,15 +1,18 @@
-import { Component, OnInit ,ElementRef, ViewChild, DestroyRef } from '@angular/core';
-import {FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Component, OnInit ,ElementRef, ViewChild, DestroyRef, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
+import {FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { debounce, update } from 'lodash';
+import { debounceTime, distinctUntilChanged, Subscription } from 'rxjs';
 
 import { User } from 'src/app/Model/User';
 import { AuthService } from 'src/app/Service/auth.service';
+import { ModalService } from 'src/app/Service/modal.service';
 import { ValidationsService } from 'src/app/Service/validations.service';
 @Component({
   selector: 'app-popup',
   templateUrl: './popup.component.html',
-  styleUrls: ['./popup.component.css']
+  styleUrls: ['./popup.component.css'],
+
 })
 export class PopupComponent implements OnInit{
   @ViewChild('close_btn') close_btn!: ElementRef;
@@ -22,40 +25,52 @@ export class PopupComponent implements OnInit{
   showLogin = true;
   showSignUp = false;
   signupSubscription !:Subscription
-  registrationForm: FormGroup;
+  registrationForm!: FormGroup;
   loginForm: FormGroup;
 
 
   constructor(
     private fb: FormBuilder, 
-    private router: Router,
     private authService:AuthService, 
+    private validationService:ValidationsService,
+    private modalService: ModalService,
     private destroyRef: DestroyRef,
-    private validationService:ValidationsService
   ) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(8)]],
     });
-    this.registrationForm = this.fb.group({
-      fullName: ['', [Validators.required],this.validationService.asyncFieldValidator('fullName')],
-      email: ['', [Validators.required, Validators.email],this.validationService.asyncFieldValidator('email')],
-      password: ['', [Validators.required, Validators.minLength(8),Validators.pattern
-          (/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#])[A-Za-z\d@$!%*?&#]{8,}$/)]],
-      passwordConfirm: [null, [Validators.required]]
-    }, 
-    { validator: this.validationService.passwordMatchValidator },
-    )
   }
-
+  createForm() {
+    this.registrationForm = this.fb.group(
+      {
+        userName: new FormControl('', {
+          validators: [Validators.required],
+          asyncValidators: [this.validationService.asyncFieldValidator('userName')],
+        }),
+        email: new FormControl('', {
+          validators: [Validators.required, Validators.email],
+          asyncValidators: [this.validationService.asyncFieldValidator('email')],
+        }),
+        password: ['', [
+          Validators.required, 
+          Validators.minLength(8),
+          Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#])[A-Za-z\d@$!%*?&#]{8,}$/)
+        ]],
+        passwordConfirm: [null, [Validators.required]]
+      },
+      { validator: this.validationService.passwordMatchValidator }
+    );
+  }
   ngOnInit(): void {
-    const authSubscription = this.authService.showModal$.subscribe(() => this.open_modal());
+    
+    const authSubscription = this.modalService.showModal$.subscribe(() => this.open_modal());
+    this.createForm();
     this.destroyRef.onDestroy(()=>{
       authSubscription.unsubscribe();
       this.signupSubscription.unsubscribe()
     })
   }
-
   open_modal() {
     this.open_btn.nativeElement.click();
   }
@@ -74,7 +89,7 @@ export class PopupComponent implements OnInit{
       return; 
     }
     const formdata = {
-      fullName: body.fullName,
+      userName: body.userName,
       email:body.email,
       password:body.password,
       passwordConfirm: body.passwordConfirm

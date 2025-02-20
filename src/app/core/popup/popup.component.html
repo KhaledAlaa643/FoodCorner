@@ -48,7 +48,7 @@
                           E-mail
                         </label>
                       </div>
-                        <input formControlName="email" matInput id="mail" type="email" class=" bg-transparent text-white" name="email" id="email" >
+                        <input formControlName="email" matInput id="mail" type="email" class=" bg-transparent text-white" id="email" >
                     </div>
                     <!-- password input -->
                     <div class="d-block mt-3 mb-3">
@@ -143,11 +143,11 @@
                                   Username
                                 </label>
                               </div>
-                                <input formControlName="fullName" matInput id="text" type="text" class=" bg-transparent text-white mb-2"  (keydown.space)="$event.preventDefault()">
-                                <mat-error *ngIf="registrationForm.get('fullName')!.hasError('required') && registrationForm.get('fullName')?.touched ">
+                                <input formControlName="userName" matInput id="userName" type="text" class=" bg-transparent text-white mb-2"  (keydown.space)="$event.preventDefault()">
+                                <mat-error *ngIf="registrationForm.get('userName')!.hasError('required') && registrationForm.get('userName')?.touched ">
                                   Name is required
                                 </mat-error>
-                                <mat-error *ngIf="registrationForm.get('fullName')!.hasError('fullNameExists')">
+                                <mat-error *ngIf="registrationForm.get('userName')!.hasError('userNameExists')">
                                   Username is already registered
                                 </mat-error>
                             </div>
@@ -159,14 +159,14 @@
                                 E-mail
                               </label>
                             </div>
-                              <input formControlName="email" matInput  type="email" class=" bg-transparent text-white mb-2" name="email" id="email" >
+                              <input formControlName="email" matInput  type="email" class=" bg-transparent text-white mb-2" id="email" >
                               <mat-error *ngIf="registrationForm.get('email')!.hasError('required') && registrationForm.get('email')?.touched">
                                 Email is required
                               </mat-error>
                               <mat-error *ngIf="registrationForm.get('email')!.hasError('email')">
                                 You should enter a valid email
                               </mat-error>
-                              <mat-error *ngIf="registrationForm.get('email')!.hasError('emailExists') && registrationForm.get('email')?.touched">
+                              <mat-error *ngIf="registrationForm.get('email')?.hasError('emailExists') && registrationForm.get('email')?.touched">
                                 
                                 Email is already registered
                               </mat-error>
