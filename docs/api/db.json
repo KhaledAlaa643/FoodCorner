@@ -1,63 +1,63 @@
 {
   "users": [
     {
-      "fullName": "khaled",
+      "userName": "khaled",
       "email": "khaledalaaka643@gmail.com",
       "password": "n2KA643n2!!",
       "passwordConfirm": "n2KA643n2!!",
       "id": 1
     },
     {
-      "fullName": "KhaledAlaa",
+      "userName": "KhaledAlaa",
       "email": "muhammedadel96@gmail.com",
       "password": "n2KA643n2!!",
       "passwordConfirm": "n2KA643n2!!",
       "id": 2
     },
     {
-      "fullName": "ahmedali",
+      "userName": "ahmedali",
       "email": "alaa@d.com",
       "password": "n2KA643n2!!",
       "passwordConfirm": "n2KA643n2!!",
       "id": 3
     },
     {
-      "fullName": "zozo.lolo",
+      "userName": "zozo.lolo",
       "email": "lolo@lolo.com",
       "password": "n2KA643n2!!",
       "passwordConfirm": "n2KA643n2!!",
       "id": 4
     },
     {
-      "fullName": "mostafaali",
+      "userName": "mostafaali",
       "email": "mahmoud.zayed0001@gmail.com",
       "password": "n2KA643n2!!",
       "passwordConfirm": "n2KA643n2!!",
       "id": 5
     },
     {
-      "fullName": "mahmoudahmed",
+      "userName": "mahmoudahmed",
       "email": "ahmed@ahmed.com",
       "password": "n2KA643n2!!",
       "passwordConfirm": "n2KA643n2!!",
       "id": 6
     },
     {
-      "fullName": "SaraAli",
+      "userName": "SaraAli",
       "email": "sara@sara.com",
       "password": "n2KA643n2!!",
       "passwordConfirm": "n2KA643n2!!",
       "id": 7
     },
     {
-      "fullName": "Mariam",
+      "userName": "Mariam",
       "email": "mariam@mariam.com",
       "password": "n2KA643n2!!",
       "passwordConfirm": "n2KA643n2!!",
       "id": 8
     },
     {
-      "fullName": "khaledalaa",
+      "userName": "khaledalaa",
       "email": "khaledalaak369@gmail.com",
       "password": "n2KA643n2!!",
       "passwordConfirm": "n2KA643n2!!",

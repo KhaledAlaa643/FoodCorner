@@ -2,12 +2,12 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { FoodCorner } from '../Model/FoodCorner';
 import { LocalstorageService } from './localstorage.service';
+import { CartStorageService } from './cart-storage.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CartItemsService {
-  private cartKey = 'cartItems';
   public cartItemsSubject = new BehaviorSubject<FoodCorner[]>([]);
   private hasItemsSubject = new BehaviorSubject<boolean>(false);
   private itemAddedToCart = new BehaviorSubject<boolean>(false);
@@ -19,12 +19,15 @@ export class CartItemsService {
   hasItems$ = this.hasItemsSubject.asObservable();
   itemRemoved$ = this.itemRemovedSubject.asObservable();
 
-constructor(private localStorageService:LocalstorageService) {
-  this.loadCartItemsFromLocalStorage();
+constructor(
+  private localStorageService:LocalstorageService,
+  private cartStorageService:CartStorageService 
+) {
+  this.loadCartItems();
   this.itemAddedToCart.next(true)
 }
 
-id(id:any) {
+hasItemId(id:any) {
   const currentCartItems = this.cartItemsSubject.getValue();
   return currentCartItems.some((item: { id: any }) => item.id === id);
   }
@@ -37,75 +40,65 @@ updateCartItems(cartItems: FoodCorner[]): void {
   }
 
 setCartItems(cartItems: FoodCorner[]): Observable<FoodCorner[]> {
-      return this.cartItems$;
+  this.cartItemsSubject.next(cartItems);
+  return this.cartItems$;
   }
 
-sendCartItems(cartItems: FoodCorner[]): void {
-    this.cartItemsSubject.next(cartItems);
-  }
-
-loadCartItemsFromLocalStorage(): void {
-  const cartItems = JSON.parse(this.localStorageService.getItem('cartItems') || '[]');
-  // Filter out undefined or items without an ID
-  const filteredCartItems = cartItems.filter((item: any) => item && item.id);
-  this.cartItemsSubject.next(filteredCartItems);
-  }
-
-loadCartItems(): void {
-  const cartItems = JSON.parse(this.localStorageService.getItem('cartItems') || '[]');
-  const filteredCartItems = cartItems.filter((item: any) => item && item.id); // Filter out undefined or items without an ID
-  this.cartItemsSubject.next(filteredCartItems);
-  
+private loadCartItems(): void {
+  const storedItems = this.cartStorageService.loadCartItems();
+  this.cartItemsSubject.next(storedItems);
   }
 
 private saveCartItemsToLocalStorage(cartItems: FoodCorner[]): void {
-  this.localStorageService.setItem('cartItems', cartItems);
+  this.cartStorageService.saveCartItems(cartItems);
   }
 
 addToCart(item: FoodCorner): void {
-  this.itemAddedToCart.next(true);
-  const currentItems = this.cartItemsSubject.getValue();
+  try {
+    this.itemAddedToCart.next(true);
+    const currentItems = this.cartItemsSubject.getValue();
 
-  if (item && item.id) {
-    const existingItem = currentItems.find((food) => food.id === item.id);
+    if (item && item.id) {
+      const existingItem = currentItems.find((food) => food.id === item.id);
 
-    if (existingItem) {
-      existingItem.quantity += item.quantity;
+      if (existingItem) {
+        existingItem.quantity += item.quantity;
+      } else {
+        currentItems.push(item);
+      }
+
+      // Filter out any invalid items
+      const filteredCartItems = currentItems.filter((food) => food && food.id);
+
+      this.cartItemsSubject.next(filteredCartItems);
+      this.saveCartItemsToLocalStorage(filteredCartItems);
     } else {
-      currentItems.push(item);
+      console.error('Invalid item provided:', item);
     }
-
-    // Filter out any empty or invalid items
-    const filteredCartItems = currentItems.filter((food) => food && food.id);
-
-    this.cartItemsSubject.next(filteredCartItems);
-    this.saveCartItemsToLocalStorage(filteredCartItems);
+  } 
+  catch (error) {
+    console.error('Error adding item to cart:', error);
   }
-  }
+}
 
 notifyItemRemoved():void{
   this.itemRemovedSubject.next();
   }
 
 updateCartItemsInLocalStorage(cartItems: FoodCorner[]): void {
-    this.cartItems$
-    // Push the new items to the array before setting them in local storage
     this.cartItemsSubject.next(cartItems);
-
-    // Set the updated cart items in local storage
-    this.localStorageService.setItem('cartItems', cartItems);
-
-
-  }
-
-private updateCartLocalStorage(cartItems: FoodCorner[]): void {
-  this.localStorageService.setItem(this.cartKey,cartItems);
+    this.saveCartItemsToLocalStorage(cartItems);
   }
 
 removeFromCart(food: FoodCorner): void {
-  const currentItems = this.cartItemsSubject.getValue();
-  const updatedItems = currentItems.filter(item => item.id !== food.id);
-  this.cartItemsSubject.next(updatedItems);
-  this.updateCartLocalStorage(updatedItems);
+  try {
+    const currentItems = this.cartItemsSubject.getValue();
+    const updatedItems = currentItems.filter(item => item.id !== food.id);
+    this.cartItemsSubject.next(updatedItems);
+    this.cartStorageService.saveCartItems(updatedItems);
+  } 
+  catch (error) {
+    console.error('Error removing item from cart:', error);
   }
+}
 }
