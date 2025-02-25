@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { FoodCorner } from '../Model/FoodCorner';
-import { LocalstorageService } from './localstorage.service';
 import { CartStorageService } from './cart-storage.service';
 
 @Injectable({
@@ -19,35 +18,37 @@ export class CartItemsService {
   hasItems$ = this.hasItemsSubject.asObservable();
   itemRemoved$ = this.itemRemovedSubject.asObservable();
 
+  private isLoaded = false;
 constructor(
-  private localStorageService:LocalstorageService,
   private cartStorageService:CartStorageService 
-) {
-  this.loadCartItems();
-  this.itemAddedToCart.next(true)
+) {  
 }
 
 hasItemId(id:any) {
   const currentCartItems = this.cartItemsSubject.getValue();
   return currentCartItems.some((item: { id: any }) => item.id === id);
-  }
+}
 updateCartState(hasItems: boolean) {
-    this.hasItemsSubject.next(hasItems);
-  }
+  this.hasItemsSubject.next(hasItems);
+}
 
 updateCartItems(cartItems: FoodCorner[]): void {
-    this.cartItemsSubject.next(cartItems);
-  }
+  this.cartItemsSubject.next(cartItems);
+}
 
 setCartItems(cartItems: FoodCorner[]): Observable<FoodCorner[]> {
   this.cartItemsSubject.next(cartItems);
   return this.cartItems$;
-  }
+}
 
-private loadCartItems(): void {
-  const storedItems = this.cartStorageService.loadCartItems();
-  this.cartItemsSubject.next(storedItems);
+loadCartItems(): void {
+  if (!this.isLoaded) {
+    this.itemAddedToCart.next(true)
+    const storedItems = this.cartStorageService.loadCartItems();
+    this.cartItemsSubject.next(storedItems);
+    this.isLoaded = true; 
   }
+}
 
 private saveCartItemsToLocalStorage(cartItems: FoodCorner[]): void {
   this.cartStorageService.saveCartItems(cartItems);

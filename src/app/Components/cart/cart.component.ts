@@ -6,7 +6,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import Swal from 'sweetalert2';
 import { FoodService } from 'src/app/Service/food.service';
-import { AuthService } from 'src/app/Service/auth.service';
+
 
 @Component({
   selector: 'app-cart',
@@ -24,7 +24,6 @@ export class CartComponent implements OnInit {
   carts!: any
   public messageForm: FormGroup;
   constructor(
-    private authService: AuthService,
     private router: Router,
     private cartItemsService: CartItemsService,
     private foodService:FoodService,
@@ -38,6 +37,7 @@ export class CartComponent implements OnInit {
   
   }
 ngOnInit(): void {
+  this.cartItemsService.loadCartItems()
   const cartItemsSubscription = this.cartItemsService.cartItems$.subscribe((cartItems) => {
     this.foods = cartItems;
     this.calculateTotalPrice();
@@ -65,10 +65,7 @@ removeFromCart(food: FoodCorner): void {
   }
 }
 
-loadCartItemsFromLocalStorage(): void {
-    const savedCartItems = JSON.parse(localStorage.getItem('cartItems') || '[]');
-    this.cartItemsService.updateCartItems(savedCartItems);
-  }
+
 
 increaseQuantity(food: FoodCorner): void {
     if (food.quantity < 100) {
@@ -115,9 +112,6 @@ continue(): void {
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
   checkout(): void {
-    var x = this.authService.isLoggedIn
-    console.log(x);
-    
     this.cartItemsService.updateCartItems(this.foods);
     this.router.navigate(['/checkout']);
     window.scrollTo({ top: 0, behavior: 'smooth' });
