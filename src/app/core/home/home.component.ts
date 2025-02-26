@@ -4,9 +4,8 @@ import { FoodCorner } from 'src/app/Model/FoodCorner';
 import { FoodService } from 'src/app/Service/food.service';
 import { trigger, state, style, animate, transition } from '@angular/animations';
 import { CartItemsService } from 'src/app/Service/cart-items.service';
-import { LocalstorageService } from 'src/app/Service/localstorage.service';
-import { CART_ITEMS } from 'src/app/cartItemsToken';
-import { concat, first, interval, map, merge, take } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { startWith } from 'rxjs';
 
 @Component({
   selector: 'app-home',
@@ -35,90 +34,61 @@ export class HomeComponent implements OnInit{
   foodsOriginal :FoodCorner[] = [];
   filteredFoodsSignal = signal<FoodCorner[]>(this.foodsOriginal);
   showAllProducts: boolean = false;
-  currFoodId!: string;
+  currFoodId!: number;
   isInCart= false  ;
-  isScrollbarEnabled = false;
-  activeTabIndex: number = 0;
   constructor(
-    @Inject(CART_ITEMS) private getCartItemsToken:any[],
     @Inject('FoodCategories') FoodCategories:string[],
     private router: Router,
     private foodService: FoodService,
     private cartItemsService: CartItemsService,
-    private localStorageService:LocalstorageService,
     private destroyRef: DestroyRef
   ) { this.categories = FoodCategories}
 
-  ngOnInit() {
-      const fetchFood = this.foodService.fetchData<FoodCorner>('food').subscribe((foods)=>{
-        this.foodsOriginal = foods
-        this.filteredFoodsSignal.set(foods)
-    })
-    this.foodsItemsCart = this.cartItemsService.cartItemsSubject.getValue();
-    this.destroyRef.onDestroy(()=>{
-      fetchFood.unsubscribe()
-    })
+ngOnInit() {
+  this.loadFoods();
+  this.subscribeToCart();
+}
+
+private loadFoods() {
+  this.foodService.fetchData<FoodCorner>('food')
+    .pipe(
+      startWith([]),
+      takeUntilDestroyed(this.destroyRef)
+    )
+    .subscribe(foods => {
+      this.foodsOriginal = foods;
+      this.filteredFoodsSignal.set(foods);
+    });
+}
+
+private subscribeToCart() {
+  this.cartItemsService.cartItemsSubject
+    .pipe(takeUntilDestroyed(this.destroyRef))
+    .subscribe(items => this.foodsItemsCart = items);
   }
 
-  filterFoodsByCategory(category: string | any) {
-    this.selectedCategory = category;
-    if (category === '*' || category === '') {
-      this.filteredFoodsSignal.set(this.foodsOriginal);    
-    } else {
-      const filteredFoods = this.foodsOriginal.filter(food => food.tag === category);
-      this.filteredFoodsSignal.set(filteredFoods);
-    }
+filterFoodsByCategory(category: string) {
+    const filtered = this.foodService.filterFoodsByCategory(this.foodsOriginal, category);
+    this.filteredFoodsSignal.set(filtered);
   }
 
-
-  setActiveTab(index: number): void {
-    this.activeTabIndex = index;
-  }
-  toggleScrollbar() {
-    this.isScrollbarEnabled = !this.isScrollbarEnabled;
-  }
-  
 openFoodDetails(food: FoodCorner): void {
   this.router.navigate(['/food', food.id]);
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-
-isInCartItem(id: number): boolean {  
-  return this.foodsItemsCart.some(item => item.id === id);
+isInCartItem(id: number): boolean {
+  return this.cartItemsService.isInCartItem(id)
 }
 
 addToCart(food: FoodCorner): void {
-  const isItemInCart = this.cartItemsService.hasItemId(food.id);  
-  if (!isItemInCart) {
     this.cartItemsService.addToCart(food);
-    const currentCartItems = this.cartItemsService.cartItemsSubject.getValue();
-    this.foodsItemsCart = currentCartItems;
-  }
 }
-
-saveItemsToLocalStorage(cartItems: FoodCorner[]): void {
-  const foodData = {
-    id: this.currFoodId,
-    name: this.food.name,
-    cookTime: this.food.cookTime,
-    price: this.food.price,
-    quantity: this.food.quantity,
-    imageURL: this.food.imageURL,
-  }
-  if (!this.getCartItemsToken.some((item: FoodCorner) => item.id === this.currFoodId && item.quantity > 0)) {
-    this.getCartItemsToken.push(foodData); 
-    this.localStorageService.setItem('cartItems', this.getCartItemsToken);
-  }
-}
-
 
 toggleShowAllProducts() {
     this.showAllProducts = !this.showAllProducts;
   }
   toggleLike(food: FoodCorner): void {
-    food.favorite = !food.favorite;
+    this.foodService.toggleFavorite(food);
   }
-
-
 }

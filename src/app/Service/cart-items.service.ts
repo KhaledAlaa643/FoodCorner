@@ -1,7 +1,9 @@
-import { Injectable } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { FoodCorner } from '../Model/FoodCorner';
 import { CartStorageService } from './cart-storage.service';
+import { CART_ITEMS } from '../cartItemsToken';
+import { LocalstorageService } from './localstorage.service';
 
 @Injectable({
   providedIn: 'root'
@@ -22,11 +24,13 @@ export class CartItemsService {
 constructor(
   private cartStorageService:CartStorageService 
 ) {  
+  this.itemAddedToCart.next(true)
+  this.loadCartItems()
 }
 
-hasItemId(id:any) {
-  const currentCartItems = this.cartItemsSubject.getValue();
-  return currentCartItems.some((item: { id: any }) => item.id === id);
+isInCartItem(id:number) {
+  const currentCartItems = this.cartItemsSubject.getValue() as {id:number}[]
+  return currentCartItems.some(item => item.id === id);
 }
 updateCartState(hasItems: boolean) {
   this.hasItemsSubject.next(hasItems);
@@ -43,43 +47,44 @@ setCartItems(cartItems: FoodCorner[]): Observable<FoodCorner[]> {
 
 loadCartItems(): void {
   if (!this.isLoaded) {
-    this.itemAddedToCart.next(true)
     const storedItems = this.cartStorageService.loadCartItems();
     this.cartItemsSubject.next(storedItems);
     this.isLoaded = true; 
   }
 }
 
-private saveCartItemsToLocalStorage(cartItems: FoodCorner[]): void {
+saveCartItemsToLocalStorage(cartItems: FoodCorner[]): void {
   this.cartStorageService.saveCartItems(cartItems);
   }
 
 addToCart(item: FoodCorner): void {
-  try {
-    this.itemAddedToCart.next(true);
-    const currentItems = this.cartItemsSubject.getValue();
+    if (!item || !item.id) return;
+    
+    try {
+      this.itemAddedToCart.next(true);
+  
+      const updatedCart = this.getUpdatedCartWithItem(item);
+      
+      this.cartItemsSubject.next(updatedCart);
 
-    if (item && item.id) {
-      const existingItem = currentItems.find((food) => food.id === item.id);
-
-      if (existingItem) {
-        existingItem.quantity += item.quantity;
-      } else {
-        currentItems.push(item);
-      }
-
-      // Filter out any invalid items
-      const filteredCartItems = currentItems.filter((food) => food && food.id);
-
-      this.cartItemsSubject.next(filteredCartItems);
-      this.saveCartItemsToLocalStorage(filteredCartItems);
-    } else {
-      console.error('Invalid item provided:', item);
+      this.saveCartItemsToLocalStorage(updatedCart);
+    } 
+    catch (error) {
+      console.error('Error adding item to cart:', error);
     }
-  } 
-  catch (error) {
-    console.error('Error adding item to cart:', error);
   }
+
+private getUpdatedCartWithItem(item: FoodCorner): FoodCorner[] {
+  const currentItems = [...this.cartItemsSubject.getValue()]; // Create a new array (avoid mutation)
+  const existingItem = currentItems.find((food) => food.id === item.id);
+
+  if (existingItem) {
+    existingItem.quantity += item.quantity;
+  } else {
+    currentItems.push(item);
+  }
+
+  return currentItems.filter((food) => food && food.id); // Remove invalid items
 }
 
 notifyItemRemoved():void{
