@@ -39,7 +39,7 @@ export class FoodDetailsComponent implements OnInit {
 
 ngOnInit(): void {  
   this.sub = this.activatedRoute.params.subscribe((params) => {
-    this.currFoodId = +params['id'];
+    this.currFoodId = parseInt(params['id']);
     this.loadFoodData();
     this.checkNavigationStatus()
   });
@@ -60,7 +60,9 @@ ngOnInit(): void {
 loadFoodData() {
   this.foodService.getFoodByID(this.currFoodId).subscribe((res) => {
     this.foodData = res;
-    this.cartFoods = this.cartItemsService.cartItemsSubject.getValue();
+    this.cartItemsService.cartItems$.subscribe((value)=>
+      this.cartFoods = value
+    );
     this.isItemInCart =  this.cartFoods.some(food => food.id ==  this.currFoodId)     
   });
 }
