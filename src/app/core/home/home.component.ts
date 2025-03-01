@@ -43,14 +43,14 @@ export class HomeComponent implements OnInit{
     private cartItemsService: CartItemsService,
     private destroyRef: DestroyRef
   ) { this.categories = FoodCategories}
-
-ngOnInit() {
-  this.loadFoods();
-  this.subscribeToCart();
-}
-
-private loadFoods() {
-  this.foodService.fetchData<FoodCorner>('food')
+  
+  ngOnInit() {
+    this.loadFoods();
+    this.subscribeToCart();
+  }
+  
+  private loadFoods() {
+    this.foodService.fetchData<FoodCorner>('food')
     .pipe(
       startWith([]),
       takeUntilDestroyed(this.destroyRef)
@@ -62,15 +62,16 @@ private loadFoods() {
 }
 
 private subscribeToCart() {
-  this.cartItemsService.cartItemsSubject
+  this.cartItemsService.cartItems$
     .pipe(takeUntilDestroyed(this.destroyRef))
     .subscribe(items => this.foodsItemsCart = items);
-  }
+}
 
 filterFoodsByCategory(category: string) {
     const filtered = this.foodService.filterFoodsByCategory(this.foodsOriginal, category);
     this.filteredFoodsSignal.set(filtered);
-  }
+    this.selectedCategory = category
+}
 
 openFoodDetails(food: FoodCorner): void {
   this.router.navigate(['/food', food.id]);
@@ -87,8 +88,8 @@ addToCart(food: FoodCorner): void {
 
 toggleShowAllProducts() {
     this.showAllProducts = !this.showAllProducts;
-  }
-  toggleLike(food: FoodCorner): void {
+}
+toggleLike(food: FoodCorner): void {
     this.foodService.toggleFavorite(food);
-  }
+}
 }
