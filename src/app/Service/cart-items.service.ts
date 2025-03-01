@@ -1,36 +1,33 @@
-import { Inject, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { FoodCorner } from '../Model/FoodCorner';
 import { CartStorageService } from './cart-storage.service';
-import { CART_ITEMS } from '../cartItemsToken';
-import { LocalstorageService } from './localstorage.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CartItemsService {
-  public cartItemsSubject = new BehaviorSubject<FoodCorner[]>([]);
-  private hasItemsSubject = new BehaviorSubject<boolean>(false);
-  private itemAddedToCart = new BehaviorSubject<boolean>(false);
-  private itemRemovedSubject = new Subject<void>();
-
-  public cartItems$ = this.cartItemsSubject.asObservable();
-  itemAddedToCart$: Observable<boolean> = this.itemAddedToCart.asObservable();
-
-  hasItems$ = this.hasItemsSubject.asObservable();
-  itemRemoved$ = this.itemRemovedSubject.asObservable();
-
   private isLoaded = false;
-constructor(
-  private cartStorageService:CartStorageService 
-) {  
-  this.itemAddedToCart.next(true)
+
+  private cartItemsSubject = new BehaviorSubject<FoodCorner[]>([]);
+  cartItems$ : Observable<FoodCorner[]> = this.cartItemsSubject.asObservable();
+
+  private hasItemsSubject = new BehaviorSubject<boolean>(false);
+  hasItems$ : Observable<boolean>= this.hasItemsSubject.asObservable();
+
+  private itemAddedToCartSubject = new BehaviorSubject<boolean>(false);
+  itemAddedToCart$ : Observable<boolean> = this.itemAddedToCartSubject.asObservable();
+
+  private itemRemovedSubject = new Subject<void>();
+  itemRemoved$ : Observable<void>= this.itemRemovedSubject.asObservable();
+
+constructor(private cartStorageService:CartStorageService) {  
+  this.itemAddedToCartSubject.next(true)
   this.loadCartItems()
 }
 
 isInCartItem(id:number) {
-  const currentCartItems = this.cartItemsSubject.getValue() as {id:number}[]
-  return currentCartItems.some(item => item.id === id);
+  return this.cartItemsSubject.getValue().some(item => item.id === id);
 }
 updateCartState(hasItems: boolean) {
   this.hasItemsSubject.next(hasItems);
@@ -61,7 +58,7 @@ addToCart(item: FoodCorner): void {
     if (!item || !item.id) return;
     
     try {
-      this.itemAddedToCart.next(true);
+      this.itemAddedToCartSubject.next(true);
   
       const updatedCart = this.getUpdatedCartWithItem(item);
       
