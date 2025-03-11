@@ -5,7 +5,7 @@ import { FoodService } from 'src/app/Service/food.service';
 import { trigger, state, style, animate, transition } from '@angular/animations';
 import { CartItemsService } from 'src/app/Service/cart-items.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { startWith } from 'rxjs';
+import { map, Observable, startWith } from 'rxjs';
 
 @Component({
   selector: 'app-home',
@@ -28,6 +28,7 @@ import { startWith } from 'rxjs';
 })
 export class HomeComponent implements OnInit{
   food: FoodCorner = {} as FoodCorner;
+  cartItemStatus!: boolean;
   selectedCategory: string = "";
   categories:string[]= []
   foodsItemsCart :FoodCorner[] = [];
@@ -36,6 +37,8 @@ export class HomeComponent implements OnInit{
   showAllProducts: boolean = false;
   currFoodId!: number;
   isInCart= false  ;
+  cartItemIds = this.cartItemsService.cartItemIds;    
+  
   constructor(
     @Inject('FoodCategories') FoodCategories:string[],
     private router: Router,
@@ -49,28 +52,28 @@ export class HomeComponent implements OnInit{
     this.subscribeToCart();
   }
   
-  private loadFoods() {
-    this.foodService.fetchData<FoodCorner>('food')
-    .pipe(
-      startWith([]),
-      takeUntilDestroyed(this.destroyRef)
-    )
-    .subscribe(foods => {
-      this.foodsOriginal = foods;
-      this.filteredFoodsSignal.set(foods);
-    });
+private loadFoods() : void {
+  this.foodService.fetchData<FoodCorner>('food')
+  .pipe(
+    startWith([]),
+    takeUntilDestroyed(this.destroyRef)
+  )
+  .subscribe(foods => {
+    this.foodsOriginal = foods;
+    this.filteredFoodsSignal.set(foods);
+  });
 }
 
-private subscribeToCart() {
+private subscribeToCart() : void {
   this.cartItemsService.cartItems$
     .pipe(takeUntilDestroyed(this.destroyRef))
     .subscribe(items => this.foodsItemsCart = items);
 }
 
-filterFoodsByCategory(category: string) {
-    const filtered = this.foodService.filterFoodsByCategory(this.foodsOriginal, category);
-    this.filteredFoodsSignal.set(filtered);
-    this.selectedCategory = category
+filterFoodsByCategory(category: string) : void {
+  const filtered = this.foodService.filterFoodsByCategory(this.foodsOriginal, category);
+  this.filteredFoodsSignal.set(filtered);
+  this.selectedCategory = category
 }
 
 openFoodDetails(food: FoodCorner): void {
@@ -78,18 +81,14 @@ openFoodDetails(food: FoodCorner): void {
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-isInCartItem(id: number): boolean {
-  return this.cartItemsService.isInCartItem(id)
-}
-
 addToCart(food: FoodCorner): void {
-    this.cartItemsService.addToCart(food);
+  this.cartItemsService.addToCart(food);
 }
 
-toggleShowAllProducts() {
-    this.showAllProducts = !this.showAllProducts;
+toggleShowAllProducts() : boolean{
+    return this.showAllProducts = !this.showAllProducts;
 }
-toggleLike(food: FoodCorner): void {
-    this.foodService.toggleFavorite(food);
+toggleLike(food: FoodCorner): boolean {
+  return  this.foodService.toggleFavorite(food);
 }
 }

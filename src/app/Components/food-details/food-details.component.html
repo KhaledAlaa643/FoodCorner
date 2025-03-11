@@ -26,7 +26,7 @@
               </div>
               <h5><i class="fa fa-heart red-heart favorite" [ngClass]="{'fas': foodData.favorite, 'far': !foodData.favorite}"(click)="toggleLike(foodData)"></i></h5>
             </div>
-            <button type="button" class="btn btn-warning btn-arrow-left mx-5"  [disabled]="isFistDisabled" (click)="previous()">previous Food</button>
+            <button type="button" class="btn btn-warning btn-arrow-left mx-5"  [disabled]="isFirstDisabled" (click)="previous()">previous Food</button>
             <button type="button" class="btn btn-warning btn-arrow-right" [disabled]="isLastDisabled" (click)="next()">Next Food</button>
           </div>
           <div class ="food-details col-6">
@@ -41,20 +41,20 @@
                     <button id="addCartBtn"
                       class="btn btn-outline-warning "
                       (click)="addToCart()"
-                      [disabled]="isItemInCart"
+                      [disabled]="cartItemIds().has(foodData.id)"
                       >
-                      <i [hidden]="isItemInCart" class="fa-solid fa-cart-plus"></i>
-                      <span [hidden]="isItemInCart">
+                      <i [hidden]="cartItemIds().has(foodData.id)" class="fa-solid fa-cart-plus"></i>
+                      <span [hidden]="cartItemIds().has(foodData.id)">
                         Add to Cart
                       </span>
-                      <span [hidden]="!isItemInCart">
+                      <span [hidden]="!cartItemIds().has(foodData.id)">
                         &#x2713; Added to Cart  
                       </span>
                     
                     
                     </button>
                   </div>
-                  <p *ngIf="isItemInCart" class="text-warning" style="display: block;">
+                  <p *ngIf="cartItemIds().has(foodData.id)" class="text-warning" style="display: block;">
                     Item already in cart
                   </p>
                 </div>
