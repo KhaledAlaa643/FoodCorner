@@ -9,16 +9,19 @@ import { environment } from 'src/environments/environment.development';
   providedIn: 'root'
 })
 export class FoodService {
+  url = environment.apiUrl;
 constructor(private http: HttpClient){}
 
 getFoodByID(id: string | null | number): Observable<FoodCorner> {
-  const url = environment.apiUrl;
-  return this.http.get<FoodCorner>(`${url}/food/${id}`);
+  return this.http.get<FoodCorner>(`${this.url}/food/${id}`)
+  .pipe(
+    catchError(error => throwError(() => new Error(`Failed to Load Food with ID: ${id}. Please try again later.`)))
+  );;
 }
 
 fetchData<T>(endpoint?: string): Observable<T[]> {
-  const url = endpoint ? `${environment.apiUrl}/${endpoint}` : `${environment.apiUrl}`;
-  return this.http.get<T[]>(url).pipe(
+  const data = endpoint ? `${this.url}/${endpoint}` : `${this.url}`;
+  return this.http.get<T[]>(data).pipe(
     catchError(error => throwError(() => new Error(`Failed to fetch ${endpoint || 'data'}. Please try again later.`)))
   );
 }
@@ -29,7 +32,7 @@ filterFoodsByCategory(foods: FoodCorner[], category: string): FoodCorner[] {
   return foods.filter(food => food.tag?.toString() === category);
 }
 
-toggleFavorite(food: FoodCorner): void {
-  food.favorite = !food.favorite;
+toggleFavorite(food: FoodCorner): boolean {
+  return food.favorite = !food.favorite;
 }
 }
