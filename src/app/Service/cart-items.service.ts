@@ -13,7 +13,8 @@ export class CartItemsService {
   private readonly cartItemsSubject = new BehaviorSubject<FoodCorner[]>([]);
   readonly cartItems$ : Observable<FoodCorner[]> = this.cartItemsSubject.asObservable();
 
-constructor(private cartStorageService:CartStorageService) {  
+constructor(private cartStorageService:CartStorageService,
+) {  
   this.loadCartItems()
 }
 
@@ -70,5 +71,28 @@ removeFromCart(food: FoodCorner): void {
   catch (error) {
     console.error('Error removing item from cart:', error);
   }
+}
+
+increaseQuantity(food: FoodCorner): void {
+  if (food.quantity < 100) {
+    food.quantity++;
+    this.updateFoodInLocalStorage(food)
   }
+}
+
+decreaseQuantity(food: FoodCorner): void {
+  if (food.quantity > 1) {
+    food.quantity--;
+    this.updateFoodInLocalStorage(food)
+  }
+}
+
+updateFoodInLocalStorage(food: FoodCorner): void {
+  const storedItems = this.cartStorageService.loadCartItems();
+  const cartItem = storedItems.find((item: FoodCorner) => item.id === food.id);
+    if (cartItem) {
+      cartItem.quantity = food.quantity;
+      this.cartStorageService.saveCartItems(storedItems);
+    }
+}
 }

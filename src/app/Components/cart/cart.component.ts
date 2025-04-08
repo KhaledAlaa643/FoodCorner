@@ -1,35 +1,29 @@
-import { Component, DestroyRef, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, DestroyRef, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FoodCorner } from 'src/app/Model/FoodCorner';
 import { CartItemsService } from 'src/app/Service/cart-items.service';
-import { MatTableDataSource } from '@angular/material/table';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import Swal from 'sweetalert2';
-import { FoodService } from 'src/app/Service/food.service';
-
 
 @Component({
   selector: 'app-cart',
   templateUrl: './cart.component.html',
-  styleUrls: ['./cart.component.css']
+  styleUrls: ['./cart.component.css'],
+  changeDetection:ChangeDetectionStrategy.OnPush
 })
 export class CartComponent implements OnInit {
   foods: FoodCorner[] = [];
   price: number = 0;
-  
-  @Input() totalCartItems: number = 0;
-  dataSource = new MatTableDataSource<FoodCorner>([]); 
+  subtotal = 0;
+  productPrice = 0
   currentPage: number = 1;
   itemsPerPage: number = 3;
-  carts!: any
   public messageForm: FormGroup;
   constructor(
-    private router: Router,
     private cartItemsService: CartItemsService,
-    private foodService:FoodService,
+    private router: Router,
     private fb: FormBuilder,
     private destroyRef: DestroyRef
-
   ) {
     this.messageForm = this.fb.group({
       msg: ['', [Validators.required]],
@@ -39,91 +33,80 @@ export class CartComponent implements OnInit {
 ngOnInit(): void {
   this.cartItemsService.loadCartItems()
   const cartItemsSubscription = this.cartItemsService.cartItems$.subscribe((cartItems) => {
-    this.foods = cartItems;
-    this.calculateTotalPrice();
+    this.foods = cartItems
+    this.updatePrices()
   });
-    
-    this.carts = this.foodService.fetchData<FoodCorner>();
-    this.dataSource.data = this.foods;
-    this.destroyRef.onDestroy(()=>{
-      cartItemsSubscription.unsubscribe()
-    })
+  this.destroyRef.onDestroy( () => cartItemsSubscription.unsubscribe())
+}
 
-}
-onInput(event: any) {
-  const input = event.target;
-  input.value = input.value.replace(/[^0-9]/g, ''); 
-}
+
 removeFromCart(food: FoodCorner): void {
   this.cartItemsService.removeFromCart(food);
-  const index = this.foods.indexOf(food);
-  if (index > -1) {
-    this.foods.splice(index, 1);
-    this.calculateTotalPrice();
-    this.cartItemsService.notifyItemRemoved();
-    window.location.reload();
-  }
 }
-
 
 
 increaseQuantity(food: FoodCorner): void {
-    if (food.quantity < 100) {
-      food.quantity++;
-      this.calculateTotalPrice();
-      this.cartItemsService.updateCartItemsInLocalStorage(this.foods);
-    }
+  this.cartItemsService.increaseQuantity(food)
+  this.updatePrices()
 }
 
 
 decreaseQuantity(food: FoodCorner): void {
-  if (food.quantity > 1) {
-    food.quantity--;
-      this.calculateTotalPrice();
-      this.cartItemsService.updateCartItemsInLocalStorage(this.foods);
-    }
+  this.cartItemsService.decreaseQuantity(food)
+  this.updatePrices()
 }
 
-updateFoodInLocalStorage(food: FoodCorner): void {
-    this.foodService.fetchData<FoodCorner>().subscribe((cartItems: FoodCorner[]) => {
-      const cartItem = cartItems.find((item: FoodCorner) => item.id === food.id);
-      if (cartItem) {
-        cartItem.quantity = food.quantity;
-        this.cartItemsService.setCartItems(cartItems).subscribe(() => this.cartItemsService.updateCartItemsInLocalStorage(cartItems)
-      )}
-    });
-}
 
 getFoodQuantity(foodId: string): number {
-    const item = this.foods.find((food: FoodCorner) => food.id === foodId);
-    return item ? item.quantity : 0;
+  const item = this.foods.find((food: FoodCorner) => food.id === foodId);  
+  return item ?  item.quantity : 0;
 }
 
-calculateTotalPrice(): number {
-  this.totalCartItems = this.foods.reduce((total, food) => total + (food.price * food.quantity), 0);
-  return this.totalCartItems
+
+updatePrices(): void{
+  this.updateProductsPrice()
+  this.subtotal = this.calculateTotalPrice()
 }
+
+
+updateProductsPrice(): void {
+  this.foods.forEach(food => food.productPrice = food.quantity * food.price);
+}
+
+
+calculateTotalPrice(): number {  
+  return this.foods.reduce((total, food) => total + (food.price * food.quantity), 0);
+}
+
+
 calculateProductPrice(food: FoodCorner): number {
-    return food.price * this.getFoodQuantity(food.id);
-}
+  this.productPrice = food.price * this.getFoodQuantity(food.id);
+  return this.productPrice
+} 
 
-continue(): void {
+
+goToHome(): void {
   this.router.navigate(['/home']);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 }
-  checkout(): void {
-    this.cartItemsService.updateCartItems(this.foods);
-    this.router.navigate(['/checkout']);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  }
 
-  save() {
-    Swal.fire({
-    position: "center",
-    icon: "success",
-    title: "Your Note has been saved",
-    showConfirmButton: false,
-    timer: 1500
-    });
+
+checkout(): void {
+  this.router.navigate(['/checkout']);
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+
+saveMessage() {
+  if (this.messageForm.invalid) {
+    return;
   }
+  Swal.fire({
+  position: "center",
+  icon: "success",
+  title: "Your Note has been saved",
+  showConfirmButton: false,
+  timer: 1500
+  });
+}
 }

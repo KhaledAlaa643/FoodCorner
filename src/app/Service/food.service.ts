@@ -15,14 +15,14 @@ constructor(private http: HttpClient){}
 getFoodByID(id: string | null | number): Observable<FoodCorner> {
   return this.http.get<FoodCorner>(`${this.url}/food/${id}`)
   .pipe(
-    catchError(error => throwError(() => new Error(`Failed to Load Food with ID: ${id}. Please try again later.`)))
-  );;
+    catchError(this.handleError(id))
+  );
 }
 
 fetchData<T>(endpoint?: string): Observable<T[]> {
   const data = endpoint ? `${this.url}/${endpoint}` : `${this.url}`;
   return this.http.get<T[]>(data).pipe(
-    catchError(error => throwError(() => new Error(`Failed to fetch ${endpoint || 'data'}. Please try again later.`)))
+    catchError(this.handleError(endpoint))
   );
 }
 filterFoodsByCategory(foods: FoodCorner[], category: string): FoodCorner[] {
@@ -32,6 +32,9 @@ filterFoodsByCategory(foods: FoodCorner[], category: string): FoodCorner[] {
   return foods.filter(food => food.tag?.toString() === category);
 }
 
+handleError(error:string | undefined | any):any{
+  return () => throwError(() => new Error(`Failed to Load ${error}. Please try again later.`))
+}
 toggleFavorite(food: FoodCorner): boolean {
   return food.favorite = !food.favorite;
 }

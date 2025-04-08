@@ -10,4 +10,5 @@ export interface FoodCorner {
   cookTime: string;
   description: string;
   quantity: number;
+  productPrice? : number 
 }

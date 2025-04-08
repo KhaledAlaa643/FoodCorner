@@ -37,7 +37,7 @@
                       <button class="btn btn-link mx-2" (click)="decreaseQuantity(food)">
                         <i class="fas fa-minus text-white"></i>
                       </button>
-                      <input type="text" [(ngModel)]="food.quantity" (input)="onInput($event)" (ngModelChange)="updateFoodInLocalStorage(food)" class="text-center qty text-warning">
+                      <input type="text" [(ngModel)]="food.quantity" class="text-center qty text-warning">
                       <button class="btn btn-link mx-2" (click)="increaseQuantity(food)">
                         <i class="fas fa-plus text-white"></i>
                       </button>
@@ -47,7 +47,7 @@
                 <div class=" text-center text-warning foods fw-bold">
                   <h3 class="fw-bold">Price</h3>
                   <div class=" text-center mb-3 mt-3"  *ngFor="let food of foods  | paginate: { itemsPerPage: 3, currentPage: currentPage };">
-                    <h4 class="text-navy text-warning">{{ calculateProductPrice(food) | currency }}</h4>
+                    <h4 class="text-navy text-warning">{{ food.productPrice  | currency }}</h4>
                   </div>
                 </div>
                 <pagination-controls (pageChange)="currentPage = $event"[class.custom-pagination-controls]="true"></pagination-controls>
@@ -56,7 +56,7 @@
                   <form [formGroup]="messageForm">
                     <textarea formControlName="msg" 
                       class="bg-transparent text-white" name="message" rows="8" placeholder="Your Message"></textarea>
-                    <button type="button"class="btn btn-success save" (click)="save()"
+                    <button type="button"class="btn btn-success save" (click)="saveMessage()"
                     [disabled]="messageForm.invalid">Save</button>
                   </form>
                 </div>
@@ -64,7 +64,7 @@
             </div>
             <!-- button continue -->
             <div class="ibox-content">
-              <button class="btn btn-outline-warning" (click)="continue()"><i class="fa fa-arrow-left"></i> Continue shopping</button>
+              <button class="btn btn-outline-warning" (click)="goToHome()"><i class="fa fa-arrow-left"></i> Continue shopping</button>
             </div>
           </div>
         </div>
@@ -79,13 +79,13 @@
               <div class="summary">
                 <h3>Summary</h3>
                 <!-- <hr> -->
-                <div class="summary-item"><span class="text-warning">Subtotal</span><span class="price">{{ calculateTotalPrice() | currency }}</span></div>
+                <div class="summary-item"><span class="text-warning">Subtotal</span><span class="price">{{ subtotal | currency }}</span></div>
                 <div class="summary-item"><span class="text-warning">Discount</span><span class="price">$0</span></div>
                 <div class="summary-item"><span class="text-warning">Delivery</span><span class="price">{{ 5 | currency }}</span></div>
                 <hr>
                 <div class="summary-item" style="font-weight: bold">
                   <span class="text fw-bold text-warning">Total</span>
-                  <span class="price text-warning">{{ totalCartItems + 5 | currency }}</span>
+                  <span class="price text-warning">{{ subtotal + 5 | currency }}</span>
                 </div>
                 <button type="button" class="btn btn-outline-warning btn-lg btn-block w-30" (click)="checkout()">Checkout</button>
               </div>
@@ -102,7 +102,7 @@
       <div class="row">
         <div class="col-12 text-center text-success">
           <h1>Your cart is empty</h1>
-          <button class="btn btn-outline-success mt-5" (click)="continue()"><i class="fa fa-arrow-left"></i> Go shopping</button>
+          <button class="btn btn-outline-success mt-5" (click)="goToHome()"><i class="fa fa-arrow-left"></i> Go shopping</button>
         </div>
       </div>
     </div>
