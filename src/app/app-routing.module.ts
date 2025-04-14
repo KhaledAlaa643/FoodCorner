@@ -10,7 +10,7 @@ const routes: Routes = [
   { path: 'food/:id', loadChildren: () => import('./features/foods/food.module').then(m => m.FoodModule)},
   { path: 'cart', loadChildren: () => import('./features/cart/cart.module').then(m => m.CartModule) },
   { path: 'checkout', loadChildren:() => import('./features/checkout/checkout.module').then(m => m.CheckoutModule) },
-  { path: 'book', loadChildren: () => import('./features/book/book.module').then(m => m.BookModule)},
+  { path: 'book', loadChildren: () => import('./pages/book/book.module').then(m => m.BookModule)},
   { path: 'auth', loadChildren: () => import('./features/auth/auth.module').then(m => m.AuthModule)},
   { path: 'track-order', loadChildren: () => import('./features/track-order/track-order.module').then(m => m.TrackOrderModule)},
 
