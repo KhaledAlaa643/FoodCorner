@@ -6,6 +6,7 @@ import { CartStorageService } from './services/cart-storage.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ChartModule } from 'primeng/chart';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { CartRoutes } from './cart.routing';
 
 
 
@@ -16,7 +17,8 @@ import { NgxPaginationModule } from 'ngx-pagination';
     ReactiveFormsModule,
     ChartModule,
     FormsModule,
-    NgxPaginationModule 
+    NgxPaginationModule ,
+    CartRoutes
   ],
   providers:[CartItemsService,CartStorageService],
 })

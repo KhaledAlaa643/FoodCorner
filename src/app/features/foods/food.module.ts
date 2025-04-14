@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FoodDetailsComponent } from './components/food-details/food-details.component';
 import { FoodService } from './services/food.service';
 import { SharedModule } from "../../shared/shared.module";
+import { FoodRoutes } from './food.routing';
 
 
 
@@ -10,7 +11,8 @@ import { SharedModule } from "../../shared/shared.module";
   declarations: [FoodDetailsComponent],
   imports: [
     CommonModule,
-    SharedModule
+    SharedModule,
+    FoodRoutes
 ],
   providers:[FoodService]
 })

@@ -1,8 +1,7 @@
-import { Component, OnInit ,ElementRef, ViewChild, DestroyRef, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit ,ElementRef, ViewChild, DestroyRef } from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
-import { debounce, update } from 'lodash';
-import { debounceTime, distinctUntilChanged, Subscription } from 'rxjs';
+
+import { Subscription } from 'rxjs';
 
 import { User } from 'src/app/features/auth/models/User';
 import { AuthService } from 'src/app/features/auth/services/auth.service';

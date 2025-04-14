@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { AbstractControl, AsyncValidatorFn, ValidationErrors } from '@angular/forms';
-import { Observable, of, debounceTime, switchMap, map, catchError, distinctUntilChanged, fromEvent, startWith, merge, find, tap, finalize, take, first } from 'rxjs';
+import { Observable, of, debounceTime, switchMap, map, catchError, distinctUntilChanged, first } from 'rxjs';
 import { environment } from 'src/environments/environment.development';
 import { User } from '../models/User';
 

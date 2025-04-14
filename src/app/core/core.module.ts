@@ -5,14 +5,10 @@ import { AuthGuard } from './guards/auth.guard';
 export const FOOD_CATEGORIES:string[] = ['*', 'burger', 'pizza', 'pasta', 'fries'];
 
 @NgModule({
-  imports: [
-  ],
   providers:[
-    {provide:'FoodCategories',useValue:FOOD_CATEGORIES},
+    { provide:'FoodCategories', useValue: FOOD_CATEGORIES },
     LocalstorageService,
     AuthGuard
-  ],
-  exports:[
   ]
 })
 export class CoreModule {}

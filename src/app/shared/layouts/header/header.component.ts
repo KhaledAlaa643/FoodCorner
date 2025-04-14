@@ -28,6 +28,9 @@ export class HeaderComponent implements OnInit {
     // private destroyRef2 = inject(DestroyRef)
   ) {
   }
+  goto(){
+    this.router.navigateByUrl("/home")
+  }
   closeNavbar() {
     const yourDiv = this.el.nativeElement.querySelector('#navbarSupportedContent');
     if (yourDiv) {

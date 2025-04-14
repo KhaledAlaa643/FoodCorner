@@ -5,7 +5,7 @@ import { FoodService } from 'src/app/features/foods/services/food.service';
 import { trigger, state, style, animate, transition } from '@angular/animations';
 import { CartItemsService } from 'src/app/features/cart/services/cart-items.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { map, Observable, startWith } from 'rxjs';
+import { startWith } from 'rxjs';
 
 @Component({
   selector: 'app-home',
@@ -86,7 +86,7 @@ addToCart(food: FoodCorner): void {
 }
 
 toggleShowAllProducts() : boolean{
-    return this.showAllProducts = !this.showAllProducts;
+  return this.showAllProducts = !this.showAllProducts;
 }
 toggleLike(food: FoodCorner): boolean {
   return  this.foodService.toggleFavorite(food);

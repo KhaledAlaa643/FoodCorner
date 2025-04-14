@@ -17,7 +17,8 @@
                 [ngClass]="{
                   'text-warning': isActive('/home'),
                   'text-white': !isActive('/home')
-                }"(click)="closeNavbar()">
+                }" 
+                (click)="closeNavbar()">
                 <i class="fa-solid fa-house  mx-1"></i>
                 Home
             </a>
@@ -30,7 +31,8 @@
                 [ngClass]="{
                   'text-warning': isActive('/book'),
                   'text-white': !isActive('/book')
-                }"(click)="closeNavbar()">
+                }" 
+                (click)="closeNavbar()">
                 <i class="fa-solid fa-utensils  mx-1"></i>
                 Book Table
           </a>
@@ -43,7 +45,8 @@
             [ngClass]="{
               'text-warning': isActive('/contact'),
               'text-white': !isActive('/contact')
-            }"(click)="closeNavbar()">
+            }" 
+            (click)="closeNavbar()">
             <i class="fa-solid fa-message mx-1"></i>
             Contact us
             </a>
@@ -65,27 +68,27 @@
           </a>
           <ul class="dropdown-menu bg-dark" aria-labelledby="navbarDropdown">
             <li>                  
-              <a class="dropdown-item text-warning"  routerLink="/user/profile"(click)="closeNavbar()">
+              <a class="dropdown-item text-warning"  routerLink="/auth/profile" (click)="closeNavbar()">
                 <i class="fa-solid fa-user mx-1"></i>
                 Profile
               </a>
             </li>
             <li>                  
-              <a class="dropdown-item text-warning" routerLink="/user/setting"(click)="closeNavbar()">
+              <a class="dropdown-item text-warning" routerLink="/auth/settings" (click)="closeNavbar()">
                   <i class="fa-solid fa-gear mx-1"></i>
                   Setting
               </a>
             </li>
             <li>                  
               <a class="dropdown-item text-warning"
-              routerLink="/user"(click)="closeNavbar()">
+              routerLink="/track-order" (click)="closeNavbar()">
                 <i class="fa-solid fa-truck-fast mx-1"></i>
                 Orders
               </a>
             </li>
             <li><hr class="dropdown-divider bg-white"></li>
             <li class="sign-out">
-              <button type="button" class="dropdown-item text-center btn btn-outline-warning w-100"(click)="logout()"
+              <button type="button" class="dropdown-item text-center btn btn-outline-warning w-100" (click)="logout()"
                   data-toggle="modal"
                   data-target="modalID"
                   [hidden]="!userStatus"

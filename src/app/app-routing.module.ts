@@ -1,32 +1,22 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { HomeComponent } from './core/home/home.component';
-import { FoodDetailsComponent } from './Components/food-details/food-details.component';
-import { CartComponent } from './Components/cart/cart.component';
-import { NotFoundComponent } from './core/not-found/not-found.component';
-import { CheckoutComponent } from './Components/checkout/checkout.component';
-import { ContactComponent } from './core/contact/contact.component';
-import { BookComponent } from './Components/book/book.component';
-import { AuthGuard } from './Guards/auth.guard';
+import { NotFoundComponent } from './pages/not-found/not-found.component';
 
 const routes: Routes = [
-  { path: 'home', component: HomeComponent },
-  { path: '', component: HomeComponent },
-  { path: 'food/:id', component: FoodDetailsComponent },
-  { path: 'cart', component: CartComponent },
-  { path: 'checkout', component: CheckoutComponent,canActivate:[AuthGuard] },
-  { path: 'contact', component: ContactComponent },
-
-  { path: 'book', component: BookComponent },
-  { path: 'user', loadChildren: () => import('./lazy/lazy.module').then(m => m.LazyModule)
-  },
+  { path: '', loadChildren:() => import('./pages/home/home.module').then(m => m.HomeModule)},
+  { path: 'home', loadChildren:() => import('./pages/home/home.module').then(m => m.HomeModule)},
+  { path: 'contact', loadChildren: () => import('./pages/contact/contact.module').then(m => m.ContactModule) },
+  
+  { path: 'food/:id', loadChildren: () => import('./features/foods/food.module').then(m => m.FoodModule)},
+  { path: 'cart', loadChildren: () => import('./features/cart/cart.module').then(m => m.CartModule) },
+  { path: 'checkout', loadChildren:() => import('./features/checkout/checkout.module').then(m => m.CheckoutModule) },
+  { path: 'book', loadChildren: () => import('./features/book/book.module').then(m => m.BookModule)},
+  { path: 'auth', loadChildren: () => import('./features/auth/auth.module').then(m => m.AuthModule)},
+  { path: 'track-order', loadChildren: () => import('./features/track-order/track-order.module').then(m => m.TrackOrderModule)},
 
   { path: '**', component: NotFoundComponent },
 
-
 ];
-
-
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
