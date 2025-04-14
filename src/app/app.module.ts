@@ -3,57 +3,52 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { RouterModule } from '@angular/router';
-import { HomeComponent } from './core/home/home.component';
-import { FoodDetailsComponent } from './Components/food-details/food-details.component';
 import { HttpClientModule } from '@angular/common/http';
-import { CheckoutComponent } from './Components/checkout/checkout.component';
-import { RegisterComponent } from './Components/register/register.component';
-import { BookComponent } from './Components/book/book.component';
+
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field'; 
-import { CartComponent } from './Components/cart/cart.component';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { NgScrollbarModule } from 'ngx-scrollbar';
-import { ChartModule } from 'primeng/chart';
 import { TableModule } from 'primeng/table'; 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { CoreModule } from './core/core.module';
 import { CommonModule } from '@angular/common';
-import { HeaderComponent } from './core/header/header.component';
-import { FooterComponent } from './core/footer/footer.component';
-import { StarsPipe } from './pipes/stars.pipe';
-
+import { SharedModule } from './shared/shared.module';
+import { AuthModule } from './features/auth/auth.module';
+import { CartModule } from './features/cart/cart.module';
+import { CheckoutModule } from './features/checkout/checkout.module';
+import { FoodModule } from './features/foods/food.module';
+import { TrackOrderModule } from './features/track-order/track-order.module';
+import { AboutModule } from './pages/about/about.module';
+import { ContactModule } from './pages/contact/contact.module';
+import { HomeModule } from './pages/home/home.module';
+import { NotFoundModule } from './pages/not-found/not-found.module';
+import { BookModule } from './features/book/book.module';
 
 @NgModule({
   declarations: [
-    StarsPipe,
-    CartComponent,
-    AppComponent,
-    HomeComponent,
-    FoodDetailsComponent,
-    CheckoutComponent,
-    BookComponent,
-    HeaderComponent,
-    FooterComponent,
-    RegisterComponent,
+    AppComponent
   ],
   imports: [
-    CommonModule,
     BrowserModule,
     RouterModule,
     AppRoutingModule,
     HttpClientModule,
     BrowserAnimationsModule,
-    FormsModule,
-    ReactiveFormsModule,
-    NgxPaginationModule,
     NgScrollbarModule,
-    ChartModule,
-    TableModule,
-    NgbModule ,
+    NgbModule,
     CoreModule,
-    MatFormFieldModule,
+    SharedModule,
+    HomeModule,
+    CartModule,
+    CheckoutModule,
+    FoodModule,
+    ContactModule,
+    NotFoundModule,
+    AuthModule,
+    TrackOrderModule,
+    BookModule
   ],
   providers: [
   ],

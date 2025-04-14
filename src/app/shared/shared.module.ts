@@ -1,32 +1,19 @@
 import { NgModule } from '@angular/core';
+import { StarsPipe } from './pipes/stars.pipe';
+import { HeaderComponent } from './layouts/header/header.component';
+import { FooterComponent } from './layouts/footer/footer.component';
 import { CommonModule } from '@angular/common';
-import { AboutComponent } from './about/about.component';
-import { SliderComponent } from './slider/slider.component';
-import { SpecialComponent } from './special/special.component';
-import { WhyUsComponent } from './whyUs/whyUs.component';
-import { ServicesComponent } from './services/services.component';
-import { OfferComponent } from './offer/offer.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import { AuthUiModule } from '../features/auth/auth-ui.module';
 
+const data =  [
+  StarsPipe,
+  HeaderComponent,
+  FooterComponent,
+]
 @NgModule({
-  imports: [
-    CommonModule
-  ],
-  declarations: [
-    AboutComponent,
-    SliderComponent,
-    SpecialComponent,
-    WhyUsComponent,
-    ServicesComponent,
-    OfferComponent
-  ],
-  exports:[
-    AboutComponent,
-    SliderComponent,
-    SpecialComponent,
-    WhyUsComponent,
-    ServicesComponent,
-    OfferComponent,
-    
-  ]
+  declarations: data,
+  exports: data,
+  imports:[CommonModule,ReactiveFormsModule,AuthUiModule]
 })
 export class SharedModule { }
