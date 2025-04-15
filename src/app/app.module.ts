@@ -18,8 +18,6 @@ import { SharedModule } from './shared/shared.module';
     AppRoutingModule,
     HttpClientModule,
     BrowserAnimationsModule,
-    NgScrollbarModule,
-    NgbModule,
     CoreModule,
     SharedModule,
   ],
