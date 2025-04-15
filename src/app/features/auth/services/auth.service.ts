@@ -12,18 +12,24 @@ import { LocalstorageService } from '../../../core/services/localstorage.service
 // login, logout, signup, and status tracking
 export class AuthService {
   private isLoggedInValue: BehaviorSubject<boolean>;
+
   constructor( private httpClient: HttpClient,
     private localStorageService:LocalstorageService
   ) {
-    this.isLoggedInValue = new BehaviorSubject<boolean> (false)
+    const tokenExists = !!this.getToken();
+    this.isLoggedInValue = new BehaviorSubject<boolean>(tokenExists);
+  }
+  getToken ():string | null{
+    return localStorage.getItem("auth-token")
   }
   login(email: string, password: string) {
-    const userToken = "User Loggin"
-    this.localStorageService.setItem("IsLoggin", userToken);
+    this.localStorageService.setItem("IsLoggin", "true");
+    this.localStorageService.setItem("auth-token","test-token")
     this.isLoggedInValue.next(true)
   }
   logout(): void {
     this.localStorageService.removeItem("IsLoggin")
+    this.localStorageService.removeItem("auth-token")
     this.isLoggedInValue.next(false)
   }
   signup(body:User):Observable<User> {
@@ -31,7 +37,7 @@ export class AuthService {
   }
 
   get isLoggedIn(): boolean {
-    return this.localStorageService.getItem("IsLoggin") ? true : false
+    return !!this.localStorageService.getItem("auth-token");
   }
   userStatus() {
     return this.isLoggedInValue.asObservable()
