@@ -26,8 +26,18 @@
               </div>
               <h5><i class="fa fa-heart red-heart favorite" [ngClass]="{'fas': foodData.favorite, 'far': !foodData.favorite}"(click)="toggleLike(foodData)"></i></h5>
             </div>
-            <button type="button" class="btn btn-warning btn-arrow-left mx-5"  [disabled]="isFirstDisabled" (click)="previous()">previous Food</button>
-            <button type="button" class="btn btn-warning btn-arrow-right" [disabled]="isLastDisabled" (click)="next()">Next Food</button>
+            <div class="arrow d-flex ">
+              <button type="button" class="btn btn-warning d-flex justify-content-center align-items-center w-50"  
+              [disabled]="isFirstDisabled" (click)="previous()">
+                  <i class="fa-solid fa-arrow-left fa-xl mx-3"></i> 
+                  previous Food
+                </button>
+              <button type="button" class="btn btn-warning d-flex justify-content-center align-items-center w-50 mx-3 " 
+              [disabled]="isLastDisabled" (click)="next()">
+                Next Food
+                <i class="fa-solid fa-arrow-right fa-xl mx-3"></i>
+              </button>
+            </div>
           </div>
           <div class ="food-details col-6">
             <div class="pb-0">
@@ -38,8 +48,8 @@
                 </div>
                 <div class=" col-12 ">
                   <div class=" d-flex justify-content-between align-items-center pb-2 mb-1 text-light fw-bold">
-                    <button id="addCartBtn"
-                      class="btn btn-outline-warning "
+                    <button
+                      class="btn btn-outline-warning w-100"
                       (click)="addToCart()"
                       [disabled]="cartItemIds().has(foodData.id)"
                       >
