@@ -1,12 +1,3 @@
-@font-face {
-  font-family: "Roboto";
-  font-weight: 500;
-  font-style: italic;
-  src: url("/assets/fonts/roboto-medium-italic.ttf") format("truetype");
-}
-nav {
-  font-family: "Roboto", sans-serif;
-}
 .full-width {
   width: 100%;
 }

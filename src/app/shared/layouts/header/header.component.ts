@@ -1,9 +1,10 @@
-import { Component,  DestroyRef,  ElementRef,  HostListener,  OnInit, ViewChild } from '@angular/core';
+import { Component,  DestroyRef,  ElementRef,  OnInit, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
+
 import { FoodCorner } from 'src/app/features/foods/models/FoodCorner';
 import { AuthService } from 'src/app/features/auth/services/auth.service';
-import { Router } from '@angular/router';
-import { PopupComponent } from '../../../features/auth/components/popup/popup.component';
 import { CartItemsService } from 'src/app/features/cart/services/cart-items.service';
+import { PopupComponent } from 'src/app/features/auth/components/popup/popup.component';
 
 
 @Component({
@@ -13,11 +14,10 @@ import { CartItemsService } from 'src/app/features/cart/services/cart-items.serv
 })
 export class HeaderComponent implements OnInit {
   cartItems: FoodCorner[] = [];
-  colorCart!:any;
+  colorCart!:string;
   userStatus: boolean = false
-  isMobile = false;
-  length !: any
   close!:any
+  cartLength$ = this.CartItemsService.cartLength$;    // subscribe in login & logout
   @ViewChild('popupComp') popupComponent!:PopupComponent
   constructor(
     private authService: AuthService,
@@ -25,34 +25,11 @@ export class HeaderComponent implements OnInit {
     private router: Router,
     private el: ElementRef,
     private destroyRef:DestroyRef,
-    // private destroyRef2 = inject(DestroyRef)
-  ) {
-  }
-  goto(){
-    this.router.navigateByUrl("/home")
-  }
-  closeNavbar() {
-    const yourDiv = this.el.nativeElement.querySelector('#navbarSupportedContent');
-    if (yourDiv) {
-      yourDiv.classList.remove('show');
-    }
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+  ) {}
+  ngOnInit(): void {    
+    const cartItemsSubscription = this.CartItemsService.cartItems$.subscribe(cartItems => this.cartItems = cartItems);
 
-  }
-isActive(route: string): boolean {
-  return this.router.isActive(route, true);
-}
-  ngOnInit(): void {
-    const cartItemsSubscription = this.CartItemsService.cartItems$.subscribe((cartItems) => {
-      this.cartItems = cartItems;
-      this.length = cartItems.length;
-    });
-    // subscribe in login & logout
-    const authSubscription =this.authService.userStatus().subscribe(status => {
-      this.userStatus = status
-    })
-    this.checkScreenWidth();
-
+    const authSubscription =this.authService.userStatus().subscribe(status => this.userStatus = status)
     
     this.destroyRef.onDestroy(()=>  {
       cartItemsSubscription.unsubscribe();
@@ -60,6 +37,14 @@ isActive(route: string): boolean {
     })
   }
 
+closeNavbar() {
+    const navbarMenu = this.el.nativeElement.querySelector('#navbarSupportedContent');
+    navbarMenu ?  navbarMenu.classList.remove('show') : "";
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+isActive(route: string): boolean {
+  return this.router.isActive(route, true);
+}
 logout(): void {
     this.authService.logout();
   }
@@ -68,12 +53,4 @@ openPopup() {
   this.popupComponent?.open_modal();
   
 }
-  @HostListener('window:resize', ['$event'])
-  onResize(event: any) {
-    this.checkScreenWidth();
-  }
-
-  checkScreenWidth() {
-    this.isMobile = window.innerWidth <= 993; 
-  }
 }
