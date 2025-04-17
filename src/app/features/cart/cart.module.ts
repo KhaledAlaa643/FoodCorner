@@ -20,6 +20,6 @@ import { CartRoutes } from './cart.routing';
     NgxPaginationModule ,
     CartRoutes
   ],
-  providers:[CartItemsService,CartStorageService],
+  providers:[CartStorageService],
 })
 export class CartModule { }
