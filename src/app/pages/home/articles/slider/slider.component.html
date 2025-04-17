@@ -1,10 +1,17 @@
 <swiper-container 
-  speed="500" loop="true"   autoplay-delay="3000"
-  css-mode="true" navigation="true" 
-  pagination="true" pagination-clickable="true">
+  slides-per-view="1"
+  speed="1500" 
+  loop="true"   
+  autoplay-delay="3000"
+  css-mode="true" 
+  navigation="true" 
+  pagination="true" 
+  pagination-clickable="true">
+
   <swiper-slide *ngFor="let item of sliderItems;">
     <img [src]="item.image"  class="img-slide d-block w-100">
     <h4 class="text-white text-center mt-4">{{ item.type }}</h4>
     <p class="text-white text-center mb-5">{{ item.description }}</p>
   </swiper-slide>
+
 </swiper-container>
