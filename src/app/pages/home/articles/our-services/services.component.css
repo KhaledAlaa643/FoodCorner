@@ -6,8 +6,11 @@
     text-align: center;
     height: 280px;
 }
+.section-title{
+    color: darkgoldenrod;
+}
 .service-item p,.title-special{
-  color: #aaaaaa !important
+    color: #aaaaaa !important
 }
 .service-item:hover {
     background: rgb(24, 92, 92);;
