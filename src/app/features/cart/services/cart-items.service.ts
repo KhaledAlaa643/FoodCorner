@@ -10,8 +10,12 @@ export class CartItemsService {
   readonly cartItemIds = signal(new Set<number>()); 
   private isLoaded = false;
   private cartItemsIdsSubject = new BehaviorSubject<Set<number>>(this.cartItemIds());
+
   private readonly cartItemsSubject = new BehaviorSubject<FoodCorner[]>([]);
   readonly cartItems$ : Observable<FoodCorner[]> = this.cartItemsSubject.asObservable();
+
+  private carttLengthSubject = new BehaviorSubject<number>(0)
+  readonly cartLength$ : Observable<number> = this.carttLengthSubject.asObservable()
 
 constructor(private cartStorageService:CartStorageService,
 ) {  
@@ -22,7 +26,6 @@ loadCartItems(): void {
   if (!this.isLoaded) {
     // get data from local storage
     const storedItems = this.cartStorageService.loadCartItems();
-
     // emit the data in cart items
     this.cartItemsSubject.next(storedItems);
 
@@ -39,9 +42,10 @@ addToCart(food: FoodCorner): void {
     if (!food || !food.id  || this.cartItemIds().has(food.id)) return;
 
     try {
-      const updatedCartItems = [...this.cartItemsSubject.getValue(), food]      
+      const updatedCartItems = [...this.cartItemsSubject.getValue(), food]
       this.cartItemsSubject.next(updatedCartItems);
-
+      
+      this.carttLengthSubject.next(updatedCartItems.length)
       const updatedSet = new Set(updatedCartItems.map(item => item.id));
       this.cartItemIds.set(updatedSet);
       this.cartItemsIdsSubject.next(updatedSet);
@@ -59,14 +63,16 @@ removeFromCart(food: FoodCorner): void {
     this.cartItemIds().delete(food.id);
 
     // 🔹 Update the items list
-    const currentItems = this.cartItemsSubject.getValue();
+    const currentItems =  [...this.cartItemsSubject.getValue(), food] 
     const updatedItems = currentItems.filter(item => item.id !== food.id);
+    this.carttLengthSubject.next(updatedItems.length)
 
+    const updatedSet = new Set(updatedItems.map(item => item.id));
+    this.cartItemIds.set(updatedSet);
     // 🔹 Update state and storage
-    this.cartItemsSubject.next(updatedItems);
+    this.cartItemsSubject.next(updatedItems); 
+    
     this.cartStorageService.saveCartItems(updatedItems); 
-
-    this.cartItemsIdsSubject.next(new Set(this.cartItemIds()))
   } 
   catch (error) {
     console.error('Error removing item from cart:', error);

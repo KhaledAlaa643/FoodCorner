@@ -5,94 +5,102 @@
         <!-- cart -->
         <div class="col-sm-12 col-md-12 col-lg-8 mt-5">
           <div class="ibox mt-5">
-            <!-- length cart -->
+            <!-- Length Cart -->
             <div class="ibox-title mt-5">
               <h3 class="pull-right">({{ foods.length }}) items</h3>
               <hr>
             </div>
-            <!-- cart details -->
             <div class="ibox-content">
-              <div class="row text-warning fw-bold text-center mb-2">
-                <div class="col-md-3"></div>
-                <div class="col-md-3">Quantity</div>
-                <div class="col-md-2">Price</div>
-                <div class="col-md-3">Total</div>
-                <div class="col-md-1">Remove</div>
-              </div>
-            
-              <div *ngFor="let food of foods | paginate: { itemsPerPage: 3, currentPage: currentPage }" class="row align-items-center text-center mb-3">
-                <!-- Food Name & Image -->
-                <div class="col-md-3">
-                  <h4 class="text-navy">{{ food.name }}</h4>
-                  <img class="img-fluid rounded" [src]="'../../../assets/' + food.imageURL" alt="{{ food.name }}"  style="width: 100px; height: 100px;">
+            <!-- Cart Table -->
+                <table class="table table-responsive table-borderless table-dark">
+                  <thead class="text-white fw-bold text-center">
+                    <tr>
+                      <th scope="col" class="col-md-3"></th>
+                      <th scope="col" class="col-md-3">Name</th>
+                      <th scope="col" class="col-md-3">Quantity</th>
+                      <th scope="col" class="col-md-2">Price</th>
+                      <th scope="col" class="col-md-3">Total</th>
+                      <th scope="col" class="col-md-1">Remove</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let food of foods | paginate: { itemsPerPage: 3, currentPage: currentPage }" class="align-items-center text-center">
+                      <!-- Food Name & Image -->
+                      <td class="centralized-img">
+                        <img class="img-fluid rounded" [src]="'../../../assets/' + food.imageURL" alt="{{ food.name }}" style="width: 100px; height: 100px;">
+                      </td>
+                      <td>
+                        <p class="text-navy centralized-name">{{ food.name }}</p>
+                      </td>
+                      <!-- Quantity Controls -->
+                      <td>
+                        <!-- <button class="btn btn-link mx-2"> -->
+                          <!-- </button> -->
+                          
+                          <div class="quantity d-flex justify-content-center align-items-center">
+                            <i class="fas fa-minus text-white decrease"  (click)="decreaseQuantity(food)">  </i>
+                            <input type="text" [(ngModel)]="food.quantity" class="form-control text-center qty text-navy">
+                            <i class="fas fa-plus text-white increase" (click)="increaseQuantity(food)"></i>
+                          </div>
+                      </td>
+          
+                      <!-- Price -->
+                      <td>
+                        <p class="text-navy centralize">{{ food.price | currency }}</p>
+                      </td>
+          
+                      <!-- Total -->
+                      <td>
+                        <p class="text-navy centralize">{{ food.productPrice | currency }}</p>
+                      </td>
+          
+                      <!-- Remove Button -->
+                      <td>
+                        <button class="btn btn-white centralize" (click)="removeFromCart(food)">
+                          <i class="fa fa-trash" style="color: orangered;"></i>
+                        </button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                <!-- Pagination -->
+                <div class="text-center mt-3">
+                  <pagination-controls
+                    (pageChange)="currentPage = $event"
+                    class="custom-pagination-controls">
+                  </pagination-controls>
                 </div>
-            
-                <!-- Quantity Controls -->
-                <div class="col-md-3">
-                  <div class="d-flex justify-content-center align-items-center">
-                    <button class="btn btn-link mx-2" (click)="decreaseQuantity(food)">
-                      <i class="fas fa-minus text-white"></i>
-                    </button>
-                    <input type="text" [(ngModel)]="food.quantity" class="form-control text-center qty text-navy w-25">
-                    <button class="btn btn-link mx-2" (click)="increaseQuantity(food)">
-                      <i class="fas fa-plus text-white"></i>
-                    </button>
-                  </div>
-                </div>
-            
-                <!-- Price -->
-                <div class="col-md-2">
-                  <h4 class="text-navy">{{ food.price | currency }}</h4>
-                </div>
-            
-                <!-- Total -->
-                <div class="col-md-3">
-                  <h4 class="text-navy">{{ food.productPrice | currency }}</h4>
-                </div>
-            
-                <!-- Remove Button -->
-                <div class="col-md-1">
-                  <button class="btn btn-white" (click)="removeFromCart(food)">
-                    <i class="fa fa-trash" style="color: orangered;"></i>
-                  </button>
-                </div>
-              </div>
-            
-              <!-- Pagination -->
-              <div class="text-center mt-3">
-                <pagination-controls 
-                  (pageChange)="currentPage = $event" 
-                  class="custom-pagination-controls">
-                </pagination-controls>
-              </div>
-            
+            </div>
+          
               <!-- Notes Section -->
               <div class="form-group mt-4">
                 <h4 class="text-warning">Notes On Your Order:</h4>
                 <form [formGroup]="messageForm">
-                  <textarea 
+                  <textarea
                     formControlName="msg"
                     class="form-control bg-transparent text-white"
                     name="message"
                     rows="6"
                     placeholder="Your Message">
                   </textarea>
-                  <button 
-                    type="button" 
-                    class="btn btn-success mt-2" 
+                  <button
+                    type="button"
+                    class="btn btn-success mt-2"
                     (click)="saveMessage()"
                     [disabled]="messageForm.invalid">
                     Save
                   </button>
                 </form>
               </div>
-            </div>
-            
-            <!-- button continue -->
+          
+            <!-- Button Continue -->
             <div class="ibox-content">
-              <button class="btn btn-outline-warning" (click)="goToHome()"><i class="fa fa-arrow-left"></i> Continue shopping</button>
+              <button class="btn btn-outline-warning" (click)="goToHome()">
+                <i class="fa fa-arrow-left"></i> Continue shopping
+              </button>
             </div>
           </div>
+          
         </div>
         <!-- summary -->
         <div class="col-sm-6 col-md-12 col-lg-4 mt-5">

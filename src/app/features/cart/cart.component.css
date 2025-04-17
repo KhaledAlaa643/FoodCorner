@@ -15,15 +15,24 @@ h3 {
     width: 25%;
     justify-content: space-evenly;
 }
+.quantity{
+  height: 116px;
+}
+.decrease {
+  margin-inline-end: auto;
+}
+.increase{
+  margin-inline-start: auto;
+}
 .qty{
-    width: 30px;
+    width: 50px;
     background: transparent;
     color: orange;
     margin: auto;
     outline: navajowhite;
     border: navajowhite;
     font-size: 20px;
-        position: absolute;
+    position: absolute;
 }
 .quantity{
   margin: auto;
@@ -70,7 +79,24 @@ h3 {
 
 
 
-
+.centralize{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 116px;
+}
+.centralized-name{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 116px;
+}
+.centralized-img{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 144px;
+}
 .ibox {
   clear: both;
   margin-bottom: 25px;

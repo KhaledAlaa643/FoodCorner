@@ -31,7 +31,7 @@ export class CartComponent implements OnInit {
   
   }
 ngOnInit(): void {
-  this.cartItemsService.loadCartItems()
+  this.cartItemsService.loadCartItems()  
   const cartItemsSubscription = this.cartItemsService.cartItems$.subscribe((cartItems) => {
     this.foods = cartItems
     this.updatePrices()
@@ -42,6 +42,23 @@ ngOnInit(): void {
 
 removeFromCart(food: FoodCorner): void {
   this.cartItemsService.removeFromCart(food);
+  // Swal.fire({
+  //   title: "Are you sure?",
+  //   text: "You won't be able to revert this!",
+  //   icon: "warning",
+  //   showCancelButton: true,
+  //   confirmButtonColor: "#3085d6",
+  //   cancelButtonColor: "#d33",
+  //   confirmButtonText: "Yes, delete it!"
+  // }).then((result) => {
+  //   if (result.isConfirmed) {
+  //     Swal.fire({
+  //       title: "Deleted!",
+  //       text: "Your food has been deleted.",
+  //       icon: "success"
+  //     });
+  //   }
+  // });
 }
 
 
