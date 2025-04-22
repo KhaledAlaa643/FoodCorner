@@ -14,13 +14,10 @@ export class CartItemsService {
   private readonly cartItemsSubject = new BehaviorSubject<FoodCorner[]>([]);
   readonly cartItems$ : Observable<FoodCorner[]> = this.cartItemsSubject.asObservable();
 
-  private carttLengthSubject = new BehaviorSubject<number>(0)
-  readonly cartLength$ : Observable<number> = this.carttLengthSubject.asObservable()
-
-constructor(private cartStorageService:CartStorageService,
+constructor(private cartStorageService:CartStorageService
 ) {  
   this.loadCartItems()
-}
+  }
 
 loadCartItems(): void {
   if (!this.isLoaded) {
@@ -45,7 +42,6 @@ addToCart(food: FoodCorner): void {
       const updatedCartItems = [...this.cartItemsSubject.getValue(), food]
       this.cartItemsSubject.next(updatedCartItems);
       
-      this.carttLengthSubject.next(updatedCartItems.length)
       const updatedSet = new Set(updatedCartItems.map(item => item.id));
       this.cartItemIds.set(updatedSet);
       this.cartItemsIdsSubject.next(updatedSet);
@@ -65,7 +61,6 @@ removeFromCart(food: FoodCorner): void {
     // 🔹 Update the items list
     const currentItems =  [...this.cartItemsSubject.getValue(), food] 
     const updatedItems = currentItems.filter(item => item.id !== food.id);
-    this.carttLengthSubject.next(updatedItems.length)
 
     const updatedSet = new Set(updatedItems.map(item => item.id));
     this.cartItemIds.set(updatedSet);

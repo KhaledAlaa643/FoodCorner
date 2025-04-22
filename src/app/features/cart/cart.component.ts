@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, DestroyRef, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, DestroyRef, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FoodCorner } from 'src/app/features/foods/models/FoodCorner';
 import { CartItemsService } from 'src/app/features/cart/services/cart-items.service';
@@ -23,7 +23,9 @@ export class CartComponent implements OnInit {
     private cartItemsService: CartItemsService,
     private router: Router,
     private fb: FormBuilder,
-    private destroyRef: DestroyRef
+    private destroyRef: DestroyRef,
+    private cdr: ChangeDetectorRef
+
   ) {
     this.messageForm = this.fb.group({
       msg: ['', [Validators.required]],
@@ -41,24 +43,25 @@ ngOnInit(): void {
 
 
 removeFromCart(food: FoodCorner): void {
-  this.cartItemsService.removeFromCart(food);
-  // Swal.fire({
-  //   title: "Are you sure?",
-  //   text: "You won't be able to revert this!",
-  //   icon: "warning",
-  //   showCancelButton: true,
-  //   confirmButtonColor: "#3085d6",
-  //   cancelButtonColor: "#d33",
-  //   confirmButtonText: "Yes, delete it!"
-  // }).then((result) => {
-  //   if (result.isConfirmed) {
-  //     Swal.fire({
-  //       title: "Deleted!",
-  //       text: "Your food has been deleted.",
-  //       icon: "success"
-  //     });
-  //   }
-  // });
+  Swal.fire({
+    title: "Are you sure?",
+    text: "You won't be able to revert this!",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Yes, delete it!"
+  }).then((result) => {
+    if (result.isConfirmed) {
+      this.cartItemsService.removeFromCart(food);      
+      this.cdr.detectChanges();
+      Swal.fire({
+        title: "Deleted!",
+        text: "Your food has been deleted.",
+        icon: "success"
+      });
+    }
+  });
 }
 
 

@@ -59,8 +59,8 @@
             (click)="closeNavbar()">
             <i class="fa-solid fa-cart-shopping  mx-1"></i>
             Cart
-            <span *ngIf="(cartLength$ | async) !== 0" style="color: #1ab394;">
-              {{ cartLength$ | async }}
+            <span *ngIf="cartItems.length !== 0" style="color: #1ab394;">
+              {{ cartItems.length  }}
             </span>
           </a>
         </li>

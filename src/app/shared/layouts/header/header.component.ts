@@ -5,6 +5,7 @@ import { FoodCorner } from 'src/app/features/foods/models/FoodCorner';
 import { AuthService } from 'src/app/features/auth/services/auth.service';
 import { CartItemsService } from 'src/app/features/cart/services/cart-items.service';
 import { PopupComponent } from 'src/app/features/auth/components/popup/popup.component';
+import { Observable } from 'rxjs';
 
 
 @Component({
@@ -16,8 +17,7 @@ export class HeaderComponent implements OnInit {
   cartItems: FoodCorner[] = [];
   colorCart!:string;
   userStatus: boolean = false
-  close!:any
-  cartLength$ = this.CartItemsService.cartLength$;    // subscribe in login & logout
+  cartLength$ !: number
   @ViewChild('popupComp') popupComponent!:PopupComponent
   constructor(
     private authService: AuthService,
@@ -25,7 +25,8 @@ export class HeaderComponent implements OnInit {
     private router: Router,
     private el: ElementRef,
     private destroyRef:DestroyRef,
-  ) {}
+  ) {
+  }
   ngOnInit(): void {    
     const cartItemsSubscription = this.CartItemsService.cartItems$.subscribe(cartItems => this.cartItems = cartItems);
 
