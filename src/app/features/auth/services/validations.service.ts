@@ -2,13 +2,14 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { AbstractControl, AsyncValidatorFn, ValidationErrors } from '@angular/forms';
 import { Observable, of, debounceTime, switchMap, map, catchError, distinctUntilChanged, first } from 'rxjs';
-import { environment } from 'src/environments/environment.development';
 import { User } from '../models/User';
+import { environment } from 'src/environments/environment.development';
+import { ValidationInterface } from '../../foods/models/data.interface';
 
 @Injectable({
   providedIn: 'root'
 })
-export class ValidationsService {
+export class ValidationsService implements ValidationInterface {
 isExist !:Boolean
 constructor(private httpClient: HttpClient) { }
 passwordMatchValidator(control: AbstractControl): ValidationErrors | null {

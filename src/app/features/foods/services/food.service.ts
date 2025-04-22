@@ -3,13 +3,14 @@ import { FoodCorner } from '../models/FoodCorner';
 import { Observable, throwError } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { catchError, shareReplay } from 'rxjs/operators';
-import { environment } from 'src/environments/environment.development';
 import { CacheService } from 'src/app/core/services/cache.service';
+import { DataInterface } from '../models/data.interface';
+import { environment } from 'src/environments/environment.development';
 
 @Injectable({
   providedIn: 'root'
 })
-export class FoodService {
+export class FoodService implements DataInterface{
   url = environment.apiUrl;
   private cache = new Map<string, Observable<any>>();
 

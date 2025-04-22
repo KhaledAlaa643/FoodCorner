@@ -4,13 +4,14 @@ import { User } from '../models/User';
 import { environment } from 'src/environments/environment.development';
 import { HttpClient } from '@angular/common/http';
 import { LocalstorageService } from '../../../core/services/localstorage.service';
+import { AuthInterface } from '../../foods/models/data.interface';
 
 
 @Injectable({
   providedIn: 'root'
 })
 // login, logout, signup, and status tracking
-export class AuthService {
+export class AuthService implements AuthInterface{
   private isLoggedInValue: BehaviorSubject<boolean>;
 
   constructor( private httpClient: HttpClient,
