@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkFood_Corner=self.webpackChunkFood_Corner||[]).push([[197],{197:(e,o,s)=>{s.r(o),s.d(o,{AuthModule:()=>n});var u=s(914),a=s(9072),i=s(6933),_=s(2029);let n=(()=>{class t{static#s=this.\u0275fac=function(r){return new(r||t)};static#t=this.\u0275mod=_.oAB({type:t});static#o=this.\u0275inj=_.cJS({providers:[u.e,a.k],imports:[i.H]})}return t})()}}]);
